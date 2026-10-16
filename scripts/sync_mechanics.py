@@ -106,10 +106,6 @@ def synchronize(source):
             entry["available"] = availability[number]
         if anchor:
             entry["anchor"] = anchor
-        if number <= 3:
-            pdf_name = Path(filename).with_suffix(".pdf").as_posix()
-            if pdf_name in current:
-                entry["pdf"] = "materials/Mechanics/" + pdf_name
         entries.append(entry)
         # Keep links shared before the full notes were uploaded usable.
         alias = ROOT / "materials" / "theoretical-mechanics" / ALIASES[number]

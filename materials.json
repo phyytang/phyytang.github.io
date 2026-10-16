@@ -8,27 +8,23 @@
         {
           "number": 0,
           "title": "绪论",
-          "file": "materials/Mechanics/绪论.md",
-          "pdf": "materials/Mechanics/绪论.pdf"
+          "file": "materials/Mechanics/绪论.md"
         },
         {
           "number": 1,
           "title": "最小作用量原理",
           "file": "materials/Mechanics/最小作用量原理.md",
-          "anchor": "最小作用量原理",
-          "pdf": "materials/Mechanics/最小作用量原理.pdf"
+          "anchor": "最小作用量原理"
         },
         {
           "number": 2,
           "title": "中心力场",
-          "file": "materials/Mechanics/中心力场.md",
-          "pdf": "materials/Mechanics/中心力场.pdf"
+          "file": "materials/Mechanics/中心力场.md"
         },
         {
           "number": 3,
           "title": "微扰和摄动理论",
-          "file": "materials/Mechanics/微扰和摄动理论.md",
-          "pdf": "materials/Mechanics/微扰和摄动理论.pdf"
+          "file": "materials/Mechanics/微扰和摄动理论.md"
         },
         {
           "number": 4,

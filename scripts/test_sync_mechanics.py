@@ -78,21 +78,21 @@ class SyncMechanicsTests(unittest.TestCase):
         self.assertFalse((SYNC.DESTINATION / "figures/old.png").exists())
         self.assertEqual(extra.read_text(), "not managed")
 
-    def test_pdf_links_follow_existing_files_for_first_four_chapters(self):
+    def test_sync_keeps_pdfs_without_download_entries(self):
         for _, filename, _ in SYNC.CHAPTERS:
             self.put(str(Path(filename).with_suffix(".pdf")), "%PDF-1.7\nfixture\n")
         SYNC.synchronize(self.source)
-        def entries():
-            data = json.loads((self.root / "materials.json").read_text())
-            return next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
-        for entry in entries()[:4]:
-            self.assertEqual(entry["pdf"], str(Path(entry["file"]).with_suffix(".pdf")))
-            self.assertTrue((self.root / entry["pdf"]).is_file())
-        self.assertTrue(all("pdf" not in entry for entry in entries()[4:]))
-        (self.source / "绪论.pdf").unlink()
+        catalog_path = self.root / "materials.json"
+        data = json.loads(catalog_path.read_text())
+        course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
+        course["materials"][0]["pdf"] = "materials/Mechanics/绪论.pdf"
+        catalog_path.write_text(json.dumps(data))
         SYNC.synchronize(self.source)
-        self.assertNotIn("pdf", entries()[0])
-        self.assertTrue(all("pdf" in entry for entry in entries()[1:4]))
+        data = json.loads(catalog_path.read_text())
+        entries = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
+        self.assertTrue(all("pdf" not in entry for entry in entries))
+        for entry in entries:
+            self.assertTrue((self.root / Path(entry["file"]).with_suffix(".pdf")).is_file())
 
     def test_sync_keeps_unavailable_chapters_and_their_files(self):
         SYNC.synchronize(self.source)

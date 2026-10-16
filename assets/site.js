@@ -25,15 +25,6 @@ function materialPath(path) {
   return {url, path: decodeURIComponent(url.pathname.slice(siteRoot.pathname.length))};
 }
 
-function materialPDF(path) {
-  const url = new URL(path, siteRoot);
-  const base = new URL("materials/", siteRoot);
-  if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname) || !/\.pdf$/i.test(url.pathname) || url.search || url.hash) {
-    throw new Error("PDF 下载文件必须位于 materials 文件夹内。");
-  }
-  return url;
-}
-
 async function getText(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`文件加载失败（${response.status}）。请确认文件已上传并发布。`);
@@ -99,16 +90,7 @@ async function showLibrary() {
           read.textContent = "阅读讲义 →";
           read.setAttribute("aria-label", `在线阅读${titleText}`);
           actions.append(read);
-          if (entry.pdf) {
-            const pdf = materialPDF(entry.pdf);
-            const download = document.createElement("a");
-            download.className = "material-action material-pdf";
-            download.href = pdf.href;
-            download.download = decodeURIComponent(pdf.pathname.split("/").pop());
-            download.textContent = "下载 PDF ↓";
-            download.setAttribute("aria-label", `下载${titleText} PDF`);
-            actions.append(download);
-          }
+
         } else {
           const pending = document.createElement("span");
           pending.className = "material-action";
