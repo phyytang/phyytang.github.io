@@ -10,7 +10,7 @@
 
 | 主页章节 | Markdown 文件与定位 |
 | :--- | :--- |
-| 0. 绪论 | `最小作用量原理.md#绪论` |
+| 0. 绪论 | `牛顿力学与虚功原理.md` |
 | 1. 最小作用量原理 | `最小作用量原理.md#最小作用量原理` |
 | 2. 中心力场 | `中心力场.md` |
 | 3. 微扰和摄动理论 | `微扰和摄动理论.md` |
@@ -59,7 +59,7 @@
 例如，“绪论”的阅读链接是：
 
 ```text
-https://phyytang.github.io/?note=materials/Mechanics/最小作用量原理.md#绪论
+https://phyytang.github.io/?note=materials/Mechanics/牛顿力学与虚功原理.md
 ```
 
 Markdown 文件即使没有列入课程目录，也可以通过这样的链接打开。中文或含空格的文件名需要进行 URL 编码，主页自动生成的链接会完成编码。

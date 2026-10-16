@@ -48,7 +48,7 @@ class SyncMechanicsTests(unittest.TestCase):
         for name in ("figures/plot.py", "figures/plot.tex", "figures/plot.png", "lecture.pdf"):
             self.put(name)
         inventory = SYNC.inventory(self.source)
-        self.assertEqual(len(inventory), 10)  # Six distinct chapter files, four assets.
+        self.assertEqual(len(inventory), 11)  # Seven chapter files, four assets.
         self.assertIn("figures/plot.tex", inventory)
         self.assertFalse(any("tmp" in Path(name).parts or any(part.startswith(".") for part in Path(name).parts) for name in inventory))
 
@@ -60,7 +60,8 @@ class SyncMechanicsTests(unittest.TestCase):
         self.assertEqual(courses[0]["id"], "other")
         entries = courses[1]["materials"]
         self.assertEqual(len(entries), 7)
-        self.assertEqual(entries[0]["anchor"], "绪论")
+        self.assertEqual(entries[0]["file"], "materials/Mechanics/牛顿力学与虚功原理.md")
+        self.assertNotIn("anchor", entries[0])
         self.assertEqual(entries[1]["anchor"], "最小作用量原理")
         self.assertTrue(all((self.root / item["file"]).is_file() for item in entries))
         first_manifest = SYNC.MANIFEST.read_bytes()

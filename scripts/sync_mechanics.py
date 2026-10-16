@@ -17,7 +17,7 @@ MANIFEST = ROOT / "scripts" / "mechanics-manifest.json"
 LOCAL_CONFIG = ROOT / ".mechanics-source.json"
 EXCLUDED_DIRS = {"tmp", "__pycache__", "node_modules"}
 CHAPTERS = [
-    ("绪论", "最小作用量原理.md", "绪论"),
+    ("绪论", "牛顿力学与虚功原理.md", ""),
     ("最小作用量原理", "最小作用量原理.md", "最小作用量原理"),
     ("中心力场", "中心力场.md", ""),
     ("微扰和摄动理论", "微扰和摄动理论.md", ""),
