@@ -50,7 +50,7 @@ def inventory(source):
         )
         for name in sorted(names):
             path = Path(base) / name
-            if name.startswith(".") or path.suffix in {".pyc", ".pyo"}:
+            if name.startswith(".") or path.suffix.lower() in {".pyc", ".pyo", ".pdf"}:
                 continue
             if path.is_symlink():
                 raise ValueError(f"不复制符号链接，请先确认其内容：{path}")
@@ -116,7 +116,7 @@ def synchronize(source):
     write_json(ROOT / "materials.json", data)
     write_json(MANIFEST, {"files": dict(sorted(current.items()))})
     print(f"同步完成：共 {len(current)} 个文件，新增或更新 {changed} 个，删除已移除的文件 {removed} 个。")
-    print("已排除 tmp、隐藏目录和文件、__pycache__、node_modules 及 Python 缓存。")
+    print("已排除 PDF（不区分扩展名大小写）、tmp、隐藏目录和文件、__pycache__、node_modules 及 Python 缓存。")
     print("主页七个章节的链接已更新。原始 Mechanics 文件夹未被修改。")
 
 

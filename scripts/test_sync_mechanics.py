@@ -43,12 +43,12 @@ class SyncMechanicsTests(unittest.TestCase):
         target.write_text(content)
 
     def test_exclusions_and_teaching_sources(self):
-        for name in ("tmp/backup.md", "figures/tmp/old.png", ".codex_build/private.txt", "figures/__pycache__/cache.pyc", ".DS_Store", "figures/.DS_Store", "figures/cache.pyc"):
+        for name in ("tmp/backup.md", "figures/tmp/old.png", ".codex_build/private.txt", "figures/__pycache__/cache.pyc", ".DS_Store", "figures/.DS_Store", "figures/cache.pyc", "lecture.pdf", "figures/appendix.PDF", "figures/notes.pDf"):
             self.put(name)
-        for name in ("figures/plot.py", "figures/plot.tex", "figures/plot.png", "lecture.pdf"):
+        for name in ("figures/plot.py", "figures/plot.tex", "figures/plot.png"):
             self.put(name)
         inventory = SYNC.inventory(self.source)
-        self.assertEqual(len(inventory), 11)  # Seven chapter files, four assets.
+        self.assertEqual(len(inventory), 10)  # Seven chapter files, three assets.
         self.assertIn("figures/plot.tex", inventory)
         self.assertFalse(any("tmp" in Path(name).parts or any(part.startswith(".") for part in Path(name).parts) for name in inventory))
 
@@ -78,21 +78,37 @@ class SyncMechanicsTests(unittest.TestCase):
         self.assertFalse((SYNC.DESTINATION / "figures/old.png").exists())
         self.assertEqual(extra.read_text(), "not managed")
 
-    def test_sync_keeps_pdfs_without_download_entries(self):
-        for _, filename, _ in SYNC.CHAPTERS:
-            self.put(str(Path(filename).with_suffix(".pdf")), "%PDF-1.7\nfixture\n")
+    def test_sync_excludes_pdfs_and_removes_previously_managed_copies(self):
+        pdf_names = [str(Path(filename).with_suffix(".pdf")) for _, filename, _ in SYNC.CHAPTERS]
+        pdf_names += ["figures/appendix.PDF", "figures/notes.pDf"]
+        for name in pdf_names:
+            self.put(name, "%PDF-1.7\nfixture\n")
+        before = {name: (self.source / name).read_bytes() for name in pdf_names}
         SYNC.synchronize(self.source)
+        self.assertFalse(any(Path(name).suffix.lower() == ".pdf" for name in SYNC.inventory(self.source)))
+        self.assertFalse(any(p.suffix.lower() == ".pdf" for p in SYNC.DESTINATION.rglob("*")))
+        # Simulate copies managed by the old synchronization rules.
+        manifest = json.loads(SYNC.MANIFEST.read_text())
+        for name in pdf_names:
+            target = SYNC.DESTINATION / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(before[name])
+            manifest["files"][name] = "previously-managed-pdf"
+        SYNC.MANIFEST.write_text(json.dumps(manifest))
         catalog_path = self.root / "materials.json"
         data = json.loads(catalog_path.read_text())
         course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
         course["materials"][0]["pdf"] = "materials/Mechanics/绪论.pdf"
         catalog_path.write_text(json.dumps(data))
         SYNC.synchronize(self.source)
-        data = json.loads(catalog_path.read_text())
-        entries = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
+        self.assertFalse(any(p.suffix.lower() == ".pdf" for p in SYNC.DESTINATION.rglob("*")))
+        manifest = json.loads(SYNC.MANIFEST.read_text())
+        self.assertTrue(all(Path(name).suffix.lower() != ".pdf" for name in manifest["files"]))
+        entries = next(c for c in json.loads(catalog_path.read_text())["courses"] if c["id"] == "theoretical-mechanics")["materials"]
         self.assertTrue(all("pdf" not in entry for entry in entries))
-        for entry in entries:
-            self.assertTrue((self.root / Path(entry["file"]).with_suffix(".pdf")).is_file())
+        self.assertEqual(before, {name: (self.source / name).read_bytes() for name in pdf_names})
+        SYNC.synchronize(self.source)
+        self.assertFalse(any(p.suffix.lower() == ".pdf" for p in SYNC.DESTINATION.rglob("*")))
 
     def test_sync_keeps_unavailable_chapters_and_their_files(self):
         SYNC.synchronize(self.source)

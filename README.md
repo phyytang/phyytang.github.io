@@ -16,7 +16,7 @@
 
 在 `materials/` 下创建课程文件夹、上传讲义，再向 `materials.json` 的 `courses` 数组追加课程对象，包含唯一的 `id`、`title`、`description` 和 `materials` 章节数组。每章包含 `number`、`title`、`file`，以及可选的 `status`、`description`、`available` 或 `anchor`（用于定位文件内的标题）。
 
-主页仅提供在线阅读入口，不展示 PDF 下载链接。同步会保留 PDF 文件，但不生成下载入口；`available: false` 会关闭该章的阅读入口。
+主页仅提供在线阅读入口，不展示 PDF 下载链接。同步会跳过所有 PDF 文件（不区分扩展名大小写），仅在本地保留原件；`available: false` 会关闭该章的阅读入口。
 
 完整示例见[讲义发布说明](materials/adding-materials.md)。
 

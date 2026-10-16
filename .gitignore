@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 *.sync-tmp
+
+# Keep PDFs local; never upload them with teaching materials.
+*.[pP][dD][fF]
