@@ -3,8 +3,11 @@
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 SPEC = importlib.util.spec_from_file_location("sync_mechanics", Path(__file__).with_name("sync_mechanics.py"))
@@ -21,10 +24,11 @@ class SyncMechanicsTests(unittest.TestCase):
         self.root = self.base / "site"
         (self.root / "scripts").mkdir(parents=True)
         (self.root / "materials.json").write_text(json.dumps({"courses": [{"id": "other", "title": "其他课程", "materials": []}]}))
-        self.previous = {name: getattr(SYNC, name) for name in ("ROOT", "DESTINATION", "MANIFEST")}
+        self.previous = {name: getattr(SYNC, name) for name in ("ROOT", "DESTINATION", "MANIFEST", "LOCAL_CONFIG")}
         SYNC.ROOT = self.root
         SYNC.DESTINATION = self.root / "materials" / "Mechanics"
         SYNC.MANIFEST = self.root / "scripts" / "mechanics-manifest.json"
+        SYNC.LOCAL_CONFIG = self.root / ".mechanics-source.json"
         for _, filename, _ in SYNC.CHAPTERS:
             (self.source / filename).write_text("# 原始讲义\n\n$x_i$\n")
 
@@ -72,6 +76,36 @@ class SyncMechanicsTests(unittest.TestCase):
         SYNC.synchronize(self.source)
         self.assertFalse((SYNC.DESTINATION / "figures/old.png").exists())
         self.assertEqual(extra.read_text(), "not managed")
+
+    def test_publish_is_scoped_and_repeatable(self):
+        remote = self.base / "remote.git"
+        subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True)
+        def git(*args):
+            return subprocess.check_output(["git", "-C", str(self.root), *args], stderr=subprocess.STDOUT, text=True)
+        git("init", "--quiet", "-b", "main")
+        git("config", "user.name", "Sync test")
+        git("config", "user.email", "sync@example.invalid")
+        git("config", "commit.gpgsign", "false")
+        aliases = self.root / "materials" / "theoretical-mechanics"
+        aliases.mkdir(parents=True)
+        (aliases / SYNC.ALIASES[0]).write_text("placeholder")
+        git("add", ".")
+        git("commit", "--quiet", "-m", "Initial fixture")
+        git("remote", "add", "origin", str(remote))
+        git("push", "--quiet", "-u", "origin", "main")
+        (self.root / "unrelated.txt").write_text("must remain staged")
+        git("add", "unrelated.txt")
+        with patch.object(sys, "argv", ["sync_mechanics.py", str(self.source), "--publish"]):
+            SYNC.main()
+        published = subprocess.check_output(["git", "--git-dir", str(remote), "ls-tree", "-r", "--name-only", "main"], text=True)
+        self.assertIn("materials/Mechanics/", published)
+        self.assertNotIn("unrelated.txt", published)
+        self.assertNotIn(".mechanics-source.json", published)
+        self.assertEqual(git("diff", "--cached", "--name-only").strip(), "unrelated.txt")
+        head = git("rev-parse", "HEAD")
+        with patch.object(sys, "argv", ["sync_mechanics.py", "--publish"]):
+            SYNC.main()
+        self.assertEqual(git("rev-parse", "HEAD"), head)
 
 
 if __name__ == "__main__":

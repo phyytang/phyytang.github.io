@@ -143,7 +143,8 @@ def main():
             git("commit", "--only", "-m", "Sync Mechanics teaching materials", "--", *paths)
         elif changed != 0:
             raise RuntimeError("无法检查暂存的同步文件。")
-        git("push", "origin", "main")
+        # Buffer larger animation updates instead of using chunked HTTP uploads.
+        git("-c", "http.postBuffer=524288000", "-c", "http.version=HTTP/1.1", "push", "origin", "main")
         print("已推送。GitHub Pages 完成发布后，网站将显示最新讲义。")
 
 
