@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Markdown preview",
+    "description": "An example note with headings, links, a table, and mathematical formulas. 示例文档。",
+    "file": "materials/preview.md",
+    "type": "EXAMPLE"
+  },
+  {
+    "title": "Adding materials",
+    "description": "How to publish a Markdown file and add a link to this library.",
+    "file": "materials/adding-materials.md",
+    "type": "GUIDE"
+  }
+]

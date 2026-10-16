@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Course materials and notes, readable directly in your browser.">
+  <title>Course materials · phyytang</title>
+  <link rel="stylesheet" href="vendor/katex/dist/katex.min.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script defer src="vendor/marked/lib/marked.umd.js"></script>
+  <script defer src="vendor/dompurify/dist/purify.min.js"></script>
+  <script defer src="vendor/katex/dist/katex.min.js"></script>
+  <script defer src="assets/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">p.</span> phyytang <span class="brand-divider">/</span> teaching</a>
+    <nav aria-label="Main"><a href="./">Materials</a><a href="https://github.com/phyytang/phyytang.github.io">GitHub ↗</a></nav>
+  </header>
+  <main id="main" class="wrap">
+    <section id="library" aria-labelledby="library-title">
+      <div class="hero"><p class="eyebrow">THE MATERIALS LIBRARY</p><h1 id="library-title">A place for<br>notes &amp; ideas.</h1><p class="intro">Course materials, collected in one place.<br>Open a note to read it here, with formatted text and equations.</p></div>
+      <div class="section-bar"><h2>Browse materials <span id="count" class="count"></span></h2><label class="search"> <span class="sr-only">Search materials</span><input id="search" type="search" placeholder="Search materials…" autocomplete="off"></label></div>
+      <p id="library-status" class="muted" role="status">Loading materials…</p>
+      <div id="materials-list" class="materials-list"></div>
+      <aside class="library-note"><span class="note-dot" aria-hidden="true"></span><p>Start with the preview example. More materials can be added as Markdown files.</p></aside>
+    </section>
+    <section id="reader" hidden aria-label="Markdown preview">
+      <div class="reader-toolbar"><a href="./">← All materials</a><a id="source-link" href="#">View Markdown source ↗</a></div>
+      <p id="reader-status" role="status">Opening note…</p>
+      <div class="reading-layout"><article id="note" class="markdown-body" aria-label="Note content"></article><aside id="outline" class="outline" aria-label="On this page" hidden><p class="eyebrow">ON THIS PAGE</p><nav id="toc" aria-label="Note sections"></nav></aside></div>
+    </section>
+    <noscript><p>This page needs JavaScript to format Markdown. You can <a href="https://github.com/phyytang/phyytang.github.io/tree/main/materials">read the materials on GitHub</a>.</p></noscript>
+  </main>
+  <footer class="site-footer wrap"><span>phyytang · Course materials</span><span>Written in Markdown. Read on the web.</span></footer>
+</body>
+</html>
