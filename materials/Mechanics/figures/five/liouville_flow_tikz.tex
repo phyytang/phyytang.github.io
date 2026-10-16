@@ -1,0 +1,42 @@
+% !TeX program = xelatex
+% Liouville theorem: phase-space volume is preserved under Hamiltonian flow.
+% Compile: xelatex liouville_flow_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta,calc}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  \draw[blue!70!black,->] (-.5,0) -- (14.4,0) node[right] {$q$};
+  \draw[blue!70!black,->] (0,-4.0) -- (0,3.2) node[above] {$p$};
+
+  \fill[blue!16] (3.0,.3) circle (1.45);
+  \draw[blue!70!black,line width=1.2pt] (3.0,.3) circle (1.45);
+  \foreach \a/\r in {25/.7,90/.8,155/.65,220/.85,300/.6} {
+    \fill[blue!70!black] ($(3,.3)+(\a:\r)$) circle (1.8pt);
+  }
+  \node[blue!70!black] at (3,-1.7) {时刻 $t$};
+
+  \draw[green!45!black,->,line width=1.6pt] (5.1,.35) .. controls (6.5,1.4) and (7.5,1.4) .. (8.75,.55)
+    node[midway,above] {哈密顿流};
+
+  \fill[red!13]
+    (9.0,-.3) .. controls (9.65,-1.35) and (11.55,-1.25) .. (12.75,-.45)
+    .. controls (13.65,.15) and (13.0,1.05) .. (11.85,1.35)
+    .. controls (10.65,1.65) and (9.15,.9) .. cycle;
+  \draw[red,line width=1.2pt]
+    (9.0,-.3) .. controls (9.65,-1.35) and (11.55,-1.25) .. (12.75,-.45)
+    .. controls (13.65,.15) and (13.0,1.05) .. (11.85,1.35)
+    .. controls (10.65,1.65) and (9.15,.9) .. cycle;
+  \foreach \x/\y in {9.7/.1,10.5/.8,11.3/-.55,12.0/.65,12.6/.05} {
+    \fill[red] (\x,\y) circle (1.8pt);
+  }
+  \node[red] at (11.35,-1.7) {时刻 $t+\Delta t$};
+
+  \node[black!75,align=center] at (7.2,-3.25)
+    {相点云可以拉伸、扭曲，但相体积不变\\
+     $\Delta\Gamma(t+\Delta t)=\Delta\Gamma(t)$};
+\end{tikzpicture}
+\end{document}

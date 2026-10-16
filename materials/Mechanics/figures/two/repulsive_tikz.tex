@@ -1,0 +1,19 @@
+% Repulsive hyperbolic orbit; the force centre is the opposite focus.
+% Reference: handdraw/repulsive.png. Compile: xelatex repulsive_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[fontset=fandol]{ctex}
+\usetikzlibrary{arrows.meta}
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{18}{22}\selectfont}]
+  % a=.8, e=1.8: centre ae=1.44, vertex a(e+1)=2.24.
+  \draw[thin] (-.85,0) -- (7.6,0) node[right] {$x$};
+  \draw[thin] (0,-4.6) -- (0,4.65) node[right] {$y$};
+  \draw[domain=-4.4:4.4,samples=140,smooth,variable=\t]
+    plot ({1.44+.8*sqrt(1+\t*\t/(.64*2.24))},\t);
+  \node[below left] at (0,0) {$O$};
+  \draw[thin] (2.24,0) -- (2.24,-1.75);
+  \draw[<->] (0,-1.45) -- (2.24,-1.45) node[midway,above] {$a(e+1)$};
+  \node[red] at (2.7,4.05) {排斥势};
+\end{tikzpicture}
+\end{document}

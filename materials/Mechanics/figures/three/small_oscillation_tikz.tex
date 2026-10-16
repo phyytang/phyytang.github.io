@@ -1,0 +1,32 @@
+% !TeX program = xelatex
+% Stable equilibrium and the local harmonic approximation.
+% Compile: xelatex small_oscillation_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta,patterns}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  \begin{scope}
+    \clip (-.65,-.65) rectangle (6.45,5.45);
+    \fill[blue!7] (2.15,0) rectangle (3.85,5.2);
+    \draw[blue!70!black,domain=.55:5.45,samples=180,smooth]
+      plot (\x,{.03*(\x-3)^4+.45*(\x-3)^2+.35});
+    \draw[red,dash pattern=on 8pt off 3pt,domain=1.15:4.85,samples=120,smooth]
+      plot (\x,{.45*(\x-3)^2+.35});
+  \end{scope}
+  \draw[blue!70!black,->] (-.4,0) -- (6.15,0) node[right] {$x$};
+  \draw[blue!70!black,->] (0,-.4) -- (0,5.2) node[above] {$U$};
+  \draw[blue!70!black,densely dashed] (3,0) -- (3,.35);
+  \fill[blue!70!black] (3,.35) circle (2.2pt);
+  \node[below,blue!70!black] at (3,0) {$x_E$};
+  \node[blue!70!black,anchor=west] at (5.55,2.88) {$U(x)$};
+  \node[red, anchor=west] at (4.35,0.84)
+    {$U(x_E)+\dfrac12 k(x-x_E)^2$};
+  \draw[<->,green!45!black] (2.15,4.45) -- (3.85,4.45)
+    node[midway,fill=white,inner sep=2pt] {$|x-x_E|\ \text{较小}$};
+  \node[green!40!black,align=center] at (3,5.22) {简谐近似区};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,45 @@
+% !TeX program = xelatex
+% Two coupled oscillators and their two normal modes.
+% Compile: xelatex normal_modes_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont},
+  spring/.style={decorate,decoration={zigzag,segment length=6pt,amplitude=3pt}}]
+  \foreach \y in {0,4} {
+    \draw[very thick] (0,\y-.75) -- (0,\y+.75);
+    \foreach \d in {-.65,-.35,-.05,.25,.55} {\draw[thin] (0,\y+\d) -- (-.3,\y+\d-.22);}
+    \draw[very thick] (10,\y-.75) -- (10,\y+.75);
+    \foreach \d in {-.65,-.35,-.05,.25,.55} {\draw[thin] (10,\y+\d) -- (10.3,\y+\d-.22);}
+    \draw[spring,blue!70!black] (0,\y) -- (2.25,\y);
+    \draw[spring,red] (3.25,\y) -- (6.75,\y);
+    \draw[spring,blue!70!black] (7.75,\y) -- (10,\y);
+    \draw[fill=blue!12] (2.25,\y-.6) rectangle (3.25,\y+.6);
+    \draw[fill=blue!12] (6.75,\y-.6) rectangle (7.75,\y+.6);
+    \node at (2.75,\y) {$m$};
+    \node at (7.25,\y) {$m$};
+  }
+  \node[blue!70!black] at (1.1,4.65) {$k$};
+  \node[red] at (5,4.65) {$\kappa$};
+  \node[blue!70!black] at (8.9,4.65) {$k$};
+
+  % In-phase arrows.
+  \draw[green!45!black,->,line width=1.3pt] (2.35,5.05) -- (3.45,5.05);
+  \draw[green!45!black,->,line width=1.3pt] (6.85,5.05) -- (7.95,5.05);
+  \node[anchor=west,align=left] at (10.65,4)
+    {$\Theta_+\propto x_1+x_2$\\同相：耦合弹簧不伸缩};
+
+  % Out-of-phase arrows.
+  \draw[green!45!black,->,line width=1.3pt] (2.65,1.05) -- (1.55,1.05);
+  \draw[green!45!black,->,line width=1.3pt] (7.35,1.05) -- (8.45,1.05);
+  \node[anchor=west,align=left] at (10.65,0)
+    {$\Theta_-\propto x_1-x_2$\\反相：耦合弹簧提供额外恢复力};
+
+  \node[blue!70!black] at (5,5.55) {简正模 1};
+  \node[red] at (5,1.55) {简正模 2};
+\end{tikzpicture}
+\end{document}

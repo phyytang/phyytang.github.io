@@ -4,22 +4,21 @@
 
 ## 更新理论力学讲义
 
-1. 在 GitHub 仓库中打开 `materials/theoretical-mechanics/` 文件夹。
-2. 找到对应章节的 `.md` 文件，点击编辑按钮。
-3. 将“讲义整理中”的提示替换为正文，保留或修改章节标题。
-4. 将修改提交到 `main` 分支，等待 GitHub Pages 发布。
+已上传原 `Mechanics` 文件夹中的教学资料，保留中文文件名、图片与动画目录，网站副本位于 `materials/Mechanics/`。
 
-| 章节 | Markdown 文件 |
+请继续在本地原始 `Mechanics` 文件夹中编辑。更新完成后，双击本地网站仓库中的 **同步讲义.command**，即可同步并推送；GitHub Pages 发布完成后再刷新网页。每次更新需要主动运行一次，不会在保存文件时自动发布。
+
+| 主页章节 | Markdown 文件与定位 |
 | :--- | :--- |
-| 0. 绪论 | `00-introduction.md` |
-| 1. 最小作用量原理 | `01-principle-of-least-action.md` |
-| 2. 中心力场 | `02-central-force.md` |
-| 3. 微扰和摄动理论 | `03-perturbation-theory.md` |
-| 4. 刚体运动 | `04-rigid-body-motion.md` |
-| 5. 哈密顿力学 | `05-hamiltonian-mechanics.md` |
-| 6. 无碰撞粒子体系 | `06-collisionless-systems.md` |
+| 0. 绪论 | `最小作用量原理.md#绪论` |
+| 1. 最小作用量原理 | `最小作用量原理.md#最小作用量原理` |
+| 2. 中心力场 | `中心力场.md` |
+| 3. 微扰和摄动理论 | `微扰和摄动理论.md` |
+| 4. 刚体运动 | `刚体运动.md` |
+| 5. 哈密顿力学 | `哈密顿力学.md` |
+| 6. 无碰撞粒子体系 | `无碰撞粒子体系.md` |
 
-讲义更新完成后，可以删除 `materials.json` 中对应章节的 `status` 字段，或将其改为合适的提示文字。
+同步会排除 `tmp`、隐藏文件与目录、构建缓存。完整设置步骤与同步规则见[同步说明](https://github.com/phyytang/phyytang.github.io/blob/main/同步说明.md)。
 
 ## 添加新课程
 
@@ -47,8 +46,8 @@
 在讲义中使用相对于当前文件的路径：
 
 ```markdown
-[下一章](01-principle-of-least-action.md)
-[另一章的某一节](02-central-force.md#某一节的标题)
+[下一章](中心力场.md)
+[另一章的某一节](中心力场.md#某一节的标题)
 ![示意图](images/figure.png)
 [下载讲义](handout.pdf)
 ```
@@ -60,7 +59,7 @@
 例如，“绪论”的阅读链接是：
 
 ```text
-https://phyytang.github.io/?note=materials/theoretical-mechanics/00-introduction.md
+https://phyytang.github.io/?note=materials/Mechanics/最小作用量原理.md#绪论
 ```
 
 Markdown 文件即使没有列入课程目录，也可以通过这样的链接打开。中文或含空格的文件名需要进行 URL 编码，主页自动生成的链接会完成编码。

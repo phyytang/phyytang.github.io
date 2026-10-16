@@ -1,0 +1,45 @@
+% !TeX program = xelatex
+% Primary instability band of the Mathieu equation and representative motion.
+% Compile: xelatex parametric_resonance_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{15}{18}\selectfont}]
+  % Growth rate versus detuning.
+  \begin{scope}
+    \fill[red!10] (-2.2,0) rectangle (2.2,4.1);
+    \draw[blue!70!black,->] (-4.5,0) -- (4.75,0) node[right] {$\varepsilon$};
+    \draw[blue!70!black,->] (0,-.3) -- (0,4.35) node[above] {$s$};
+    \draw[red,domain=-2.2:2.2,samples=160,smooth]
+      plot (\x,{sqrt(4.84-\x*\x)});
+    \draw[densely dashed] (-2.2,0) -- (-2.2,4.0);
+    \draw[densely dashed] (2.2,0) -- (2.2,4.0);
+    \node[below] at (-2.2,0) {$-h\omega_0/2$};
+    \node[below] at (2.2,0) {$h\omega_0/2$};
+    \node[red,align=center] at (0,3.2) {不稳定\\$s>0$};
+    \node[green!40!black] at (-3.35,.75) {稳定};
+    \node[green!40!black] at (3.35,.75) {稳定};
+    \node[black!70,align=center] at (0,-1.05)
+      {$s=\dfrac12\sqrt{(h\omega_0/2)^2-\varepsilon^2}$};
+  \end{scope}
+
+  % Representative growing solution.
+  \begin{scope}[xshift=7.0cm,yshift=1.6cm]
+    \draw[blue!70!black,->] (-.25,0) -- (6.6,0) node[right] {$t$};
+    \draw[blue!70!black,->] (0,-2.8) -- (0,2.8) node[above] {$x$};
+    \draw[red,domain=0:6.2,samples=360,smooth]
+      plot (\x,{.24*exp(.36*\x)*cos(250*\x)});
+    \draw[green!45!black,densely dashed,domain=0:6.2,samples=100]
+      plot (\x,{.24*exp(.36*\x)});
+    \draw[green!45!black,densely dashed,domain=0:6.2,samples=100]
+      plot (\x,{-.24*exp(.36*\x)});
+    \node[green!40!black,fill=white,inner sep=2pt] at (4.65,2.15) {$\propto e^{st}$};
+    \node[red,align=center] at (3.1,-3.3)
+      {接近 $\gamma=2\omega_0$ 时：调制持续\\向振动输入能量};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

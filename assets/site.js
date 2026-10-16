@@ -58,7 +58,7 @@ async function showLibrary() {
         const {path} = materialPath(entry.file);
         const row = document.createElement("a");
         row.className = "material";
-        row.href = noteURL(path);
+        row.href = noteURL(path, entry.anchor || "");
         const number = document.createElement("span");
         number.className = "material-number";
         number.textContent = `${entry.number ?? index}.`;
@@ -169,7 +169,7 @@ function addOutline(article) {
     while (used.has(slug)) slug = `${stem}-${suffix++}`;
     used.add(slug);
     heading.id = slug;
-    if (heading.matches("h2,h3")) {
+    if (heading.matches("h1,h2,h3")) {
       const link = document.createElement("a");
       link.href = `#${slug}`;
       link.textContent = heading.textContent;
@@ -202,6 +202,10 @@ async function showNote(requested) {
     document.title = `${article.querySelector("h1").textContent} · phyytang`;
     resolveLinks(article, url);
     addOutline(article);
+    if (location.hash) {
+      const section = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (section?.matches("h1,h2,h3,h4,h5,h6")) document.title = `${section.textContent} · phyytang`;
+    }
     let mathErrors = 0;
     for (const expression of article.querySelectorAll(".math-source")) {
       try {

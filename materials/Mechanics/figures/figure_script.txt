@@ -1,0 +1,6 @@
+# 1. Compile the standalone TikZ document to PDF
+pdflatex -interaction=nonstopmode polar_coords.tex
+
+# 2. Rasterize the PDF to PNG at a given resolution (200 dpi here)
+pdftoppm -png -r 200 polar_coords.pdf pc
+# -> produces pc-1.png (pdftoppm appends -1, -2, ... per page)

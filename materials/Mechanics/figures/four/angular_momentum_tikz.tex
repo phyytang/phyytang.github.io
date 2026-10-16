@@ -1,0 +1,61 @@
+% Relation between angular velocity Omega and angular momentum M = I Omega.
+% Panel 3 is drawn to scale in the x1-x3 principal plane with I1 = 2 I3:
+% Omega = (0.55, 1.20) -> M proportional to (2*0.55, 1.20) = (1.10, 1.20).
+% Compile: xelatex angular_momentum_tikz.tex ; pdftoppm -png -r 300 -singlefile angular_momentum_tikz.pdf angular_momentum
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage[fontset=fandol]{ctex}
+\usetikzlibrary{arrows.meta,calc}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,line cap=round,every node/.style={font=\normalsize}]
+  \tikzset{om/.style={->,red,very thick},am/.style={->,green!45!black,very thick}}
+
+  % ---------- Panel 1: spherical top
+  \begin{scope}[shift={(-4.6,0)}]
+    \fill[blue!7] (0,0) circle (1.15);
+    \draw[blue!70!black] (0,0) circle (1.15);
+    \draw[blue!45,densely dashed] (1.15,0) arc[start angle=0,end angle=180,x radius=1.15,y radius=.3];
+    \draw[blue!60] (-1.15,0) arc[start angle=180,end angle=360,x radius=1.15,y radius=.3];
+    \draw[om] (0,0) -- (55:1.75) node[anchor=south] {$\boldsymbol\Omega$};
+    \draw[am] ($(0,0)+(-35:.09)$) -- ++(55:1.25) node[anchor=north west] {$\boldsymbol M$};
+    \node[align=center] at (0,-1.75) {球形陀螺\\[1pt]$I_1=I_2=I_3$};
+    \node[blue!70!black] at (0,-2.65) {$\boldsymbol M=I\boldsymbol\Omega\parallel\boldsymbol\Omega$};
+  \end{scope}
+
+  % ---------- Panel 2: symmetric top rotating about its symmetry axis
+  \begin{scope}[shift={(0,0)}]
+    \fill[blue!7] (0,0) ellipse [x radius=1.45,y radius=.75];
+    \draw[blue!70!black] (0,0) ellipse [x radius=1.45,y radius=.75];
+    \draw[blue!45,densely dashed] (1.45,0) arc[start angle=0,end angle=180,x radius=1.45,y radius=.28];
+    \draw[blue!60] (-1.45,0) arc[start angle=180,end angle=360,x radius=1.45,y radius=.28];
+    \draw[gray,densely dashed] (0,-1.15) -- (0,2.1) node[anchor=south,black] {$x_3$};
+    \draw[om] (0,0) -- (0,1.75) node[anchor=east] {$\boldsymbol\Omega$};
+    \draw[am] (.09,0) -- (.09,1.3) node[anchor=west] {$\boldsymbol M$};
+    \node[align=center] at (0,-1.75) {对称陀螺绕对称轴转动\\[1pt]$I_1=I_2\ne I_3$};
+    \node[blue!70!black] at (0,-2.65) {$\boldsymbol M=I_3\boldsymbol\Omega\parallel\boldsymbol\Omega$};
+  \end{scope}
+
+  % ---------- Panel 3: general case, drawn to scale with I1 = 2 I3
+  \begin{scope}[shift={(4.9,0)}]
+    \path[draw=blue!70!black,fill=blue!7]
+      plot[smooth cycle,tension=.8] coordinates
+      {(-1.45,-.65) (-1.1,.95) (.15,1.2) (1.45,.6) (1.3,-.75) (-.2,-1.05)};
+    \draw[gray,densely dashed] (-1.6,0) -- (2.0,0) node[anchor=west,black] {$x_1$};
+    \draw[gray,densely dashed] (0,-1.25) -- (0,2.35) node[anchor=south,black] {$x_3$};
+    \coordinate (W) at (0.55,1.20);
+    \coordinate (Mv) at (1.10,1.20);
+    \draw[om] (0,0) -- (W) node[anchor=south east] {$\boldsymbol\Omega$};
+    \draw[am] (0,0) -- (Mv) node[anchor=south west] {$\boldsymbol M$};
+    \draw[gray,densely dotted] (W) -- (0.55,0); \draw[gray,densely dotted] (Mv) -- (1.10,0);
+    \pgfmathsetmacro{\aW}{atan2(1.20,0.55)}\pgfmathsetmacro{\aM}{atan2(1.20,1.10)}
+    \draw[->,thin] (\aW:.75) arc[start angle=\aW,end angle=\aM,radius=.75];
+    \node[font=\small] at ({(\aW+\aM)/2}:1.0) {$\alpha$};
+    \node[align=center] at (0,-1.75) {一般刚体（图中取 $I_1=2I_3$）\\[1pt]$M_i=I_i\Omega_i$};
+    \node[red] at (0,-2.65) {$\boldsymbol M\nparallel\boldsymbol\Omega$};
+  \end{scope}
+
+  \node[anchor=north,font=\small] at (0,-3.15)
+    {\textcolor{red}{红：角速度 $\boldsymbol\Omega$}\qquad\textcolor{green!45!black}{绿：角动量 $\boldsymbol M$}（长度只示意方向）};
+\end{tikzpicture}
+\end{document}

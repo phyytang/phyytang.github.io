@@ -1,0 +1,37 @@
+% !TeX program = xelatex
+% Underdamped, critically damped and overdamped return to equilibrium.
+% All curves use x(0)=1 and xdot(0)=0, with omega_0=1.
+% Compile: xelatex damping_regimes_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  \draw[blue!70!black,->] (-.35,0) -- (9.8,0) node[right] {$\omega_0 t$};
+  \draw[blue!70!black,->] (0,-1.5) -- (0,3.2) node[above] {$x/x_0$};
+  \draw[black!25,densely dashed] (0,1) -- (9.45,1);
+  \fill[blue!70!black] (0,1) circle (2.1pt);
+
+  % lambda/omega_0 = 0.22.
+  \draw[blue!70!black,domain=0:9.3,samples=320,smooth]
+    plot (\x,{exp(-.22*\x)*(cos(55.9*\x)+.226*sin(55.9*\x))});
+  % Critical damping.
+  \draw[red,domain=0:9.3,samples=180,smooth]
+    plot (\x,{(1+\x)*exp(-\x)});
+  % Overdamped with lambda/omega_0 = 1.6.
+  \draw[green!45!black,domain=0:9.3,samples=180,smooth]
+    plot (\x,{1.14*exp(-.351*\x)-.14*exp(-2.849*\x)});
+
+  \draw[blue!70!black,line width=1.2pt] (4.35,2.85) -- (5.1,2.85);
+  \node[blue!70!black,anchor=west] at (5.25,2.85) {欠阻尼\,\,\, $\lambda<\omega_0$};
+  \draw[red,line width=1.2pt] (4.35,2.15) -- (5.1,2.15);
+  \node[red,anchor=west] at (5.25,2.15) {临界阻尼\,$\lambda=\omega_0$};
+  \draw[green!45!black,line width=1.2pt] (4.35,1.45) -- (5.1,1.45);
+  \node[green!40!black,anchor=west] at (5.25,1.45) {过阻尼\,\,\, $\lambda>\omega_0$};
+  \node[black!65,align=left,anchor=west] at (5.0,-.92)
+    {相同初始条件：\\$x(0)=x_0,\ \dot x(0)=0$};
+\end{tikzpicture}
+\end{document}

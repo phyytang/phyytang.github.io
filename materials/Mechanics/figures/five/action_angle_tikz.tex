@@ -1,0 +1,45 @@
+% !TeX program = xelatex
+% Closed phase orbit represented by action-angle variables.
+% Compile: xelatex action_angle_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  % Closed orbit in q,p.
+  \begin{scope}
+    \draw[blue!70!black,->] (-3.5,0) -- (3.8,0) node[right] {$q$};
+    \draw[blue!70!black,->] (0,-2.25) -- (0,2.55) node[above] {$p$};
+    \fill[blue!10] (0,0) ellipse (3 and 1.6);
+    \draw[blue!70!black,line width=1.2pt] (0,0) ellipse (3 and 1.6);
+    \draw[green!45!black,->,line width=1.3pt,domain=75:35,samples=24]
+      plot ({3*cos(\x)},{1.6*sin(\x)});
+    \fill[red] ({3*cos(55)},{1.6*sin(55)}) circle (2.3pt);
+    \node[black!75,align=center] at (0,-2.75)
+      {闭合相轨道的面积决定 $I$};
+  \end{scope}
+
+  \draw[green!45!black,->,line width=1.5pt] (4.2,.2) -- (6.2,.2)
+    node[midway,above] {正则变换};
+
+  % Action-angle strip.
+  \begin{scope}[xshift=7.0cm]
+    \draw[blue!70!black,->] (-.25,0) -- (6.9,0) node[right] {$W$};
+    \draw[blue!70!black,->] (0,-.35) -- (0,4.0) node[above] {$I$};
+    \draw[densely dashed] (0,0) -- (0,3.55);
+    \draw[densely dashed] (6.1,0) -- (6.1,3.55);
+    \node[below] at (0,0) {$0$};
+    \node[below] at (6.1,0) {$2\pi$};
+    \draw[red,line width=1.3pt,->] (.15,2.35) -- (5.85,2.35);
+    \fill[red] (2.15,2.35) circle (2.3pt);
+    \node[red,left] at (0,2.35) {$I_0$};
+    \node[green!40!black,align=center] at (3.05,3.25)
+      {$I=I_0$ 不变\\$W(t)=\omega t+W_0$};
+    \node[black!65,align=center] at (3.05,-1.0)
+      {$W=0$ 与 $W=2\pi$ 表示同一点};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,37 @@
+% !TeX program = xelatex
+% A dominant two-body acceleration plus a small third-body perturbation.
+% Compile: xelatex celestial_perturbation_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  \draw[blue!35,dashed] (0,0) ellipse (4.0 and 2.35);
+  \draw[red!25,dashed] (0,0) ellipse (6.7 and 4.0);
+  \shade[inner color=yellow!20,outer color=orange!85] (0,0) circle (.38);
+  \node[below] at (0,-.5) {$M_\odot$};
+
+  \coordinate (E) at (3.15,1.44);
+  \coordinate (J) at (5.65,2.14);
+  \fill[blue!70!black] (E) circle (.2);
+  \node[blue!70!black,above=5pt] at (E) {$m$};
+  \fill[red] (J) circle (0.22cm);
+  \node[red,above right] at (J) {$m_3$};
+
+  \draw[blue!70!black,->,line width=1.4pt] (E) -- ++(-2.15,-0.92)
+    node[below=6pt, pos=0.91] {$\mathbf a_0$};
+  \draw[red,->,line width=1.4pt] (E) -- ++(.95,.27)
+    node[pos=.62,above right=5pt] {$\delta\mathbf a$};
+  \draw[green!45!black,->,line width=1.4pt] (E) -- ++(-1.68,-0.92)
+    node[at end, below right=5pt] {$\mathbf a$};
+
+  \node[align=left,anchor=west] at (7.15,1.2)
+    {$\mathbf a=\mathbf a_0+\delta\mathbf a$\\[3pt]
+     $|\delta\mathbf a|\ll|\mathbf a_0|$\\[5pt]
+     二体轨道 $+$ 小修正};
+  \draw[->] (6.95,1.7) to[bend left=12] (4.1,1.57);
+\end{tikzpicture}
+\end{document}

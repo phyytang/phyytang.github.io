@@ -1,0 +1,35 @@
+% !TeX program = xelatex
+% Harmonic-oscillator energy contours and Hamiltonian flow.
+% Compile: xelatex hamiltonian_phase_space_tikz.tex
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{amsmath}
+\usepackage[UTF8,fontset=fandol]{ctex}
+\usepackage{fix-cm}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,thick,every node/.style={font=\fontsize{16}{19}\selectfont}]
+  \draw[blue!70!black,->] (-4.8,0) -- (5.0,0) node[right] {$q$};
+  \draw[blue!70!black,->] (0,-3.25) -- (0,3.45) node[above] {$p$};
+
+  \draw[blue!35] (0,0) ellipse (1.45 and .9);
+  \draw[blue!60] (0,0) ellipse (2.65 and 1.65);
+  \draw[blue!70!black,line width=1.2pt] (0,0) ellipse (4.0 and 2.5);
+  \node[blue!70!black] at (4.25,1.45) {$E_3$};
+  \node[blue!60] at (2.8,.95) {$E_2$};
+  \node[blue!45] at (1.45,.55) {$E_1$};
+
+  % Clockwise flow arrows on the middle ellipse.
+  \draw[green!45!black,->,line width=1.25pt,domain=56:25,samples=20]
+    plot ({2.65*cos(\x)},{1.65*sin(\x)});
+  \draw[green!45!black,->,line width=1.25pt,domain=236:205,samples=20]
+    plot ({2.65*cos(\x)},{1.65*sin(\x)});
+  \fill[red] ({2.65*cos(135)},{1.65*sin(135)}) circle (2.3pt);
+  \node[red,anchor=south east] at ({2.65*cos(135)},{1.65*sin(135)}) {相点};
+
+  \node[green!40!black,align=left,anchor=west] at (4.8,-1.25)
+    {哈密顿流沿等能线运动};
+  \node[black!70,align=left,anchor=west] at (-4.55,-3.0)
+    {$H(q,p)=\dfrac{p^2}{2m}+\dfrac12m\omega^2q^2=E$};
+\end{tikzpicture}
+\end{document}

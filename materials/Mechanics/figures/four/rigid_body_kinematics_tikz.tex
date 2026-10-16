@@ -1,0 +1,60 @@
+% Rigid-body kinematics: translation of the centre of mass plus rotation about it.
+% Drawn for a body moving in the plane of the page with Omega pointing out of the page,
+% so that Omega x r is r rotated by +90 degrees and the vector sum v = V + Omega x r is exact.
+% Compile: xelatex rigid_body_kinematics_tikz.tex ; pdftoppm -png -r 300 -singlefile rigid_body_kinematics_tikz.pdf rigid_body_kinematics
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath}
+\usepackage[fontset=fandol]{ctex}
+\usetikzlibrary{arrows.meta,calc}
+
+\begin{document}
+\begin{tikzpicture}[>=Stealth,line cap=round,every node/.style={font=\normalsize}]
+  \coordinate (O) at (-5.2,-1.9);
+  \coordinate (C) at (0,0);
+  \coordinate (P) at (2.0,0.9);          % r = (2.0, 0.9)
+  \def\W{0.7}                             % |Omega| (drawing units per unit length)
+  \coordinate (V)  at (1.2,-0.8);          % translational velocity V
+  \coordinate (Wr) at ({-\W*0.9},{\W*2.0});% Omega x r = Omega (-r_y, r_x)
+
+  % inertial frame (Z out of the page)
+  \draw[->,gray!70!black] (O) -- ++(1.6,0) node[anchor=west] {$X$};
+  \draw[->,gray!70!black] (O) -- ++(0,1.6) node[anchor=south] {$Y$};
+  \draw[gray!70!black] (O) circle (2.2pt); \fill[gray!70!black] (O) circle (.8pt);
+  \node[gray!70!black,anchor=north east] at (O) {$O$};
+  \node[gray!70!black,anchor=north west,font=\small] at ($(O)+(0.05,-0.05)$) {$Z$ 轴垂直纸面向外};
+
+  % body
+  \path[draw=blue!70!black,fill=blue!7,thick]
+    plot[smooth cycle,tension=.8] coordinates
+    {(-2.0,-.8) (-1.7,1.2) (-.25,1.6) (1.6,1.4) (2.6,.4) (1.65,-1.1) (.1,-1.4) (-1.35,-1.25)};
+  % body axes
+  \draw[->,blue!70!black] (C) -- ++(5:1.5) node[anchor=north] {$x_1$};
+  \draw[->,blue!70!black] (C) -- ++(95:1.4) node[anchor=south] {$x_2$};
+
+  % position vectors
+  \draw[->,thick] (O) -- (C) node[pos=.55,anchor=north west] {$\boldsymbol R$};
+  \draw[->,thick,red] (C) -- (P) node[pos=.55,anchor=north west] {$\boldsymbol r$};
+
+  % angular velocity out of the page, with sense of rotation
+  \draw[purple,thick] (C) circle (3pt); \fill[purple] (C) circle (1.1pt);
+  \draw[->,purple,thick] ($(C)+(150:0.42)$) arc[start angle=150,end angle=400,radius=0.42];
+  \node[purple,anchor=east] at ($(C)+(-0.45,0.1)$) {$\boldsymbol\Omega$};
+  \node[anchor=north east] at ($(C)+(-0.2,-0.3)$) {$C$};
+
+  % velocity of the centre of mass
+  \draw[->,very thick,green!45!black] (C) -- ++(V) node[anchor=north,pos=.85] {$\boldsymbol V$};
+
+  % velocity of P: v = V + Omega x r (exact parallelogram)
+  \draw[->,thick,green!45!black,densely dashed] (P) -- ++(V) coordinate (PV);
+  \node[green!45!black,anchor=north east] at ($(P)!.75!(PV)$) {$\boldsymbol V$};
+  \draw[->,thick,orange!90!black] (PV) -- ++(Wr) coordinate (PVW)
+       node[anchor=west,pos=.6] {$\boldsymbol\Omega\times\boldsymbol r$};
+  \draw[->,very thick,black] (P) -- (PVW) node[anchor=south east] {$\boldsymbol v$};
+  \fill[red] (P) circle (2pt) node[anchor=south east,red] {$P$};
+
+  % caption
+  \node[anchor=north,align=center] at (-0.8,-2.35)
+    {质心平动 $+$ 绕质心转动：$\boldsymbol v=\boldsymbol V+\boldsymbol\Omega\times\boldsymbol r$\\[1pt]
+     {\small （图中 $\boldsymbol\Omega$ 垂直纸面向外，$\boldsymbol\Omega\times\boldsymbol r$ 垂直于 $\boldsymbol r$）}};
+\end{tikzpicture}
+\end{document}

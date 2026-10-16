@@ -1,0 +1,4 @@
+.mechanics-source.json
+__pycache__/
+*.pyc
+*.sync-tmp
