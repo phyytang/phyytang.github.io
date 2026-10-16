@@ -20,62 +20,87 @@ function materialPath(path) {
   const url = new URL(path, siteRoot);
   const base = new URL("materials/", siteRoot);
   if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname) || !/\.md$/i.test(url.pathname) || url.search || url.hash) {
-    throw new Error("Choose a Markdown file inside the materials folder.");
+    throw new Error("请打开 materials 文件夹中的 Markdown 文件。");
   }
   return {url, path: decodeURIComponent(url.pathname.slice(siteRoot.pathname.length))};
 }
 
 async function getText(url) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`The file could not be loaded (${response.status}). Check that it has been uploaded and published.`);
+  if (!response.ok) throw new Error(`文件加载失败（${response.status}）。请确认文件已上传并发布。`);
   return response.text();
 }
 
 async function showLibrary() {
   const status = document.getElementById("library-status");
   try {
-    const entries = JSON.parse(await getText(new URL("materials.json", siteRoot)));
-    if (!Array.isArray(entries)) throw new Error("The materials list must be a JSON array.");
+    const data = JSON.parse(await getText(new URL("materials.json", siteRoot)));
+    if (!Array.isArray(data.courses)) throw new Error("课程目录需要包含 courses 数组。");
     const list = document.getElementById("materials-list");
-    const rows = entries.map((entry, index) => {
-      const {path} = materialPath(entry.file);
-      const row = document.createElement("a");
-      row.className = "material";
-      row.href = noteURL(path);
-      const number = document.createElement("span");
-      number.className = "material-number";
-      number.textContent = String(index + 1).padStart(2, "0");
-      const body = document.createElement("div");
-      const type = document.createElement("span");
-      type.className = "material-type";
-      type.textContent = entry.type || "NOTE";
-      const heading = document.createElement("h3");
-      heading.textContent = entry.title || path.split("/").pop();
+    const groups = [];
+    for (const course of data.courses) {
+      if (!Array.isArray(course.materials)) throw new Error("每门课程需要包含 materials 章节数组。");
+      const group = document.createElement("section");
+      group.className = "course";
+      group.id = course.id;
+      const header = document.createElement("div");
+      header.className = "course-header";
+      const heading = document.createElement("h2");
+      heading.textContent = course.title;
       const description = document.createElement("p");
-      description.textContent = entry.description || "";
-      body.append(type, heading, description);
-      const action = document.createElement("span");
-      action.className = "material-action";
-      action.textContent = "Read note ↗";
-      row.append(number, body, action);
-      list.append(row);
-      return {element: row, search: `${heading.textContent} ${description.textContent} ${type.textContent}`.toLocaleLowerCase()};
-    });
+      description.textContent = course.description || "";
+      const total = document.createElement("span");
+      total.className = "course-total";
+      total.textContent = `${course.materials.length} 个章节`;
+      header.append(heading, description, total);
+      group.append(header);
+      const rows = course.materials.map((entry, index) => {
+        const {path} = materialPath(entry.file);
+        const row = document.createElement("a");
+        row.className = "material";
+        row.href = noteURL(path);
+        const number = document.createElement("span");
+        number.className = "material-number";
+        number.textContent = `${entry.number ?? index}.`;
+        const body = document.createElement("div");
+        const title = document.createElement("h3");
+        title.textContent = entry.title || path.split("/").pop();
+        body.append(title);
+        if (entry.status || entry.description) {
+          const detail = document.createElement("p");
+          detail.textContent = entry.status || entry.description;
+          body.append(detail);
+        }
+        const action = document.createElement("span");
+        action.className = "material-action";
+        action.textContent = "阅读讲义 →";
+        row.append(number, body, action);
+        group.append(row);
+        return {element: row, search: `${course.title} ${entry.title} ${entry.description || ""}`.toLocaleLowerCase()};
+      });
+      list.append(group);
+      groups.push({element: group, rows});
+    }
     const filter = () => {
       const query = document.getElementById("search").value.trim().toLocaleLowerCase();
-      let visible = 0;
-      for (const row of rows) {
-        row.element.hidden = !row.search.includes(query);
-        if (!row.element.hidden) visible++;
+      let visibleCourses = 0;
+      for (const group of groups) {
+        let visibleRows = 0;
+        for (const row of group.rows) {
+          row.element.hidden = !row.search.includes(query);
+          if (!row.element.hidden) visibleRows++;
+        }
+        group.element.hidden = query ? visibleRows === 0 : false;
+        if (!group.element.hidden) visibleCourses++;
       }
-      document.getElementById("count").textContent = visible;
-      status.textContent = visible ? "" : (entries.length ? "No materials match your search." : "No materials have been listed yet.");
-      status.hidden = visible > 0;
+      document.getElementById("count").textContent = `${visibleCourses} 门`;
+      status.textContent = visibleCourses ? "" : (groups.length ? "没有找到匹配的课程或章节。" : "课程即将上线，敬请期待。");
+      status.hidden = visibleCourses > 0;
     };
     document.getElementById("search").addEventListener("input", filter);
     filter();
   } catch (error) {
-    status.textContent = `The materials list is unavailable. ${error.message}`;
+    status.textContent = `暂时无法加载课程目录。${error.message}`;
   }
 }
 
@@ -165,7 +190,7 @@ async function showNote(requested) {
     let markdown = await getText(url);
     // Accept an optional UTF-8 BOM and Jekyll-style metadata in existing notes.
     markdown = markdown.replace(/^\uFEFF/, "").replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, "");
-    if (!window.marked || !window.DOMPurify || !window.katex) throw new Error("The formatting libraries could not be loaded. Try reloading this page.");
+    if (!window.marked || !window.DOMPurify || !window.katex) throw new Error("排版组件未能加载，请刷新页面重试。");
     configureMarkdown();
     const article = document.getElementById("note");
     article.innerHTML = DOMPurify.sanitize(marked.parse(markdown), {USE_PROFILES: {html: true}, FORBID_TAGS: ["style", "form", "input", "button"], FORBID_ATTR: ["style", "srcset"]});
@@ -183,7 +208,7 @@ async function showNote(requested) {
         katex.render(expression.textContent, expression, {displayMode: expression.classList.contains("math-display"), throwOnError: true, trust: false, strict: "ignore", maxExpand: 1000});
       } catch (error) {
         expression.classList.add("math-error");
-        expression.title = `This expression could not be rendered: ${error.message}`;
+        expression.title = `此公式暂时无法排版：${error.message}`;
         mathErrors++;
       }
     }
@@ -192,18 +217,18 @@ async function showNote(requested) {
       wrap.className = "table-wrap";
       wrap.tabIndex = 0;
       wrap.setAttribute("role", "region");
-      wrap.setAttribute("aria-label", "Scrollable table");
+      wrap.setAttribute("aria-label", "可横向滚动的表格");
       table.replaceWith(wrap);
       wrap.append(table);
     }
     source.href = `https://github.com/phyytang/phyytang.github.io/blob/main/${path.split("/").map(encodeURIComponent).join("/")}`;
     source.hidden = false;
-    status.textContent = mathErrors ? "Some equations use unsupported notation and are shown as TeX." : "";
+    status.textContent = mathErrors ? "部分公式使用了暂不支持的命令，已保留原始 TeX 内容。" : "";
     status.hidden = mathErrors === 0;
     if (location.hash) document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
   } catch (error) {
     status.hidden = false;
-    status.textContent = `This note could not be opened. ${error.message}`;
+    status.textContent = `暂时无法打开讲义。${error.message}`;
   }
 }
 

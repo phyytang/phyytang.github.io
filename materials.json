@@ -1,14 +1,53 @@
-[
-  {
-    "title": "Markdown preview",
-    "description": "An example note with headings, links, a table, and mathematical formulas. 示例文档。",
-    "file": "materials/preview.md",
-    "type": "EXAMPLE"
-  },
-  {
-    "title": "Adding materials",
-    "description": "How to publish a Markdown file and add a link to this library.",
-    "file": "materials/adding-materials.md",
-    "type": "GUIDE"
-  }
-]
+{
+  "courses": [
+    {
+      "id": "theoretical-mechanics",
+      "title": "理论力学",
+      "description": "从作用量原理到哈密顿力学，按章节展开学习。",
+      "materials": [
+        {
+          "number": 0,
+          "title": "绪论",
+          "file": "materials/theoretical-mechanics/00-introduction.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 1,
+          "title": "最小作用量原理",
+          "file": "materials/theoretical-mechanics/01-principle-of-least-action.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 2,
+          "title": "中心力场",
+          "file": "materials/theoretical-mechanics/02-central-force.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 3,
+          "title": "微扰和摄动理论",
+          "file": "materials/theoretical-mechanics/03-perturbation-theory.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 4,
+          "title": "刚体运动",
+          "file": "materials/theoretical-mechanics/04-rigid-body-motion.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 5,
+          "title": "哈密顿力学",
+          "file": "materials/theoretical-mechanics/05-hamiltonian-mechanics.md",
+          "status": "讲义待更新"
+        },
+        {
+          "number": 6,
+          "title": "无碰撞粒子体系",
+          "file": "materials/theoretical-mechanics/06-collisionless-systems.md",
+          "status": "讲义待更新"
+        }
+      ]
+    }
+  ]
+}

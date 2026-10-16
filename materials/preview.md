@@ -1,54 +1,52 @@
-# Markdown preview
+# Markdown 排版示例
 
-This is an example document, ready to be replaced by your own materials. A link from the library opens a formatted preview of the Markdown file here on the website.
+这是一份示例文档，用于展示讲义的在线阅读效果。课程目录中的每个章节都可以链接到类似的 Markdown 文件。
 
-中文内容也可以直接显示。你可以使用 Markdown 编写讲义、阅读材料或习题，无须先转换成 PDF。
+## 文字与结构
 
-## Text and structure
+可以使用**加粗**、*强调*、标题、编号列表与引用来组织内容。
 
-Use **bold text**, *emphasis*, headings, numbered lists, and quotations to organize a note.
+> Markdown 文件保存讲义正文，网页提供适合阅读的排版。
 
-> The Markdown file is the source. This page is its reading view.
+1. 从课程目录选择一个章节。
+2. 阅读讲义正文与数学公式。
+3. 点击“查看 Markdown 源文件”，查看原始文件。
 
-1. Choose a note from the materials library.
-2. Read the formatted content, including equations.
-3. Use “View Markdown source” to open the original file.
+## 数学公式
 
-## Mathematical formulas
+行内公式使用单个美元符号，例如 $e^{i\pi}+1=0$ 或 $a_{ij}b^{jk}=\delta_i^k$。
 
-Inline mathematics uses single dollar signs, for example $e^{i\pi}+1=0$ or $a_{ij}b^{jk}=\delta_i^k$.
-
-Display equations use double dollar signs:
+独立公式使用两个美元符号：
 
 $$
 \int_{-\infty}^{\infty} e^{-x^2}\,\mathrm{d}x=\sqrt{\pi}.
 $$
 
-Code examples preserve the original notation:
+代码块会保留原始公式：
 
 ```latex
-Inline: $e^{i\pi}+1=0$
+行内公式：$e^{i\pi}+1=0$
 
 $$
 \int_{-\infty}^{\infty} e^{-x^2}\,\mathrm{d}x=\sqrt{\pi}.
 $$
 ```
 
-## Tables and links
+## 表格与链接
 
-| Material | File format | Reading view |
+| 材料 | 文件格式 | 阅读方式 |
 | :--- | :--- | :--- |
-| Notes | `.md` | Formatted text and equations |
-| Images | `.png`, `.jpg`, `.svg` | Embedded in the note |
-| Handouts | `.pdf` | Linked original file |
+| 讲义 | `.md` | 在线查看正文与公式 |
+| 图片 | `.png`、`.jpg`、`.svg` | 嵌入讲义中显示 |
+| 附件 | `.pdf` | 打开原始文件 |
 
-Links to other Markdown files open in the same reader. Try the [publishing instructions](adding-materials.md#publish-a-note), or return to [all materials](../index.html).
+Markdown 文件之间也可以相互链接。查看[讲义发布说明](adding-materials.md#更新理论力学讲义)，或[返回课程目录](../index.html)。
 
-## A small code block
+## 代码块
 
 ```python
 def square(x):
     return x * x
 ```
 
-You can keep a note as a plain Markdown file; no course title or page metadata is required.
+讲义保持为普通 Markdown 文件即可，无须添加页面元数据。
