@@ -78,6 +78,22 @@ class SyncMechanicsTests(unittest.TestCase):
         self.assertFalse((SYNC.DESTINATION / "figures/old.png").exists())
         self.assertEqual(extra.read_text(), "not managed")
 
+    def test_sync_keeps_unavailable_chapters_and_their_files(self):
+        SYNC.synchronize(self.source)
+        catalog_path = self.root / "materials.json"
+        data = json.loads(catalog_path.read_text())
+        course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
+        for entry in course["materials"][4:]:
+            entry["available"] = False
+        catalog_path.write_text(json.dumps(data))
+        before = {p.name: p.read_bytes() for p in SYNC.DESTINATION.glob("*.md")}
+        SYNC.synchronize(self.source)
+        data = json.loads(catalog_path.read_text())
+        entries = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
+        self.assertTrue(all(entry.get("available", True) for entry in entries[:4]))
+        self.assertTrue(all(entry["available"] is False for entry in entries[4:]))
+        self.assertEqual(before, {p.name: p.read_bytes() for p in SYNC.DESTINATION.glob("*.md")})
+
     def test_publish_is_scoped_and_repeatable(self):
         remote = self.base / "remote.git"
         subprocess.run(["git", "init", "--bare", "--quiet", str(remote)], check=True)

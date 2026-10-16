@@ -95,9 +95,15 @@ def synchronize(source):
     if course is None:
         course = {"id": "theoretical-mechanics", "title": "理论力学"}
         courses.append(course)
+    availability = {
+        item["number"]: item["available"]
+        for item in course.get("materials", []) if "available" in item
+    }
     entries = []
     for number, (title, filename, anchor) in enumerate(CHAPTERS):
         entry = {"number": number, "title": title, "file": "materials/Mechanics/" + filename}
+        if number in availability:
+            entry["available"] = availability[number]
         if anchor:
             entry["anchor"] = anchor
         entries.append(entry)

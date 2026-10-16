@@ -9,3 +9,6 @@
 
 /* Long lecture notes and expandable derivations. */
 .outline{max-height:calc(100vh - 70px);overflow-y:auto}.markdown-body details.derivation{border-left:3px solid #1f4e9c;background:#f6f8fb;padding:.35em 1em;margin:1em 0;border-radius:4px}.markdown-body details.derivation>summary{cursor:pointer;font-weight:600;color:#1f4e9c}.markdown-body details.derivation[open]>summary{margin-bottom:.5em}.markdown-body h1{scroll-margin-top:25px}
+
+/* Chapters awaiting teaching remain visible without navigation links. */
+.material-pending{cursor:default}.material-pending:hover{background:transparent}.material-pending .material-action{color:var(--muted)}

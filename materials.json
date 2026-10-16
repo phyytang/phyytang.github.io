@@ -29,17 +29,20 @@
         {
           "number": 4,
           "title": "刚体运动",
-          "file": "materials/Mechanics/刚体运动.md"
+          "file": "materials/Mechanics/刚体运动.md",
+          "available": false
         },
         {
           "number": 5,
           "title": "哈密顿力学",
-          "file": "materials/Mechanics/哈密顿力学.md"
+          "file": "materials/Mechanics/哈密顿力学.md",
+          "available": false
         },
         {
           "number": 6,
           "title": "无碰撞粒子体系",
-          "file": "materials/Mechanics/无碰撞粒子体系.md"
+          "file": "materials/Mechanics/无碰撞粒子体系.md",
+          "available": false
         }
       ]
     }

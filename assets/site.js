@@ -56,9 +56,10 @@ async function showLibrary() {
       group.append(header);
       const rows = course.materials.map((entry, index) => {
         const {path} = materialPath(entry.file);
-        const row = document.createElement("a");
-        row.className = "material";
-        row.href = noteURL(path, entry.anchor || "");
+        const available = entry.available !== false;
+        const row = document.createElement(available ? "a" : "div");
+        row.className = available ? "material" : "material material-pending";
+        if (available) row.href = noteURL(path, entry.anchor || "");
         const number = document.createElement("span");
         number.className = "material-number";
         number.textContent = `${entry.number ?? index}.`;
@@ -73,7 +74,7 @@ async function showLibrary() {
         }
         const action = document.createElement("span");
         action.className = "material-action";
-        action.textContent = "阅读讲义 →";
+        action.textContent = available ? "阅读讲义 →" : "尚未讲授";
         row.append(number, body, action);
         group.append(row);
         return {element: row, search: `${course.title} ${entry.title} ${entry.description || ""}`.toLocaleLowerCase()};
