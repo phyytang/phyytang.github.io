@@ -60,7 +60,7 @@ class SyncMechanicsTests(unittest.TestCase):
         self.assertEqual(courses[0]["id"], "other")
         entries = courses[1]["materials"]
         self.assertEqual(len(entries), 7)
-        self.assertEqual(entries[0]["file"], "materials/Mechanics/牛顿力学与虚功原理.md")
+        self.assertEqual(entries[0]["file"], "materials/Mechanics/绪论.md")
         self.assertNotIn("anchor", entries[0])
         self.assertEqual(entries[1]["anchor"], "最小作用量原理")
         self.assertTrue(all((self.root / item["file"]).is_file() for item in entries))
@@ -77,6 +77,22 @@ class SyncMechanicsTests(unittest.TestCase):
         SYNC.synchronize(self.source)
         self.assertFalse((SYNC.DESTINATION / "figures/old.png").exists())
         self.assertEqual(extra.read_text(), "not managed")
+
+    def test_pdf_links_follow_existing_files_for_first_four_chapters(self):
+        for _, filename, _ in SYNC.CHAPTERS:
+            self.put(str(Path(filename).with_suffix(".pdf")), "%PDF-1.7\nfixture\n")
+        SYNC.synchronize(self.source)
+        def entries():
+            data = json.loads((self.root / "materials.json").read_text())
+            return next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
+        for entry in entries()[:4]:
+            self.assertEqual(entry["pdf"], str(Path(entry["file"]).with_suffix(".pdf")))
+            self.assertTrue((self.root / entry["pdf"]).is_file())
+        self.assertTrue(all("pdf" not in entry for entry in entries()[4:]))
+        (self.source / "绪论.pdf").unlink()
+        SYNC.synchronize(self.source)
+        self.assertNotIn("pdf", entries()[0])
+        self.assertTrue(all("pdf" in entry for entry in entries()[1:4]))
 
     def test_sync_keeps_unavailable_chapters_and_their_files(self):
         SYNC.synchronize(self.source)

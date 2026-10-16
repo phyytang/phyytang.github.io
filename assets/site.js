@@ -25,6 +25,15 @@ function materialPath(path) {
   return {url, path: decodeURIComponent(url.pathname.slice(siteRoot.pathname.length))};
 }
 
+function materialPDF(path) {
+  const url = new URL(path, siteRoot);
+  const base = new URL("materials/", siteRoot);
+  if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname) || !/\.pdf$/i.test(url.pathname) || url.search || url.hash) {
+    throw new Error("PDF 下载文件必须位于 materials 文件夹内。");
+  }
+  return url;
+}
+
 async function getText(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`文件加载失败（${response.status}）。请确认文件已上传并发布。`);
@@ -57,25 +66,56 @@ async function showLibrary() {
       const rows = course.materials.map((entry, index) => {
         const {path} = materialPath(entry.file);
         const available = entry.available !== false;
-        const row = document.createElement(available ? "a" : "div");
+        const row = document.createElement("div");
         row.className = available ? "material" : "material material-pending";
-        if (available) row.href = noteURL(path, entry.anchor || "");
+        const readingURL = noteURL(path, entry.anchor || "");
         const number = document.createElement("span");
         number.className = "material-number";
         number.textContent = `${entry.number ?? index}.`;
         const body = document.createElement("div");
         const title = document.createElement("h3");
-        title.textContent = entry.title || path.split("/").pop();
+        const titleText = entry.title || path.split("/").pop();
+        if (available) {
+          const titleLink = document.createElement("a");
+          titleLink.className = "material-title";
+          titleLink.href = readingURL;
+          titleLink.textContent = titleText;
+          title.append(titleLink);
+        } else {
+          title.textContent = titleText;
+        }
         body.append(title);
         if (entry.status || entry.description) {
           const detail = document.createElement("p");
           detail.textContent = entry.status || entry.description;
           body.append(detail);
         }
-        const action = document.createElement("span");
-        action.className = "material-action";
-        action.textContent = available ? "阅读讲义 →" : "尚未讲授";
-        row.append(number, body, action);
+        const actions = document.createElement("div");
+        actions.className = "material-actions";
+        if (available) {
+          const read = document.createElement("a");
+          read.className = "material-action";
+          read.href = readingURL;
+          read.textContent = "阅读讲义 →";
+          read.setAttribute("aria-label", `在线阅读${titleText}`);
+          actions.append(read);
+          if (entry.pdf) {
+            const pdf = materialPDF(entry.pdf);
+            const download = document.createElement("a");
+            download.className = "material-action material-pdf";
+            download.href = pdf.href;
+            download.download = decodeURIComponent(pdf.pathname.split("/").pop());
+            download.textContent = "下载 PDF ↓";
+            download.setAttribute("aria-label", `下载${titleText} PDF`);
+            actions.append(download);
+          }
+        } else {
+          const pending = document.createElement("span");
+          pending.className = "material-action";
+          pending.textContent = "尚未讲授";
+          actions.append(pending);
+        }
+        row.append(number, body, actions);
         group.append(row);
         return {element: row, search: `${course.title} ${entry.title} ${entry.description || ""}`.toLocaleLowerCase()};
       });

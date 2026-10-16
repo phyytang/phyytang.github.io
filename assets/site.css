@@ -12,3 +12,7 @@
 
 /* Chapters awaiting teaching remain visible without navigation links. */
 .material-pending{cursor:default}.material-pending:hover{background:transparent}.material-pending .material-action{color:var(--muted)}
+
+/* Independent reading and PDF links; never nest one link inside another. */
+.material{grid-template-columns:55px minmax(0,1fr) auto}.material-title{color:var(--ink);text-decoration:none}.material-actions{display:flex;align-items:center;justify-content:flex-end;gap:24px}.material-actions a{text-decoration:none}.material-pdf{white-space:nowrap}.material-title:hover,.material-actions a:hover{text-decoration:underline}
+@media(max-width:760px){.material{grid-template-columns:26px minmax(0,1fr)}.material-actions{grid-column:2;justify-self:start;justify-content:flex-start;gap:25px}.material-actions .material-action{font-size:12px}}
