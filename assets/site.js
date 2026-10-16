@@ -184,8 +184,6 @@ async function showNote(requested) {
   library.hidden = true;
   reader.hidden = false;
   const status = document.getElementById("reader-status");
-  const source = document.getElementById("source-link");
-  source.hidden = true;
   try {
     const {url, path} = materialPath(requested);
     let markdown = await getText(url);
@@ -226,8 +224,6 @@ async function showNote(requested) {
       table.replaceWith(wrap);
       wrap.append(table);
     }
-    source.href = `https://github.com/phyytang/phyytang.github.io/blob/main/${path.split("/").map(encodeURIComponent).join("/")}`;
-    source.hidden = false;
     status.textContent = mathErrors ? "部分公式使用了暂不支持的命令，已保留原始 TeX 内容。" : "";
     status.hidden = mathErrors === 0;
     if (location.hash) document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
