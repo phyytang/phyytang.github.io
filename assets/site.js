@@ -438,6 +438,50 @@ function setupToTop() {
   update();
 }
 
+// Give the equation body its own scroll area; KaTeX positions tags absolutely by default.
+function layoutNumberedEquations(article) {
+  const scrollAreas = [];
+  for (const html of article.querySelectorAll(".katex-display > .katex > .katex-html")) {
+    const tag = html.querySelector(":scope > .katex-tag, :scope > .tag");
+    if (!tag) continue;
+    const body = element("span", "equation-body");
+    for (const child of Array.from(html.childNodes)) {
+      if (child !== tag) body.append(child);
+    }
+    const scroll = element("span", "equation-scroll");
+    scroll.append(body);
+    html.prepend(scroll);
+    html.classList.add("numbered-equation");
+    const display = html.closest(".katex-display");
+    display.addEventListener("keydown", (event) => {
+      if (event.target !== display || !["ArrowLeft", "ArrowRight"].includes(event.key) || scroll.scrollWidth <= scroll.clientWidth + 1) return;
+      event.preventDefault();
+      scroll.scrollBy({left: (event.key === "ArrowRight" ? 1 : -1) * scroll.clientWidth * .6});
+    });
+    scrollAreas.push({scroll, display});
+  }
+  const updateFocus = () => {
+    for (const {scroll, display} of scrollAreas) {
+      const overflows = scroll.scrollWidth > scroll.clientWidth + 1;
+      if (overflows) {
+        display.tabIndex = 0;
+        display.setAttribute("role", "region");
+        display.setAttribute("aria-label", "长公式，可左右滚动查看");
+      } else {
+        display.removeAttribute("tabindex");
+        display.removeAttribute("role");
+        display.removeAttribute("aria-label");
+      }
+    }
+  };
+  if (scrollAreas.length && window.ResizeObserver) {
+    const observer = new ResizeObserver(updateFocus);
+    for (const {scroll} of scrollAreas) observer.observe(scroll);
+  }
+  updateFocus();
+  document.fonts?.ready.then(updateFocus);
+}
+
 async function showNote(requested, isStaticPage) {
   if (library) library.hidden = true;
   reader.hidden = false;
@@ -489,6 +533,7 @@ async function showNote(requested, isStaticPage) {
         mathErrors++;
       }
     }
+    layoutNumberedEquations(article);
     addOutline(article);
     for (const table of article.querySelectorAll("table")) {
       const wrap = element("div", "table-wrap");
