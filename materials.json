@@ -19,11 +19,6 @@
           "updated": "2026-10-16",
           "topics": [
             {
-              "title": "牛顿力学与虚功原理",
-              "file": "materials/Mechanics/牛顿力学与虚功原理.md",
-              "updated": "2026-10-16"
-            },
-            {
               "title": "力学相似性的更多应用",
               "file": "materials/Mechanics/力学相似性的更多应用.md",
               "updated": "2026-10-16"
@@ -34,7 +29,7 @@
           "number": 2,
           "title": "中心力场",
           "file": "materials/Mechanics/中心力场.md",
-          "updated": "2026-10-16",
+          "updated": "2026-10-17",
           "topics": [
             {
               "title": "卫星轨道与轨道确定",
