@@ -8,41 +8,108 @@
         {
           "number": 0,
           "title": "绪论",
-          "file": "materials/Mechanics/绪论.md"
+          "file": "materials/Mechanics/绪论.md",
+          "updated": "2026-10-16"
         },
         {
           "number": 1,
           "title": "最小作用量原理",
           "file": "materials/Mechanics/最小作用量原理.md",
-          "anchor": "最小作用量原理"
+          "anchor": "最小作用量原理",
+          "updated": "2026-10-16",
+          "topics": [
+            {
+              "title": "牛顿力学与虚功原理",
+              "file": "materials/Mechanics/牛顿力学与虚功原理.md",
+              "updated": "2026-10-16"
+            },
+            {
+              "title": "力学相似性的更多应用",
+              "file": "materials/Mechanics/力学相似性的更多应用.md",
+              "updated": "2026-10-16"
+            }
+          ]
         },
         {
           "number": 2,
           "title": "中心力场",
-          "file": "materials/Mechanics/中心力场.md"
+          "file": "materials/Mechanics/中心力场.md",
+          "updated": "2026-10-16",
+          "topics": [
+            {
+              "title": "卫星轨道与轨道确定",
+              "file": "materials/Mechanics/卫星轨道与轨道确定.md",
+              "updated": "2026-10-16"
+            },
+            {
+              "title": "JWST 的 L2 之旅（交互页面）",
+              "file": "materials/Mechanics/JWST的L2之旅.html",
+              "updated": "2026-10-16"
+            },
+            {
+              "title": "球对称黑洞中的粒子运动",
+              "file": "materials/Mechanics/球对称黑洞中的粒子运动.md",
+              "updated": "2026-10-16"
+            }
+          ]
         },
         {
           "number": 3,
           "title": "微扰和摄动理论",
-          "file": "materials/Mechanics/微扰和摄动理论.md"
+          "file": "materials/Mechanics/微扰和摄动理论.md",
+          "updated": "2026-10-16",
+          "topics": [
+            {
+              "title": "量子谐振子与经典极限",
+              "file": "materials/Mechanics/量子谐振子与经典极限.md",
+              "updated": "2026-10-16"
+            },
+            {
+              "title": "脉冲星三体系统与层级三体问题",
+              "file": "materials/Mechanics/脉冲星三体系统与层级三体问题.md",
+              "updated": "2026-10-16"
+            }
+          ]
         },
         {
           "number": 4,
           "title": "刚体运动",
           "file": "materials/Mechanics/刚体运动.md",
-          "available": false
+          "available": false,
+          "updated": "2026-10-16",
+          "topics": [
+            {
+              "title": "欧拉角与航天器姿态控制",
+              "file": "materials/Mechanics/欧拉角与航天器姿态控制.md",
+              "updated": "2026-10-16"
+            }
+          ]
         },
         {
           "number": 5,
           "title": "哈密顿力学",
           "file": "materials/Mechanics/哈密顿力学.md",
-          "available": false
+          "available": false,
+          "updated": "2026-10-16",
+          "topics": [
+            {
+              "title": "KAM 定理",
+              "file": "materials/Mechanics/KAM定理.md",
+              "updated": "2026-10-16"
+            },
+            {
+              "title": "动力学系统与混沌",
+              "file": "materials/Mechanics/动力学系统与混沌.md",
+              "updated": "2026-10-16"
+            }
+          ]
         },
         {
           "number": 6,
           "title": "无碰撞粒子体系",
           "file": "materials/Mechanics/无碰撞粒子体系.md",
-          "available": false
+          "available": false,
+          "updated": "2026-10-16"
         }
       ]
     }

@@ -20,11 +20,11 @@
 | 5. 哈密顿力学 | `哈密顿力学.md` |
 | 6. 无碰撞粒子体系 | `无碰撞粒子体系.md` |
 
-同步会排除 `tmp`、隐藏文件与目录、构建缓存。完整设置步骤与同步规则见[同步说明](https://github.com/phyytang/phyytang.github.io/blob/main/同步说明.md)。
+章节下方的“拓展”条目是拓展讲义，归属关系见 `scripts/sync_mechanics.py` 的 `TOPICS`。同步只发布开放章节、它们的拓展讲义和实际引用到的图片，排除 PDF、作图源文件、`tmp`、隐藏文件与目录、构建缓存。完整设置步骤与同步规则见[同步说明](https://github.com/phyytang/phyytang.github.io/blob/main/同步说明.md)。
 
 ## PDF 文件
 
-主页仅提供“阅读讲义”入口，不展示 PDF 下载链接。同步会递归跳过所有 PDF（扩展名不区分大小写），原始 PDF 仅保留在本地；尚未讲授的章节继续保留文件，但不显示阅读链接。
+主页仅提供“阅读讲义”入口，不展示 PDF 下载链接。同步会递归跳过所有 PDF（扩展名不区分大小写），原始 PDF 仅保留在本地；尚未讲授的章节只显示名称，正文不发布。
 
 ## 添加新课程
 
@@ -45,7 +45,7 @@
 }
 ```
 
-不同课程之间用逗号分隔，最后一项后面不加逗号。`id` 应保持唯一。保存发布后，新课程会自动显示在主页，“更多课程”区域也会继续保留。
+不同课程之间用逗号分隔，最后一项后面不加逗号。`id` 应保持唯一。章节可以加 `"topics": [{"title": "…", "file": "materials/new-course/….md"}]` 列出拓展讲义。保存后运行 `python3 scripts/build_pages.py` 生成静态阅读页，再提交发布；新课程会自动显示在课程目录，“更多课程”区域也会继续保留。
 
 ## 链接与图片
 
@@ -61,13 +61,13 @@
 
 ## 分享阅读链接
 
-例如，“绪论”的阅读链接是：
+课程目录中开放的讲义都有独立页面，例如“绪论”：
 
 ```text
-https://phyytang.github.io/?note=materials/Mechanics/绪论.md
+https://phyytang.github.io/teaching/notes/Mechanics/绪论.html
 ```
 
-Markdown 文件即使没有列入课程目录，也可以通过这样的链接打开。中文或含空格的文件名需要进行 URL 编码，主页自动生成的链接会完成编码。
+没有列入课程目录的 Markdown 文件，可以用 `https://phyytang.github.io/teaching/?note=materials/…/文件名.md` 打开；以前的 `https://phyytang.github.io/?note=…` 链接仍然有效，会自动跳转。中文或含空格的文件名需要进行 URL 编码，主页自动生成的链接会完成编码。
 
 ## 编写数学公式
 

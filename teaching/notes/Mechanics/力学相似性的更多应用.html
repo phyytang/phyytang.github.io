@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="本文沿用《最小作用量原理》中“力学相似性与尺度变换”一节的符号：U 为势能，T 为动能，L=T-U 为拉格朗日函数，E 为总能量，\vec L 为角动量，l 为轨迹线度，k 为势能的齐次次数，\alpha 与 \beta 分别为长度和时…">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://phyytang.github.io/teaching/notes/Mechanics/%E5%8A%9B%E5%AD%A6%E7%9B%B8%E4%BC%BC%E6%80%A7%E7%9A%84%E6%9B%B4%E5%A4%9A%E5%BA%94%E7%94%A8.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="力学相似性的更多应用 · 理论力学">
+  <meta property="og:description" content="本文沿用《最小作用量原理》中“力学相似性与尺度变换”一节的符号：U 为势能，T 为动能，L=T-U 为拉格朗日函数，E 为总能量，\vec L 为角动量，l 为轨迹线度，k 为势能的齐次次数，\alpha 与 \beta 分别为长度和时…">
+  <meta property="og:url" content="https://phyytang.github.io/teaching/notes/Mechanics/%E5%8A%9B%E5%AD%A6%E7%9B%B8%E4%BC%BC%E6%80%A7%E7%9A%84%E6%9B%B4%E5%A4%9A%E5%BA%94%E7%94%A8.html">
+  <meta property="og:site_name" content="phyytang · 课程与讲义">
+  <title>力学相似性的更多应用 · 理论力学 · phyytang</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="../../../vendor/katex/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20261017">
+  <script defer src="../../../vendor/marked/lib/marked.umd.js"></script>
+  <script defer src="../../../vendor/dompurify/dist/purify.min.js"></script>
+  <script defer src="../../../vendor/katex/dist/katex.min.js"></script>
+  <script defer src="../../../assets/site.js?v=20261017"></script>
+</head>
+<body data-root="../../../" data-note="materials/Mechanics/力学相似性的更多应用.md">
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header wrap">
+    <a class="brand" href="../../../teaching/"><span class="brand-mark" aria-hidden="true">p.</span> phyytang <span class="brand-divider">/</span> 教学</a>
+    <nav aria-label="主导航"><a href="../../../">个人主页</a><a href="../../../teaching/">课程目录</a></nav>
+  </header>
+  <main id="main" class="wrap">
+    
+    <section id="reader" aria-label="讲义阅读">
+      <div class="reader-toolbar"><a href="../../../teaching/">← 返回课程目录</a><button id="toc-toggle" class="toc-toggle" type="button" hidden aria-expanded="false" aria-controls="outline">本页目录</button></div>
+      <p id="note-meta" class="note-meta" hidden></p>
+      <p id="reader-status" role="status" hidden></p>
+      <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="力学相似性的更多应用">力学相似性的更多应用</h1>
+<p>本文沿用《最小作用量原理》中“力学相似性与尺度变换”一节的符号：U 为势能，T 为动能，L=T-U 为拉格朗日函数，E 为总能量，\vec L 为角动量，l 为轨迹线度，k 为势能的齐次次数，\alpha 与 \beta 分别为长度和时间的缩放因子。为避免与动能 T 混淆，以下用 P 表示周期。</p>
+<h2 id="基本关系与使用条件">基本关系与使用条件</h2>
+<p>考虑质量和相互作用参数固定、动能为速度二次型的系统：</p>
+<p>这里取 \alpha&gt;0。若 \vec r_i(t) 是一组解，则相似解为</p>
+<p>因此，在相应时刻有</p>
+<p>这里的 \vec L 是相对于固定原点的总角动量。能量缩放关系采用使 U 严格齐次的能量零点；给势能添加常数不改变运动，但会改变能量数值的缩放写法。</p>
+<p>相似性比较的是几何形状相同、初始条件按上述规则一起缩放的一族运动。只改变初始位置而保持初速度不变，一般不会得到相似轨迹。对于周期运动，周期也按同一时间尺度变化：</p>
+<h2 id="非线性振动由振幅判断周期">非线性振动：由振幅判断周期</h2>
+<p>考虑一维势能</p>
+<p>为使力在原点连续，以下取 k&gt;1。势能是 k 次齐次函数，振动的线度可取振幅 A，所以</p>
+<p>这立即给出三种不同的行为：</p>
+<p>12：振幅越大，周期越短。</p>
+<p>可以用能量积分直接得到这一结论。转折点处速度为零，因此</p>
+<p>利用运动的对称性，一个周期为</p>
+<p>令 x=Au，则</p>
+<p>积分只依赖 k，不依赖振幅。力学相似性给出了振幅的幂次，而能量积分进一步确定了系数。</p>
+<p>例如，四次势 U=ax^4 对应 k=4，故</p>
+<p>振幅增大为原来的两倍时，周期减半，能量增大为原来的 16 倍。</p>
+<h2 id="从能量依赖反推势能的幂次">从能量依赖反推势能的幂次</h2>
+<p>对于 k\ne0 的齐次势，相似轨道满足 |E|\propto l^k。这里要求 E\ne0，并在能量符号相同、形状相同的一族轨道中比较。因此</p>
+<p>若实验或数值结果呈现</p>
+<p>则在齐次势模型成立的前提下，可以反推出</p>
+<p>例如，\gamma=0 对应二次势，\gamma=-1/4 对应四次势。牛顿引力中，形状相同的束缚轨道有 k=-1，从而</p>
+<p>这一方法适合识别某一振幅范围内的有效幂律。如果势能由多个不同次数的项组成，周期与能量之间通常不会在所有能量范围内保持同一幂次。</p>
+<h2 id="径向下落无需先求轨迹即可判断下落时间">径向下落：无需先求轨迹即可判断下落时间</h2>
+<p>质量为 m 的质点在固定中心质量 M 的牛顿引力场中，从距中心 R 处静止释放。势能为</p>
+<p>因此 k=-1。若终点与起点的半径比保持相同，相似性立即给出</p>
+<p>对于理想点质量势中落到中心的极限时间，可以进一步求出系数。能量守恒给出</p>
+<p>所以</p>
+<p>令 u=\sin^2\theta，可得积分为 \pi/2，于是</p>
+<p>这里积分只用于计算首次到达奇点的时间，不表示经典点质量碰撞后的运动仍可由该解继续描述。若落到固定半径的天体表面 r_0，则一般形式为</p>
+<p>当 r_0 固定而 R 改变时，r_0/R 也改变，因此不能把全部变化简单归结为 R^{3/2}。</p>
+<h2 id="多体引力系统把一次计算缩放为一族解">多体引力系统：把一次计算缩放为一族解</h2>
+<p>对于牛顿引力多体系统，</p>
+<p>所有位置同时放大 \alpha 倍时，势能缩小为原来的 \alpha^{-1} 倍，因此仍有 k=-1，与粒子数无关。</p>
+<p>在各质量固定的条件下，</p>
+<p>例如，把一个系统的尺寸扩大为原来的 4 倍，并把所有初速度缩小为原来的一半，就会得到时间尺度为原来 8 倍的相似运动。对孤立系统，可在质心系中进行这一比较。</p>
+<p>这可用于复用数值计算结果，也可用于检查程序：分别计算两组按比例缩放的初始条件，再比较</p>
+<p>在数值误差允许的范围内，两者应重合。若程序使用固定的引力软化长度、碰撞半径或外场尺度，这些尺度也必须相应处理，否则原来的相似性不再成立。对混沌轨道，数值误差可能随时间放大，因此宜在误差可控的时间区间内比较。</p>
+<h3 id="固定质量与固定密度的区别">固定质量与固定密度的区别</h3>
+<p>引力系统的特征动力学时间可写为</p>
+<p>其中 M 是系统总质量，比例系数取决于具体结构与时间的定义。在质量固定时，t_{\mathrm{dyn}}\propto l^{3/2}，正是上面的相似关系。</p>
+<p>若比较的是形状和平均密度相同、但总质量不同的系统，则</p>
+<p>于是</p>
+<p>因此，平均密度相同的相似引力系统具有相同量级的动力学时间。这一步允许质量随尺寸改变，属于对固定质量缩放关系的扩展，不能直接套用前面的能量和角动量缩放式。</p>
+<h2 id="幂律中心势圆轨道周期与稳定性">幂律中心势：圆轨道周期与稳定性</h2>
+<p>考虑中心势</p>
+<p>其中 a 是常数。设 ak&gt;0，使中心力指向原点，并考虑半径为 R 的圆轨道。径向力平衡为</p>
+<p>因此</p>
+<p>周期对半径的依赖与力学相似性完全一致。进一步可以研究圆轨道受到小扰动后的行为。</p>
+<p>记角动量大小为 J=|\vec L|，避免与拉格朗日函数 L 混淆。有效势为</p>
+<p>圆轨道条件给出</p>
+<p>在保持 J 不变的径向小扰动下，令 r=R+\delta r，线性化运动方程可得</p>
+<p>而</p>
+<p>因此径向小振动频率满足</p>
+<p>在 ak&gt;0 的条件下，圆轨道在 k&gt;-2 时径向稳定，在 k&lt;-2 时不稳定；k=-2 时二阶恢复力为零，不能用稳定简谐振动来描述。</p>
+<p>对稳定的近圆轨道，相邻两次近心点之间的方位角增量在小振幅极限下为</p>
+<p>它只依赖 k，不依赖轨道尺寸。这体现了相似性对无量纲轨道形状的约束。该结果来自近圆轨道展开，不能直接当作任意偏心率轨道的公式，也不能仅凭这一频率比就断言所有轨道闭合。</p>
+<h2 id="混合势能判断相似性在哪个范围内近似成立">混合势能：判断相似性在哪个范围内近似成立</h2>
+<p>实际系统往往同时包含不同次数的势能项。例如</p>
+<p>它不是单一齐次函数，因为</p>
+<p>不能提出同一个幂次，使任意振幅下的轨道都满足同一相似关系。但可以比较两个势能项在振幅 A 处的比值：</p>
+<p>由此定义交叉振幅</p>
+<p>当 A\ll A_{\mathrm c} 时，二次项主导，</p>
+<p>当 A\gg A_{\mathrm c} 时，四次项控制周期的领先行为，</p>
+<p>更一般地，对运动方程</p>
+<p>令</p>
+<p>便得到</p>
+<p>因此周期可以统一表示为</p>
+<p>其中 \mathcal P 是振幅归一化为 1 的无量纲周期。不同参数的数据若画成 P\sqrt{2a/m} 对 \eta 的曲线，应落到同一条曲线上。这是将严格相似性推广为无量纲参数分析的实际用法。</p>
+<h2 id="作用量的缩放相似性不自动意味着守恒量">作用量的缩放：相似性不自动意味着守恒量</h2>
+<p>对于相似轨道，拉格朗日函数与时间元分别变换为</p>
+<p>所以相应轨道段的作用量满足</p>
+<p>这个幂次与角动量的缩放幂次相同，两者的量纲也都是动量乘长度。</p>
+<p>对于一般的 k，作用量乘以一个非零常数，驻值条件依然成立，因此相似变换仍能把解映射为解；但作用量并未保持原值，不能仅据此直接套用通常的诺特定理来宣布一个尺度守恒量。</p>
+<p>k=-2 是特殊情况，此时</p>
+<p>对于无显式时间依赖、势能为 -2 次齐次函数的系统，可以直接构造</p>
+<p>由欧拉齐次函数定理和运动方程，</p>
+<p>又因为 E 守恒，故</p>
+<p>这一例子把力学相似性与尺度对称性联系起来。推导适用于运动方程有定义的轨道区间；若势能存在奇点，不能不加分析地跨越奇点延拓这一结论。</p></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
+      <nav id="pager" class="pager" aria-label="上一篇与下一篇" hidden></nav>
+    </section>
+    <noscript><p>在线阅读需要启用 JavaScript。你也可以<a href="https://github.com/phyytang/phyytang.github.io/tree/main/materials">在 GitHub 上查看讲义</a>。</p></noscript>
+  </main>
+  <button id="to-top" class="to-top" type="button" hidden aria-label="回到顶部">↑</button>
+  <footer class="site-footer wrap">
+    <div class="footer-meta"><span>© Yong Tang · 讲义采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">CC BY-NC-SA 4.0</a> 许可（第三方素材除外）</span><a href="../../../teaching/?note=materials/copyright.md">版权与使用说明</a></div>
+  </footer>
+</body>
+</html>

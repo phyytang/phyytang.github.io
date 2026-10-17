@@ -3,43 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="课程与讲义：按章节在线阅读理论力学等课程的学习材料。">
-  <title>课程与讲义 · phyytang</title>
-  <link rel="stylesheet" href="vendor/katex/dist/katex.min.css">
-  <link rel="stylesheet" href="assets/site.css?v=cdab0167db95">
-  <script defer src="vendor/marked/lib/marked.umd.js"></script>
-  <script defer src="vendor/dompurify/dist/purify.min.js"></script>
-  <script defer src="vendor/katex/dist/katex.min.js"></script>
-  <script defer src="assets/site.js?v=4cbf4d61f726"></script>
+  <meta name="description" content="Yong Tang：物理学研究生，研究引力波天文学与数据分析，关注 LISA 臂锁定、极端质量比旋近与贝叶斯推断。">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://phyytang.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yong Tang · 引力波天文学与数据分析">
+  <meta property="og:description" content="研究方向、论文与课程讲义。">
+  <meta property="og:url" content="https://phyytang.github.io/">
+  <title>Yong Tang · 引力波天文学与数据分析</title>
+  <script>
+    // Links shared before the course site moved to /teaching/ (…/?note=…) keep working.
+    if (/[?&]note=/.test(location.search)) location.replace("teaching/" + location.search + location.hash);
+  </script>
+  <link rel="stylesheet" href="assets/site.css?v=20261017">
 </head>
-<body>
+<body class="home">
   <a class="skip-link" href="#main">跳转到正文</a>
   <header class="site-header wrap">
-    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">p.</span> phyytang <span class="brand-divider">/</span> 教学</a>
-    <nav aria-label="主导航"><a href="./">课程目录</a></nav>
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">p.</span> phyytang</a>
+    <nav aria-label="主导航"><a href="#research">研究</a><a href="teaching/">教学</a><a href="#publications">论文</a><a href="#contact">联系</a></nav>
   </header>
   <main id="main" class="wrap">
-    <section id="library" aria-labelledby="library-title">
-      <div class="hero"><p class="eyebrow">学习 · 思考 · 探索</p><h1 id="library-title">课程与讲义</h1><p class="intro">在这里开展线上学习。<br>按课程浏览章节，点击标题即可在线阅读讲义。</p></div>
-      <div class="section-bar"><h2>课程目录 <span id="count" class="count"></span></h2><label class="search"><span class="sr-only">搜索课程或章节</span><input id="search" type="search" placeholder="搜索课程或章节…" autocomplete="off"></label></div>
-      <p id="library-status" class="muted" role="status">正在加载课程目录…</p>
-      <div id="materials-list" class="materials-list"></div>
-      <aside class="future-courses"><span class="future-mark" aria-hidden="true">＋</span><div><p class="eyebrow">更多课程</p><h2>新的课程，陆续相见</h2><p>这里将继续收录其他课程的讲义与学习材料。</p></div><span class="future-status">敬请期待</span></aside>
+    <section class="home-hero" aria-labelledby="name">
+      <p class="eyebrow">引力波天文学 · 数据分析</p>
+      <h1 id="name">Yong Tang <span class="todo" title="请填写或删除">【中文姓名】</span></h1>
+      <p class="intro">物理学研究生，研究空间引力波探测，主要关注 LISA（激光干涉空间天线）的激光频率稳定、极端质量比旋近的科学潜力，以及引力波数据分析中的贝叶斯与跨维度推断方法。</p>
+      <p class="home-affiliation"><span class="todo">【单位 · 院系 · 导师，请补充】</span></p>
     </section>
-    <section id="reader" hidden aria-label="讲义阅读">
-      <div class="reader-toolbar"><a href="./">← 返回课程目录</a></div>
-      <p id="reader-status" role="status">正在打开讲义…</p>
-      <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文"></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
+
+    <section id="research" class="home-section" aria-labelledby="research-title">
+      <h2 id="research-title">研究方向</h2>
+      <div class="home-cards">
+        <article class="home-card">
+          <p class="eyebrow">仪器与噪声</p>
+          <h3>LISA 臂锁定与激光频率稳定</h3>
+          <p>空间干涉仪的激光频率噪声须压低多个数量级。臂锁定（arm locking）以百万公里量级的干涉臂本身作为频率参考，与激光预稳频和时间延迟干涉（TDI）配合使用。</p>
+        </article>
+        <article class="home-card">
+          <p class="eyebrow">波源与科学</p>
+          <h3>极端质量比旋近（EMRI）</h3>
+          <p>恒星级致密天体绕超大质量黑洞旋近，在 LISA 频段可累积大量轨道周期，是检验强场引力、刻画黑洞周围环境的精细探针。</p>
+        </article>
+        <article class="home-card">
+          <p class="eyebrow">统计方法</p>
+          <h3>贝叶斯与跨维度推断</h3>
+          <p>源的数目事先未知时，用可逆跳跃 MCMC（RJMCMC）在不同模型维度间采样；在 GLASS 框架下研究 LISA 数据的全局拟合（global fit）。</p>
+        </article>
+      </div>
     </section>
-    <noscript><p>在线阅读需要启用 JavaScript。你也可以<a href="https://github.com/phyytang/phyytang.github.io/tree/main/materials">在 GitHub 上查看讲义</a>。</p></noscript>
+
+    <section id="teaching" class="home-section" aria-labelledby="teaching-title">
+      <h2 id="teaching-title">教学</h2>
+      <a class="home-course" href="teaching/">
+        <span class="eyebrow">课程讲义</span>
+        <span class="home-course-title">理论力学</span>
+        <span class="home-course-text">从最小作用量原理、中心力场、微扰理论到哈密顿力学，按章节在线阅读，附拓展专题与交互演示。</span>
+        <span class="home-course-action">进入课程目录 →</span>
+      </a>
+    </section>
+
+    <section id="publications" class="home-section" aria-labelledby="publications-title">
+      <h2 id="publications-title">论文</h2>
+      <ol class="home-pubs">
+        <li class="todo">【论文条目：作者，题目，期刊 卷，页码（年份），arXiv 号】</li>
+        <li class="todo">【或者只保留一句话，链接到 INSPIRE-HEP / NASA ADS / Google Scholar 个人页面】</li>
+      </ol>
+    </section>
+
+    <section id="contact" class="home-section" aria-labelledby="contact-title">
+      <h2 id="contact-title">联系</h2>
+      <ul class="home-contact">
+        <li><span>邮箱</span><span class="todo">【请填写希望公开的邮箱】</span></li>
+        <li><span>GitHub</span><a href="https://github.com/phyytang">github.com/phyytang</a></li>
+        <li><span>CV</span><span class="todo">【可选：CV 链接（仓库默认不上传 PDF，可放在其他位置）】</span></li>
+      </ul>
+    </section>
   </main>
   <footer class="site-footer wrap">
-    <div class="footer-meta"><span>课程与讲义</span><a href="?note=materials/copyright.md">版权与使用说明</a></div>
-    <section class="copyright-notice" aria-labelledby="copyright-title">
-      <h2 id="copyright-title">版权声明</h2>
-      <p>本站资料用于课程教学与学习交流。原创内容及所引第三方资料的权利归相应权利人所有；公开展示不代表授予复制、转载或商业使用许可，相关使用须依法取得授权或符合适用法律规定。</p>
-      <p>如发现来源标注遗漏或涉嫌侵权，请通过<a href="https://github.com/phyytang/phyytang.github.io/issues/new?title=%E7%89%88%E6%9D%83%E5%8F%8D%E9%A6%88">版权反馈</a>告知涉及的页面及权利依据，本站将及时核查，并根据情况更正、替换或移除。本说明不替代必要授权，也不免除依法应承担的责任。</p>
-    </section>
+    <div class="footer-meta"><span>© Yong Tang</span><a href="teaching/">课程与讲义</a></div>
   </footer>
 </body>
 </html>

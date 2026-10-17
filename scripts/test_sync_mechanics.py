@@ -48,8 +48,10 @@ class SyncMechanicsTests(unittest.TestCase):
         for name in ("figures/plot.py", "figures/plot.tex", "figures/plot.png"):
             self.put(name)
         inventory = SYNC.inventory(self.source)
-        self.assertEqual(len(inventory), 10)  # Seven chapter files, three assets.
-        self.assertIn("figures/plot.tex", inventory)
+        self.assertEqual(len(inventory), 8)  # Seven chapter files and the image; figure sources are never candidates.
+        self.assertIn("figures/plot.png", inventory)
+        self.assertNotIn("figures/plot.tex", inventory)
+        self.assertNotIn("figures/plot.py", inventory)
         self.assertFalse(any("tmp" in Path(name).parts or any(part.startswith(".") for part in Path(name).parts) for name in inventory))
 
     def test_links_source_integrity_and_repeatability(self):
@@ -70,6 +72,7 @@ class SyncMechanicsTests(unittest.TestCase):
 
     def test_removes_only_previously_managed_files(self):
         self.put("figures/old.png")
+        self.put("绪论.md", "# 绪论\n\n![旧图](figures/old.png)\n")
         SYNC.synchronize(self.source)
         extra = SYNC.DESTINATION / "manual.txt"
         extra.write_text("not managed")
@@ -110,21 +113,77 @@ class SyncMechanicsTests(unittest.TestCase):
         SYNC.synchronize(self.source)
         self.assertFalse(any(p.suffix.lower() == ".pdf" for p in SYNC.DESTINATION.rglob("*")))
 
-    def test_sync_keeps_unavailable_chapters_and_their_files(self):
+    def test_unavailable_chapters_and_their_topics_are_not_published(self):
+        self.put("figures/rigid.png")
+        self.put("刚体运动.md", "# 刚体运动\n\n![图](figures/rigid.png)\n")
+        self.put("欧拉角与航天器姿态控制.md", "# 欧拉角\n")
         SYNC.synchronize(self.source)
+        self.assertTrue((SYNC.DESTINATION / "刚体运动.md").is_file())
+        self.assertTrue((SYNC.DESTINATION / "figures/rigid.png").is_file())
         catalog_path = self.root / "materials.json"
         data = json.loads(catalog_path.read_text())
         course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
         for entry in course["materials"][4:]:
             entry["available"] = False
         catalog_path.write_text(json.dumps(data))
-        before = {p.name: p.read_bytes() for p in SYNC.DESTINATION.glob("*.md")}
         SYNC.synchronize(self.source)
         data = json.loads(catalog_path.read_text())
         entries = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"]
         self.assertTrue(all(entry.get("available", True) for entry in entries[:4]))
         self.assertTrue(all(entry["available"] is False for entry in entries[4:]))
-        self.assertEqual(before, {p.name: p.read_bytes() for p in SYNC.DESTINATION.glob("*.md")})
+        self.assertEqual(entries[4]["topics"][0]["file"], "materials/Mechanics/欧拉角与航天器姿态控制.md")
+        for name in ("刚体运动.md", "哈密顿力学.md", "欧拉角与航天器姿态控制.md", "figures/rigid.png"):
+            self.assertFalse((SYNC.DESTINATION / name).exists(), name)
+        self.assertTrue((self.source / "刚体运动.md").is_file())
+        # A topic can be opened on its own even while its chapter is closed.
+        entries[4]["topics"][0]["available"] = True
+        catalog_path.write_text(json.dumps(data))
+        SYNC.synchronize(self.source)
+        self.assertTrue((SYNC.DESTINATION / "欧拉角与航天器姿态控制.md").is_file())
+
+    def test_only_referenced_assets_and_drafts_are_published(self):
+        self.put("figures/used.png")
+        self.put("figures/unused.png")
+        self.put("figures/handdraw/used sketch.png")
+        self.put("figures/handdraw/draft.png")
+        self.put("中心力场.md", "# 中心力场\n\n![a](figures/used.png)\n<img src=\"./figures/handdraw/used%20sketch.png\">\n[刚体](刚体运动.md)\n")
+        catalog_path = self.root / "materials.json"
+        SYNC.synchronize(self.source)
+        data = json.loads(catalog_path.read_text())
+        course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
+        course["materials"][4]["available"] = False
+        catalog_path.write_text(json.dumps(data))
+        SYNC.synchronize(self.source)
+        published = {p.relative_to(SYNC.DESTINATION).as_posix() for p in SYNC.DESTINATION.rglob("*") if p.is_file()}
+        self.assertIn("figures/used.png", published)
+        self.assertIn("figures/handdraw/used sketch.png", published)
+        self.assertNotIn("figures/unused.png", published)
+        self.assertNotIn("figures/handdraw/draft.png", published)
+        self.assertNotIn("刚体运动.md", published)  # linking to a closed chapter does not publish it
+
+    def test_empty_source_file_never_replaces_a_published_copy(self):
+        self.put("figures/plot.png", "picture")
+        self.put("绪论.md", "# 绪论\n\n![p](figures/plot.png)\n")
+        SYNC.synchronize(self.source)
+        (self.source / "figures/plot.png").write_bytes(b"")
+        SYNC.synchronize(self.source)
+        self.assertEqual((SYNC.DESTINATION / "figures/plot.png").read_text(), "picture")
+        self.assertIn("figures/plot.png", json.loads(SYNC.MANIFEST.read_text())["files"])
+
+    def test_update_dates_follow_content_changes(self):
+        SYNC.synchronize(self.source)
+        def date(number):
+            data = json.loads((self.root / "materials.json").read_text())
+            return next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")["materials"][number]["updated"]
+        data = json.loads((self.root / "materials.json").read_text())
+        course = next(c for c in data["courses"] if c["id"] == "theoretical-mechanics")
+        course["materials"][2]["updated"] = "2000-01-01"
+        course["materials"][3]["updated"] = "2000-01-01"
+        (self.root / "materials.json").write_text(json.dumps(data))
+        self.put("中心力场.md", "# 中心力场\n\n修改过的内容\n")
+        SYNC.synchronize(self.source)
+        self.assertEqual(date(2), SYNC.today())
+        self.assertEqual(date(3), "2000-01-01")
 
     def test_publish_is_scoped_and_repeatable(self):
         remote = self.base / "remote.git"

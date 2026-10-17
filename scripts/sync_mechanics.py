@@ -2,13 +2,20 @@
 """Synchronize the local Mechanics teaching folder with this website."""
 
 import argparse
+import datetime
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+import posixpath
+import re
 import shutil
 import subprocess
 import sys
+from urllib.parse import unquote, urlsplit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_pages  # noqa: E402  (same folder; builds static pages after syncing)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +23,9 @@ DESTINATION = ROOT / "materials" / "Mechanics"
 MANIFEST = ROOT / "scripts" / "mechanics-manifest.json"
 LOCAL_CONFIG = ROOT / ".mechanics-source.json"
 EXCLUDED_DIRS = {"tmp", "__pycache__", "node_modules"}
+# Never published: PDFs, Python caches, and figure sources (plot scripts, TikZ, R data).
+EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".pdf", ".py", ".tex", ".rda"}
+NOTE_SUFFIXES = {".md", ".html"}
 CHAPTERS = [
     ("绪论", "绪论.md", ""),
     ("最小作用量原理", "最小作用量原理.md", "最小作用量原理"),
@@ -25,11 +35,30 @@ CHAPTERS = [
     ("哈密顿力学", "哈密顿力学.md", ""),
     ("无碰撞粒子体系", "无碰撞粒子体系.md", ""),
 ]
+# Supplementary notes shown under a chapter as “拓展阅读”: chapter number -> (title, file).
+# A topic follows its chapter's availability unless materials.json sets "available" on it.
+TOPICS = {
+    1: [("牛顿力学与虚功原理", "牛顿力学与虚功原理.md"),
+        ("力学相似性的更多应用", "力学相似性的更多应用.md")],
+    2: [("卫星轨道与轨道确定", "卫星轨道与轨道确定.md"),
+        ("JWST 的 L2 之旅（交互页面）", "JWST的L2之旅.html"),
+        ("球对称黑洞中的粒子运动", "球对称黑洞中的粒子运动.md")],
+    3: [("量子谐振子与经典极限", "量子谐振子与经典极限.md"),
+        ("脉冲星三体系统与层级三体问题", "脉冲星三体系统与层级三体问题.md")],
+    4: [("欧拉角与航天器姿态控制", "欧拉角与航天器姿态控制.md")],
+    5: [("KAM 定理", "KAM定理.md"),
+        ("动力学系统与混沌", "动力学系统与混沌.md")],
+}
 ALIASES = [
     "00-introduction.md", "01-principle-of-least-action.md",
     "02-central-force.md", "03-perturbation-theory.md",
     "04-rigid-body-motion.md", "05-hamiltonian-mechanics.md",
     "06-collisionless-systems.md",
+]
+REFERENCE_PATTERNS = [
+    re.compile(r"\]\(\s*<([^>]+)>"),                       # [text](<path with spaces>)
+    re.compile(r"\]\(\s*([^)\s]+)"),                        # [text](path) and ![alt](path)
+    re.compile(r"""\b(?:src|href|poster|data)\s*=\s*["']([^"']+)["']""", re.I),
 ]
 
 
@@ -41,7 +70,12 @@ def write_json(path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
 
 
+def today():
+    return datetime.date.today().isoformat()
+
+
 def inventory(source):
+    """Every candidate file in the source folder, with its SHA-256 (None for empty files)."""
     files = {}
     for base, directories, names in os.walk(source, followlinks=False):
         directories[:] = sorted(
@@ -50,14 +84,50 @@ def inventory(source):
         )
         for name in sorted(names):
             path = Path(base) / name
-            if name.startswith(".") or path.suffix.lower() in {".pyc", ".pyo", ".pdf"}:
+            if name.startswith(".") or path.suffix.lower() in EXCLUDED_SUFFIXES:
                 continue
             if path.is_symlink():
                 raise ValueError(f"不复制符号链接，请先确认其内容：{path}")
             if path.is_file():
                 relative = path.relative_to(source).as_posix()
-                files[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+                data = path.read_bytes()
+                files[relative] = hashlib.sha256(data).hexdigest() if data else None
     return files
+
+
+def references(text, note):
+    """Paths (relative to the course folder) that a note links to or embeds."""
+    found = set()
+    base = posixpath.dirname(note)
+    for pattern in REFERENCE_PATTERNS:
+        for target in pattern.findall(text):
+            parts = urlsplit(target.strip())
+            if parts.scheme or parts.netloc or not parts.path or parts.path.startswith("/"):
+                continue
+            path = posixpath.normpath(posixpath.join(base, unquote(parts.path)))
+            if not path.startswith("../"):
+                found.add(path)
+    return found
+
+
+def catalog_entries(data):
+    """Chapter and topic entries of the Mechanics course, creating the course if needed."""
+    courses = data.setdefault("courses", [])
+    course = next((item for item in courses if item.get("id") == "theoretical-mechanics"), None)
+    if course is None:
+        course = {"id": "theoretical-mechanics", "title": "理论力学",
+                  "description": "从作用量原理到哈密顿力学，按章节展开学习。"}
+        courses.append(course)
+    return course
+
+
+def git_date(path):
+    try:
+        out = subprocess.run(["git", "-C", str(ROOT), "log", "-1", "--format=%cs", "--", str(path)],
+                             capture_output=True, text=True, check=True).stdout.strip()
+        return out or None
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def synchronize(source):
@@ -67,10 +137,90 @@ def synchronize(source):
             raise ValueError(f"缺少章节文件：{filename}（{title}）")
     previous = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {"files": {}}
     old_files = previous["files"]
+
+    # Previous catalog settings (availability, dates) survive every sync.
+    catalog_path = ROOT / "materials.json"
+    data = json.loads(catalog_path.read_text()) if catalog_path.exists() else {"courses": []}
+    course = catalog_entries(data)
+    old_chapters = {item.get("number"): item for item in course.get("materials", [])}
+    old_topics = {topic.get("file"): topic for item in course.get("materials", []) for topic in item.get("topics", [])}
+
+    # Content digests of every note, published or not, so dates move only when text changes.
+    old_notes = previous.get("notes") or old_files
+    note_digests = {}
+
+    def updated(filename, old):
+        digest = current.get(filename)
+        if digest is None:  # missing or empty in the source: keep what we had
+            return old.get("updated") or git_date(DESTINATION / filename) or today()
+        note_digests[filename] = digest
+        if filename in old_notes and old_notes[filename] != digest:
+            return today()
+        return old.get("updated") or git_date(DESTINATION / filename) or today()
+
+    warnings = []
+    entries, published_notes = [], []
+    for number, (title, filename, anchor) in enumerate(CHAPTERS):
+        old = old_chapters.get(number, {})
+        entry = {"number": number, "title": title, "file": "materials/Mechanics/" + filename}
+        if "available" in old:
+            entry["available"] = old["available"]
+        if anchor:
+            entry["anchor"] = anchor
+        entry["updated"] = updated(filename, old)
+        chapter_open = entry.get("available", True) is not False
+        if chapter_open:
+            published_notes.append(filename)
+        topics = []
+        for topic_title, topic_file in TOPICS.get(number, []):
+            old_topic = old_topics.get("materials/Mechanics/" + topic_file, {})
+            topic = {"title": topic_title, "file": "materials/Mechanics/" + topic_file}
+            if "available" in old_topic:
+                topic["available"] = old_topic["available"]
+            in_source = topic_file in current
+            if not in_source and not (DESTINATION / topic_file).is_file():
+                warnings.append(f"拓展讲义不存在，已跳过：{topic_file}")
+                continue
+            if not in_source:
+                warnings.append(f"拓展讲义不在源文件夹中，沿用网站中已有的副本：{topic_file}")
+            topic["updated"] = updated(topic_file, old_topic)
+            if topic.get("available", chapter_open) is not False:
+                published_notes.append(topic_file)
+            topics.append(topic)
+        if topics:
+            entry["topics"] = topics
+        entries.append(entry)
+
+    known = {filename for _, filename, _ in CHAPTERS} | {f for items in TOPICS.values() for _, f in items}
+    for name in sorted(current):
+        if "/" not in name and PurePosixPath(name).suffix.lower() in NOTE_SUFFIXES and name not in known:
+            warnings.append(f"未归入课程目录、因此不发布的讲义：{name}（可在 sync_mechanics.py 的 TOPICS 中登记）")
+
+    # Publish open notes and only the files they use.
+    wanted = set()
+    for note in published_notes:
+        wanted.add(note)
+        path = source / note if note in current else DESTINATION / note
+        # Links between notes never publish a note; the catalog alone decides that.
+        wanted |= {ref for ref in references(path.read_text(encoding="utf-8", errors="replace"), note)
+                   if PurePosixPath(ref).suffix.lower() != ".md"}
+    publish = {}
+    for relative, digest in current.items():
+        if relative not in wanted:
+            continue
+        publish[relative] = digest
+
     DESTINATION.mkdir(parents=True, exist_ok=True)
     changed = 0
-    for relative, digest in current.items():
+    kept_empty = {}
+    for relative, digest in publish.items():
         target = DESTINATION / relative
+        if digest is None:
+            # An empty source file is almost always a damaged or cloud-only copy.
+            if target.is_file() and target.stat().st_size:
+                kept_empty[relative] = old_files.get(relative) or hashlib.sha256(target.read_bytes()).hexdigest()
+            warnings.append(f"源文件为空，未覆盖网站副本：{relative}")
+            continue
         if not target.exists() or hashlib.sha256(target.read_bytes()).hexdigest() != digest:
             target.parent.mkdir(parents=True, exist_ok=True)
             temporary = target.with_name(target.name + ".sync-tmp")
@@ -80,44 +230,41 @@ def synchronize(source):
                 raise ValueError(f"源文件在同步过程中变化，请重新运行：{relative}")
             os.replace(temporary, target)
             changed += 1
+    managed = {relative: digest for relative, digest in publish.items() if digest is not None}
+    managed.update(kept_empty)
+
     # Remove only previously managed files, never unrelated website files.
     removed = 0
-    for relative in old_files.keys() - current.keys():
+    for relative in old_files.keys() - managed.keys():
         target = DESTINATION / relative
         if not target.resolve().is_relative_to(DESTINATION.resolve()):
             raise ValueError("同步清单中的文件路径不合法。")
         if target.is_file():
             target.unlink()
             removed += 1
-    data = json.loads((ROOT / "materials.json").read_text())
-    courses = data.setdefault("courses", [])
-    course = next((item for item in courses if item.get("id") == "theoretical-mechanics"), None)
-    if course is None:
-        course = {"id": "theoretical-mechanics", "title": "理论力学"}
-        courses.append(course)
-    availability = {
-        item["number"]: item["available"]
-        for item in course.get("materials", []) if "available" in item
-    }
-    entries = []
+    for directory in sorted((p for p in DESTINATION.rglob("*") if p.is_dir()), reverse=True):
+        try:
+            directory.rmdir()  # only succeeds for folders left empty
+        except OSError:
+            pass
+
     for number, (title, filename, anchor) in enumerate(CHAPTERS):
-        entry = {"number": number, "title": title, "file": "materials/Mechanics/" + filename}
-        if number in availability:
-            entry["available"] = availability[number]
-        if anchor:
-            entry["anchor"] = anchor
-        entries.append(entry)
         # Keep links shared before the full notes were uploaded usable.
         alias = ROOT / "materials" / "theoretical-mechanics" / ALIASES[number]
         if alias.exists():
             relative_link = "../Mechanics/" + filename + ("#" + anchor if anchor else "")
             alias.write_text(f"# {number}. {title}\n\n本章讲义已更新：[阅读完整讲义]({relative_link})。\n")
     course["materials"] = entries
-    write_json(ROOT / "materials.json", data)
-    write_json(MANIFEST, {"files": dict(sorted(current.items()))})
-    print(f"同步完成：共 {len(current)} 个文件，新增或更新 {changed} 个，删除已移除的文件 {removed} 个。")
-    print("已排除 PDF（不区分扩展名大小写）、tmp、隐藏目录和文件、__pycache__、node_modules 及 Python 缓存。")
-    print("主页七个章节的链接已更新。原始 Mechanics 文件夹未被修改。")
+    write_json(catalog_path, data)
+    write_json(MANIFEST, {"files": dict(sorted(managed.items())), "notes": dict(sorted(note_digests.items()))})
+    build_pages.build(ROOT)
+
+    print(f"同步完成：源文件夹 {len(current)} 个候选文件，发布 {len(managed)} 个；新增或更新 {changed} 个，移除 {removed} 个。")
+    print("发布范围：开放章节及其拓展讲义，以及这些讲义实际引用的图片和动画。")
+    print("不发布：PDF、作图源文件（.py/.tex/.rda）、未被引用的手绘草图、尚未讲授章节、tmp 与隐藏文件。")
+    print("已重新生成静态讲义页、搜索索引和 sitemap。原始 Mechanics 文件夹未被修改。")
+    for warning in warnings:
+        print("提示：" + warning)
 
 
 def main():
@@ -141,9 +288,12 @@ def main():
     synchronize(source)
     write_json(LOCAL_CONFIG, {"source": str(source)})
     if args.publish:
-        paths = ["materials/Mechanics", "materials/theoretical-mechanics", "materials.json", "scripts/mechanics-manifest.json"]
+        paths = ["materials/Mechanics", "materials/theoretical-mechanics", "materials.json",
+                 "scripts/mechanics-manifest.json", *build_pages.GENERATED]
+        paths = [p for p in paths if (ROOT / p).exists() or subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files", "--error-unmatch", "--", p], capture_output=True).returncode == 0]
         # Only commit synchronization paths; do not sweep in unrelated staged work.
-        git("add", "--", *paths)
+        git("add", "-A", "--", *paths)
         changed = subprocess.run(["git", "-C", str(ROOT), "diff", "--cached", "--quiet", "--", *paths]).returncode
         if changed == 1:
             git("commit", "--only", "-m", "Sync Mechanics teaching materials", "--", *paths)

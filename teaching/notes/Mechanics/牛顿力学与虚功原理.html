@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="当 m 为常数时退化为 \mathbf{F}=m\ddot{\mathbf{r}}。注意在相对论力学或变质量问题（火箭方程）中必须用动量形式，m\dot{\mathbf v}\ne \mathbf F。">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://phyytang.github.io/teaching/notes/Mechanics/%E7%89%9B%E9%A1%BF%E5%8A%9B%E5%AD%A6%E4%B8%8E%E8%99%9A%E5%8A%9F%E5%8E%9F%E7%90%86.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="牛顿力学与虚功原理 · 理论力学">
+  <meta property="og:description" content="当 m 为常数时退化为 \mathbf{F}=m\ddot{\mathbf{r}}。注意在相对论力学或变质量问题（火箭方程）中必须用动量形式，m\dot{\mathbf v}\ne \mathbf F。">
+  <meta property="og:url" content="https://phyytang.github.io/teaching/notes/Mechanics/%E7%89%9B%E9%A1%BF%E5%8A%9B%E5%AD%A6%E4%B8%8E%E8%99%9A%E5%8A%9F%E5%8E%9F%E7%90%86.html">
+  <meta property="og:site_name" content="phyytang · 课程与讲义">
+  <title>牛顿力学与虚功原理 · 理论力学 · phyytang</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="../../../vendor/katex/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css?v=20261017">
+  <script defer src="../../../vendor/marked/lib/marked.umd.js"></script>
+  <script defer src="../../../vendor/dompurify/dist/purify.min.js"></script>
+  <script defer src="../../../vendor/katex/dist/katex.min.js"></script>
+  <script defer src="../../../assets/site.js?v=20261017"></script>
+</head>
+<body data-root="../../../" data-note="materials/Mechanics/牛顿力学与虚功原理.md">
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header wrap">
+    <a class="brand" href="../../../teaching/"><span class="brand-mark" aria-hidden="true">p.</span> phyytang <span class="brand-divider">/</span> 教学</a>
+    <nav aria-label="主导航"><a href="../../../">个人主页</a><a href="../../../teaching/">课程目录</a></nav>
+  </header>
+  <main id="main" class="wrap">
+    
+    <section id="reader" aria-label="讲义阅读">
+      <div class="reader-toolbar"><a href="../../../teaching/">← 返回课程目录</a><button id="toc-toggle" class="toc-toggle" type="button" hidden aria-expanded="false" aria-controls="outline">本页目录</button></div>
+      <p id="note-meta" class="note-meta" hidden></p>
+      <p id="reader-status" role="status" hidden></p>
+      <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="牛顿力学与虚功原理">牛顿力学与虚功原理</h1>
+<p>牛顿力学概要</p>
+<h2 id="牛顿三定律的表述">牛顿三定律的表述</h2>
+<h3 id="第一定律">第一定律</h3>
+<p>惯性参考系：存在一类参考系，其中不受外力的质点保持静止或匀速直线运动。 《墨经》：力，形之所以奋也。力是物体运动发生变化的原因。</p>
+<h3 id="第二定律">第二定律</h3>
+<p>当 m 为常数时退化为 \mathbf{F}=m\ddot{\mathbf{r}}。注意在相对论力学或变质量问题（火箭方程）中必须用动量形式，m\dot{\mathbf v}\ne \mathbf F。</p>
+<h3 id="第三定律">第三定律</h3>
+<p>作用力与反作用力大小相等，方向相反。</p>
+<h2 id="单质点动力学三大定理">单质点动力学：三大定理</h2>
+<h3 id="动量定理">动量定理</h3>
+<p>若 \mathbf F=0，动量守恒。</p>
+<h3 id="角动量定理">角动量定理</h3>
+<p>定义 \mathbf{L} = \mathbf{r}\times\mathbf{p}，力矩 \mathbf{N}=\mathbf{r}\times\mathbf F：</p>
+<p>（用了 \dot{\mathbf r}\times\mathbf p = \mathbf v\times m\mathbf v=0）。若 \mathbf N=0（尤其是有心力情形，\mathbf F\parallel \mathbf r），角动量守恒——这是开普勒问题、两体问题的核心。</p>
+<h3 id="动能定理">动能定理</h3>
+<p>若力可导出于势场 \mathbf F = -\nabla V(\mathbf r)（即 \mathbf F 保守，等价于 \nabla\times\mathbf F=0，或做功与路径无关），则</p>
+<p>这三条定理（动量、角动量、能量）分别对应空间平移、空间转动、时间平移对称性——后续可用诺特定理重新理解守恒律，牛顿力学里它们看起来是三条独立的&quot;巧合&quot;结论，分析力学会告诉你它们其实是同一件事。</p>
+<h2 id="多质点系统牛顿力学处理约束系统">多质点系统：牛顿力学处理约束系统</h2>
+<p>这一节可以直接展示了牛顿力学处理约束问题时会遇到什么困难，从而说明虚功原理/达朗贝尔原理要解决的具体问题是什么。</p>
+<h3 id="约束与虚位移">约束与虚位移</h3>
+<p>考虑由 N 个质点组成的系统，位置矢量 \mathbf{r}_i，i=1,\dots,N。系统受到 k 个完整（holonomic）约束：</p>
+<p>虚位移 \delta\mathbf{r}_i 定义为：在固定时刻 t（即 \delta t=0），与约束相容的、无限小的、假想的位移——区别于真实位移 d\mathbf{r}_i（真实位移由动力学方程和时间流逝共同决定，虚位移只需满足瞬时约束）。</p>
+<p>对完整约束，虚位移满足：</p>
+<p>（不含 \partial f_\alpha/\partial t\, \delta t 项，因为 \delta t=0。）</p>
+<p>约束力：把作用在质点 i 上的力分为主动力（外力）\mathbf{F}_i^{(a)} 和约束反力 \mathbf{R}_i。</p>
+<p>理想约束（光滑约束）的定义就是：约束反力在任意虚位移上做的总虚功为零：</p>
+<p>这对光滑刚性面、不可伸长的绳、光滑铰链等都成立（约束力恒垂直于允许运动方向）；对有摩擦的约束一般不成立。这一条是虚功原理成立的关键假设。</p>
+<h3 id="内力与外力的分离">内力与外力的分离</h3>
+<p>对质点系 i=1,\dots,N：</p>
+<p>质心运动定理：定义 M=\sum_i m_i，\mathbf R_{cm}=\frac{1}{M}\sum_i m_i\mathbf r_i。对 i 求和，利用第三定律 \sum_{i\ne j}\mathbf F_{ij}=0（内力两两抵消）：</p>
+<p>系统总动量 \mathbf P = M\dot{\mathbf R}_{cm} 只由外力决定，内力不影响质心运动——这是刚体、多体系统分析的基础。</p>
+<p>总角动量定理：用第三定律有心力场情况（\mathbf F_{ij}\parallel \mathbf r_i-\mathbf r_j）可证明内力对总角动量的贡献两两抵消：</p>
+<p>总能量定理：</p>
+<p>注意内力一般也做功（除非是刚体约束，内力做的功之和为零——这正好是&quot;理想约束&quot;概念在刚体这一特例下的具体体现，后面会呼应）。</p>
+<h3 id="约束力问题牛顿法的痛点">约束力问题——牛顿法的痛点</h3>
+<p>考虑一个质点被约束在曲面 f(\mathbf r,t)=0 上运动，受主动力 \mathbf F^{(a)} 和约束反力 \mathbf R：</p>
+<p>问题：这是一个矢量方程，但 \mathbf R 是未知量（大小和方向都不知道，只知道它垂直于曲面——如果曲面光滑）。牛顿法必须： 1. 引入拉格朗日乘子或者显式参数化曲面来消去 \mathbf R； 2. 或者联立约束方程 f=0 与运动方程，把 \mathbf R 当作待定乘子求解。</p>
+<p>对于 N 个质点、k 个约束的复杂系统（比如摆链、滑轮组、刚体的转动），这种做法迅速变得极其繁琐——每加一个约束就多几个未知的约束力分量。这正是虚功原理体系要解决的核心痛点：通过&quot;理想约束不做虚功&quot;这一条件，直接把约束力从方程中消掉，只用与自由度数目相等的广义坐标写出运动方程。我们后面将推导得到</p>
+<p>这里完全没有约束力的踪迹——这就是分析力学相对牛顿矢量力学的决定性优势。</p>
+<h2 id="非惯性参考系">非惯性参考系</h2>
+<p>设 S&#x27; 是相对惯性系 S 以角速度 \boldsymbol\omega(t) 转动、原点加速度为 \mathbf A_0 的参考系。质点在 S&#x27; 中的表观加速度 \mathbf a&#x27; 与真实加速度 \mathbf a 满足：</p>
+<p>四个惯性力依次是： -m\mathbf A_0：平动惯性力 -m\dot{\boldsymbol\omega}\times\mathbf r&#x27;：欧拉力（角加速度导致） -2m\boldsymbol\omega\times\mathbf v&#x27;：科里奥利力 -m\boldsymbol\omega\times(\boldsymbol\omega\times\mathbf r&#x27;)：离心力</p>
+<p>这些&quot;惯性力&quot;和达朗贝尔原理里引入的惯性力 -m\ddot{\mathbf r} 是同一类东西的具体实现——都是&quot;把加速度参考系（或非平衡状态）形式地转化为平衡问题&quot;的技巧，概念上完全平行，数学处理上后面会看到统一在同一个框架下。</p>
+<h2 id="牛顿力学的局限性为什么需要分析力学">牛顿力学的局限性——为什么需要分析力学</h2>
+<p>作为总结，明确指出后续课程要解决的三个具体问题，这也是即将学习内容的动机：</p>
+<p>1. 约束力的消除：如上述，任意复杂约束系统下，矢量法必须显式处理未知约束力，而&quot;理想约束不做虚功&quot;这一条件让分析力学绕开了这个麻烦。</p>
+<p>2. 坐标选择的灵活性：牛顿方程 \mathbf F=m\ddot{\mathbf r} 本质上是笛卡尔坐标系下的表述；换到极坐标、球坐标、广义坐标时需要手动算加速度的曲线坐标分量（离心项、科里奥利项等&quot;伪力&quot;会自动冒出来）。拉格朗日方程 \frac{d}{dt}\frac{\partial T}{\partial \dot q_j}-\frac{\partial T}{\partial q_j}=Q_j 在任意广义坐标下形式不变（协变性），这些&quot;伪力&quot;是自动生成的。</p>
+<p>3. 对称性与守恒律的统一理解：牛顿框架下动量、角动量、能量守恒像是三条独立巧合；哈密顿原理 + 诺特定理会告诉你它们统一来自空间平移、空间转动、时间平移不变性——这对理解规范理论中&quot;守恒流&quot;从哪里来会非常直接地衔接上。</p>
+<p>虚功原理与达朗贝尔原理</p>
+<p>这两者是分析力学的基石——虚功原理处理静力学，达朗贝尔原理把它推广到动力学，并进一步导出拉格朗日方程。</p>
+<h2 id="虚功原理静力学">虚功原理（静力学）</h2>
+<h3 id="陈述">陈述</h3>
+<p>系统处于平衡的充要条件是：主动力在任意虚位移上做的虚功之和为零，</p>
+<p>对所有满足约束的 \delta\mathbf{r}_i 成立。</p>
+<h3 id="推导">推导</h3>
+<p>必要性（平衡 \Rightarrow \delta W=0）：</p>
+<p>若系统平衡，则每个质点所受合力为零：</p>
+<p>用任意虚位移 \delta\mathbf{r}_i 点乘并对 i 求和：</p>
+<p>利用理想约束条件 \sum_i \mathbf{R}_i\cdot\delta\mathbf{r}_i = 0，立即得到</p>
+<p>充分性（\delta W=0 \Rightarrow 平衡）：</p>
+<p>反证法。假设 \delta W=0 对所有虚位移成立，但系统不平衡，即存在某个质点 j 满足 \mathbf{F}_j^{(a)}+\mathbf{R}_j \ne 0。取一个特殊的虚位移：令 \delta\mathbf{r}_j = \epsilon(\mathbf{F}_j^{(a)}+\mathbf{R}_j)（\epsilon&gt;0 充分小，保证与约束相容），其余质点 \delta\mathbf{r}_i=0。代入平衡定义式做点乘求和会得到 \delta W \ne 0，与假设矛盾。因此每个质点都平衡。</p>
+<h3 id="广义坐标形式">广义坐标形式</h3>
+<p>设完整约束下系统有 n=3N-k 个自由度，取广义坐标 q_1,\dots,q_n，则</p>
+<p>虚位移可表示为</p>
+<p>代入虚功表达式：</p>
+<p>其中 Q_j \equiv \sum_i \mathbf{F}_i^{(a)}\cdot \dfrac{\partial \mathbf{r}_i}{\partial q_j} 称为广义力。由于 q_j 相互独立，\delta q_j 可任意取值，故平衡条件等价于</p>
+<p>这就是虚功原理的广义坐标表述：每个广义方向上的广义力都为零。</p>
+<h2 id="达朗贝尔原理动力学">达朗贝尔原理（动力学）</h2>
+<h3 id="从牛顿第二定律出发">从牛顿第二定律出发</h3>
+<p>对每个质点，牛顿第二定律：</p>
+<p>移项：</p>
+<p>定义惯性力（达朗贝尔力）</p>
+<p>则上式变为</p>
+<p>这就是达朗贝尔原理的物理内容：在每一时刻，若把惯性力 -m_i\ddot{\mathbf{r}}_i 也算作一种&quot;力&quot;加到质点上，则系统在主动力、约束力和惯性力的共同作用下形式上处于瞬时平衡。这样就把动力学问题形式化地转化为静力学问题。</p>
+<h3 id="达朗贝尔拉格朗日方程">达朗贝尔–拉格朗日方程</h3>
+<p>对上式两边点乘虚位移 \delta\mathbf{r}_i 并对所有质点求和：</p>
+<p>再次利用理想约束条件 \sum_i \mathbf{R}_i\cdot\delta\mathbf{r}_i=0（这一步至关重要——它消去了未知的约束反力），得到</p>
+<p>这就是达朗贝尔–拉格朗日方程（常直接称为&quot;达朗贝尔原理&quot;的数学形式）。它对任意满足约束的虚位移都成立，且不含未知的约束反力，因此是求解带约束动力学问题的强有力工具。</p>
+<p>与虚功原理的关系：当 \ddot{\mathbf{r}}_i=0（静力学极限）时，此式退化为 \sum_i \mathbf{F}_i^{(a)}\cdot\delta\mathbf{r}_i=0，正是虚功原理。所以虚功原理是达朗贝尔原理在静力学情形下的特例。</p>
+<h3 id="由达朗贝尔原理导出拉格朗日方程">由达朗贝尔原理导出拉格朗日方程</h3>
+<p>这是达朗贝尔原理最重要的应用——它是拉格朗日力学的出发点。</p>
+<p>第一步：将 \delta\mathbf{r}_i = \sum_j \dfrac{\partial \mathbf{r}_i}{\partial q_j}\delta q_j 代入达朗贝尔方程的两部分。</p>
+<p>主动力项：</p>
+<p>惯性力项：</p>
+<p>第二步：处理惯性力项中的 \displaystyle\sum_i m_i \ddot{\mathbf{r}}_i \cdot \frac{\partial \mathbf{r}_i}{\partial q_j}。利用恒等式</p>
+<p>需要用到两个关键的速度—坐标关系式：</p>
+<p>(a) 由 \mathbf{v}_i = \dot{\mathbf{r}}_i = \sum_k \dfrac{\partial \mathbf{r}_i}{\partial q_k}\dot q_k + \dfrac{\partial \mathbf{r}_i}{\partial t}，两边对 \dot q_j 求偏导（把 q,\dot q,t 视为独立变量）：</p>
+<p>(b) 交换求导次序：</p>
+<p>将 (a)(b) 代入恒等式：</p>
+<p>第三步：对 i 求和，并注意到系统动能 T = \frac12\sum_i m_i \mathbf{v}_i^2：</p>
+<p>所以</p>
+<p>第四步：代回达朗贝尔–拉格朗日方程：</p>
+<p>由于广义坐标独立，\delta q_j 任意，故每一项系数必须单独为零：</p>
+<p>这就是广义形式的拉格朗日方程。若主动力可由势能导出，\mathbf{F}_i^{(a)} = -\nabla_i V，则</p>
+<p>（V 不显含 \dot q_j，故 \partial V/\partial \dot q_j=0），代入并定义 L=T-V，最终得到熟悉的形式：</p>
+<h2 id="两者关系小结">两者关系小结</h2>
+<p>| | 虚功原理 | 达朗贝尔原理 | |---|---|---| | 适用范围 | 静力学（平衡） | 动力学（一般运动） | | 核心方程 | \sum_i \mathbf{F}_i^{(a)}\cdot\delta\mathbf{r}_i=0 | \sum_i(\mathbf{F}_i^{(a)}-m_i\ddot{\mathbf{r}}_i)\cdot\delta\mathbf{r}_i=0 | | 数学地位 | 达朗贝尔原理令 \ddot{\mathbf r}_i=0 的特例 | 虚功原理的时间推广（引入惯性力） | | 主要作用 | 求平衡位形/约束力关系 | 消去约束反力，导出运动方程；是拉格朗日方程的推导起点 |</p>
+<p>两者共同的技术核心是理想约束假设 \sum_i \mathbf{R}_i\cdot\delta\mathbf{r}_i=0：这是唯一让约束反力从方程中&quot;消失&quot;的物理输入，也是分析力学相比矢量力学（牛顿力学）能够绕开未知约束力、直接得到广义坐标下运动方程的根本原因。</p></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
+      <nav id="pager" class="pager" aria-label="上一篇与下一篇" hidden></nav>
+    </section>
+    <noscript><p>在线阅读需要启用 JavaScript。你也可以<a href="https://github.com/phyytang/phyytang.github.io/tree/main/materials">在 GitHub 上查看讲义</a>。</p></noscript>
+  </main>
+  <button id="to-top" class="to-top" type="button" hidden aria-label="回到顶部">↑</button>
+  <footer class="site-footer wrap">
+    <div class="footer-meta"><span>© Yong Tang · 讲义采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">CC BY-NC-SA 4.0</a> 许可（第三方素材除外）</span><a href="../../../teaching/?note=materials/copyright.md">版权与使用说明</a></div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phyytang.github.io/sitemap.xml
