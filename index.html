@@ -16,6 +16,7 @@
     if (/[?&]note=/.test(location.search)) location.replace("teaching/" + location.search + location.hash);
   </script>
   <link rel="stylesheet" href="assets/site.css?v=3b4ebc16d39e">
+  <script defer src="assets/visits.js?v=6f2acec9bcb3"></script>
 </head>
 <body class="home">
   <a class="skip-link" href="#main">跳转到正文</a>
@@ -80,7 +81,7 @@
     </section>
   </main>
   <footer class="site-footer wrap">
-    <div class="footer-meta"><span>© Yong Tang</span><a href="teaching/">课程与讲义</a></div>
+    <div class="footer-meta"><span>© Yong Tang</span><span title="累计页面浏览次数，重复访问也会计数">总访问次数：<span id="busuanzi_value_site_pv" aria-live="polite">加载中…</span><span id="visit-count-unit"> 次</span></span><a href="teaching/">课程与讲义</a></div>
   </footer>
 </body>
 </html>

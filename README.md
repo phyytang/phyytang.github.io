@@ -45,3 +45,9 @@
 只修改了 `materials.json` 或 `teaching/index.html` 时，运行 `python3 scripts/build_pages.py` 重新生成静态讲义页。
 
 GitHub Pages 发布位置应为 **main / (root)**。只需要 Python 3.9 或更新版本，无需安装其他构建工具。
+
+## 访问统计
+
+主页页脚显示“不蒜子”提供的全站累计页面浏览次数（PV）。主页、课程目录和静态讲义页都会计数，重复打开或刷新也会累计；这不是独立访客人数，也不能据此补算接入前未记录的访问量。
+
+统计由 `assets/visits.js` 加载官方脚本，仅在 `phyytang.github.io` 域名下启用，本地预览不计数。主页统计请求失败或等待超过 10 秒会显示“暂不可用”，不会显示虚构数字；统计不可用不影响页面阅读。新增阅读页应沿用 `teaching/index.html` 模板，以保留计数接入。
