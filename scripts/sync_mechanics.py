@@ -48,12 +48,6 @@ TOPICS = {
     5: [("KAM 定理", "KAM定理.md"),
         ("动力学系统与混沌", "动力学系统与混沌.md")],
 }
-ALIASES = [
-    "00-introduction.md", "01-principle-of-least-action.md",
-    "02-central-force.md", "03-perturbation-theory.md",
-    "04-rigid-body-motion.md", "05-hamiltonian-mechanics.md",
-    "06-collisionless-systems.md",
-]
 REFERENCE_PATTERNS = [
     re.compile(r"\]\(\s*<([^>]+)>"),                       # [text](<path with spaces>)
     re.compile(r"\]\(\s*([^)\s]+)"),                        # [text](path) and ![alt](path)
@@ -247,12 +241,6 @@ def synchronize(source):
         except OSError:
             pass
 
-    for number, (title, filename, anchor) in enumerate(CHAPTERS):
-        # Keep links shared before the full notes were uploaded usable.
-        alias = ROOT / "materials" / "theoretical-mechanics" / ALIASES[number]
-        if alias.exists():
-            relative_link = "../Mechanics/" + filename + ("#" + anchor if anchor else "")
-            alias.write_text(f"# {number}. {title}\n\n本章讲义已更新：[阅读完整讲义]({relative_link})。\n")
     course["materials"] = entries
     write_json(catalog_path, data)
     write_json(MANIFEST, {"files": dict(sorted(managed.items())), "notes": dict(sorted(note_digests.items()))})
@@ -287,7 +275,7 @@ def main():
     synchronize(source)
     write_json(LOCAL_CONFIG, {"source": str(source)})
     if args.publish:
-        paths = ["materials/Mechanics", "materials/theoretical-mechanics", "materials.json",
+        paths = ["materials/Mechanics", "materials.json",
                  "scripts/mechanics-manifest.json", *build_pages.GENERATED]
         paths = [p for p in paths if (ROOT / p).exists() or subprocess.run(
             ["git", "-C", str(ROOT), "ls-files", "--error-unmatch", "--", p], capture_output=True).returncode == 0]

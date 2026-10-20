@@ -194,9 +194,6 @@ class SyncMechanicsTests(unittest.TestCase):
         git("config", "user.name", "Sync test")
         git("config", "user.email", "sync@example.invalid")
         git("config", "commit.gpgsign", "false")
-        aliases = self.root / "materials" / "theoretical-mechanics"
-        aliases.mkdir(parents=True)
-        (aliases / SYNC.ALIASES[0]).write_text("placeholder")
         git("add", ".")
         git("commit", "--quiet", "-m", "Initial fixture")
         git("remote", "add", "origin", str(remote))
@@ -207,6 +204,7 @@ class SyncMechanicsTests(unittest.TestCase):
             SYNC.main()
         published = subprocess.check_output(["git", "--git-dir", str(remote), "ls-tree", "-r", "--name-only", "main"], text=True)
         self.assertIn("materials/Mechanics/", published)
+        self.assertNotIn("materials/theoretical-mechanics/", published)
         self.assertNotIn("unrelated.txt", published)
         self.assertNotIn(".mechanics-source.json", published)
         self.assertEqual(git("diff", "--cached", "--name-only").strip(), "unrelated.txt")
