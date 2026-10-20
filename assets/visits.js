@@ -1,6 +1,10 @@
 // Count real visits only on the published site, never in local previews.
 (() => {
-  const value = document.getElementById("busuanzi_value_site_pv");
+  const pageCounter = document.getElementById("teaching-visit-count");
+  // The teaching catalog counter must not appear in the legacy ?note= reader.
+  if (pageCounter && new URLSearchParams(location.search).has("note")) pageCounter.hidden = true;
+  const value = document.getElementById("busuanzi_value_site_pv") ||
+    (!pageCounter?.hidden && document.getElementById("busuanzi_value_page_pv"));
   const unit = document.getElementById("visit-count-unit");
   if (location.hostname !== "phyytang.github.io" || /[?&]note=/.test(location.search) && document.body.classList.contains("home")) {
     if (value) value.textContent = "—";

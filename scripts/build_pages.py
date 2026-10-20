@@ -156,6 +156,8 @@ def render_page(template, *, page, file, title, description, markdown, stem):
     root = relative_prefix(page)
     teaching = root + "teaching/"
     out = re.sub(r"<!-- library:start -->[\s\S]*?<!-- library:end -->", "", template)
+    # The catalog's page-view total belongs only on the course directory.
+    out = re.sub(r"<!-- catalog-counter:start -->[\s\S]*?<!-- catalog-counter:end -->", "", out)
     out = re.sub(r'(\s(?:href|src)=")\.\./', lambda m: m.group(1) + root, out)
     out = re.sub(r'(\s(?:href|src)=")\./', lambda m: m.group(1) + teaching, out)
     out = out.replace('data-root="../"', f'data-root="{root}" data-note="{html.escape(file)}"')
