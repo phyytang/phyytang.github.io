@@ -111,4 +111,5 @@ html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0
 
 /* Figure wrappers survive Markdown sanitization; inline styles do not. */
 .markdown-body .lecture-figure{text-align:center}
-.markdown-body .lecture-figure > img{display:block;margin-inline:auto}
+.markdown-body .lecture-figure > a:only-child{display:block}
+.markdown-body .lecture-figure > img,.markdown-body .lecture-figure > a:only-child > img{display:block;margin-inline:auto}

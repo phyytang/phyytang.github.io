@@ -298,6 +298,12 @@ function resolveLinks(article, fileURL, notes) {
     // srcset may contain relative URLs; use the resolved src consistently.
     image.removeAttribute("srcset");
     image.loading = "lazy";
+    // Restore standalone figure alignment after inline styles have been sanitized.
+    const parent = image.parentElement;
+    const container = parent.tagName === "A" ? parent.parentElement : parent;
+    if (container.tagName === "FIGURE" || (["P", "DIV"].includes(container.tagName) && container.children.length === 1 && !container.textContent.trim())) {
+      container.classList.add("lecture-figure");
+    }
   }
 }
 
