@@ -31,7 +31,7 @@ function materialPath(path) {
 }
 
 async function getText(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, {cache: "no-cache"});
   if (!response.ok) {
     const error = new Error(response.status === 404 ? "文件不存在，或该讲义尚未开放。" : `文件加载失败（${response.status}）。`);
     error.status = response.status;

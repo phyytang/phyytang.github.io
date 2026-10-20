@@ -108,3 +108,7 @@ html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0
   }
   .katex-display:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 }
+
+/* Figure wrappers survive Markdown sanitization; inline styles do not. */
+.markdown-body .lecture-figure{text-align:center}
+.markdown-body .lecture-figure > img{display:block;margin-inline:auto}
