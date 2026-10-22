@@ -9,7 +9,7 @@
           "number": 0,
           "title": "绪论",
           "file": "materials/Mechanics/绪论.md",
-          "updated": "2026-10-16"
+          "updated": "2026-10-22"
         },
         {
           "number": 1,
@@ -21,7 +21,7 @@
             {
               "title": "力学相似性的更多应用",
               "file": "materials/Mechanics/力学相似性的更多应用.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             },
             {
               "title": "费马原理与引力透镜",
@@ -34,12 +34,12 @@
           "number": 2,
           "title": "中心力场",
           "file": "materials/Mechanics/中心力场.md",
-          "updated": "2026-10-20",
+          "updated": "2026-10-22",
           "topics": [
             {
               "title": "卫星轨道与轨道确定",
               "file": "materials/Mechanics/卫星轨道与轨道确定.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             },
             {
               "title": "JWST 的 L2 之旅（交互页面）",
@@ -49,7 +49,7 @@
             {
               "title": "球对称黑洞中的粒子运动",
               "file": "materials/Mechanics/球对称黑洞中的粒子运动.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             }
           ]
         },
@@ -62,12 +62,12 @@
             {
               "title": "量子谐振子与经典极限",
               "file": "materials/Mechanics/量子谐振子与经典极限.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             },
             {
               "title": "脉冲星三体系统与层级三体问题",
               "file": "materials/Mechanics/脉冲星三体系统与层级三体问题.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             },
             {
               "title": "对称性自发破缺",
@@ -86,12 +86,12 @@
           "title": "刚体运动",
           "file": "materials/Mechanics/刚体运动.md",
           "available": false,
-          "updated": "2026-10-16",
+          "updated": "2026-10-22",
           "topics": [
             {
               "title": "欧拉角与航天器姿态控制",
               "file": "materials/Mechanics/欧拉角与航天器姿态控制.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             }
           ]
         },
@@ -100,17 +100,17 @@
           "title": "哈密顿力学",
           "file": "materials/Mechanics/哈密顿力学.md",
           "available": false,
-          "updated": "2026-10-16",
+          "updated": "2026-10-22",
           "topics": [
             {
               "title": "KAM 定理",
               "file": "materials/Mechanics/KAM定理.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             },
             {
               "title": "动力学系统与混沌",
               "file": "materials/Mechanics/动力学系统与混沌.md",
-              "updated": "2026-10-16"
+              "updated": "2026-10-22"
             }
           ]
         },
@@ -119,7 +119,7 @@
           "title": "无碰撞粒子体系",
           "file": "materials/Mechanics/无碰撞粒子体系.md",
           "available": false,
-          "updated": "2026-10-16"
+          "updated": "2026-10-22"
         }
       ]
     }

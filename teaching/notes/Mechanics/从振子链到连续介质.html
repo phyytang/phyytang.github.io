@@ -37,7 +37,7 @@
 <p>details.derivation { border-left: 3px solid #1f4e9c; background: #f6f8fb; padding: 0.35em 1em; margin: 1em 0; border-radius: 4px; } details.derivation &gt; summary { cursor: pointer; font-weight: 600; color: #1f4e9c; } details.derivation[open] &gt; summary { margin-bottom: 0.5em; } @media print { details.derivation::details-content { content-visibility: visible; display: block; } details.derivation &gt; summary { list-style: none; margin-bottom: 0.5em; } details.derivation &gt; summary::-webkit-details-marker { display: none; } }</p>
 <p>——从多自由度小振动走向场</p>
 <p>本文是“微扰和摄动理论”一章“多自由度系统的简谐振动”一节的拓展材料，建议在学完该节之后阅读。正文把有限个自由度的小振动分解为彼此独立的简正模；这里把自由度的数目推向无穷，得到连续介质和场。用变分推导场方程的部分用到“最小作用量原理”一章的泛函导数；最后一节的推导用到流体力学的基本方程，不熟悉的读者可以只看结论。</p>
-<p>阅读提示：文中蓝色边框的“推导”块默认折叠，点击标题展开。</p>
+<p>阅读提示：文中蓝色边框的“推导”块默认折叠，点击标题展开；打印或导出 PDF 时会自动展开。</p>
 <p>把两个耦合振子推广到 N 个，再令 N\to\infty，就从质点系过渡到了连续介质，例如一根弹性棒、一段空气柱或一根弦。连续介质的状态由位移 u(x,t) 描述，它在每个空间点 x 都有一个值，这是物理学中场（field）最简单的例子。下面会看到，场的运动仍然可以分解为彼此独立的简正模，只是模式有无穷多个。</p>
 <h2 id="振子链的简正模">振子链的简正模</h2>
 <p>N 个质量为 m 的质点排成一行，平衡时相邻间距为 a，相邻质点之间用劲度系数为 \kappa 的弹簧相连。此外，每个质点还受到一个把它拉回自身平衡位置的恢复力 -kx_j，例如把每个质点挂成摆长为 l 的单摆，则 k=mg/l（见下图 (a)）。记第 j 个质点偏离平衡位置的位移为 x_j，则</p>
@@ -99,13 +99,13 @@
 <p>q 大（波长短）时 \omega^2&gt;0，扰动以声波形式振荡；当 q&lt;q_{\rm J}\equiv\sqrt{4\pi G\rho_0}/c_s 时 \omega^2&lt;0，扰动以增长率 \sqrt{4\pi G\rho_0-c_s^2q^2} 指数增长，即引力坍缩。临界波长称为金斯长度：</p>
 <p>物理图像是：压缩一个尺度为 \lambda 的区域，压强产生的恢复作用 \sim c_s^2/\lambda^2，尺度越大越弱；而引力的作用 \sim G\rho_0 与尺度无关。所以足够大的区域，引力总会胜出。</p>
 <p>数值估计。 分子云中的致密云核，温度约 10\ \text{K}，分子数密度约 10^4\ \text{cm}^{-3}（平均分子质量 2.33\,m_{\rm H}），则 \rho_0\approx4\times10^{-20}\ \text{g/cm}^3，c_s=\sqrt{k_BT/(2.33\,m_{\rm H})}\approx0.19\ \text{km/s}，于是</p>
-<p>增长时间 1/\sqrt{4\pi G\rho_0}\approx2\times10^5 年。比金斯长度大的区域会在几十万年内坍缩，这是恒星形成的起点。金斯在 1902 年得到这一判据 [3]。对恒星系统和暗物质这类无碰撞系统，速度弥散 \sigma 起着声速的作用，相应的讨论见“无碰撞粒子体系”一章中的金斯方程和 [4]。</p>
+<p>增长时间 1/\sqrt{4\pi G\rho_0}\approx2\times10^5 年。比金斯长度大的区域会在几十万年内坍缩，这是恒星形成的起点。金斯在 1902 年得到这一判据 [3]。对恒星系统和暗物质这类无碰撞系统，速度弥散 \sigma 起着声速的作用，相应的讨论见 [4]。（“无碰撞粒子体系”一章中的金斯方程描述的是这类系统的平衡，与这里的金斯不稳定性是不同的问题。）</p>
 <p>一维情形下，气体满足连续性方程、欧拉方程（流体的牛顿第二定律）和泊松方程：</p>
 <p>等温气体 p=c_s^2\rho。在静止的均匀状态 \rho=\rho_0、v=0 附近，令 \rho=\rho_0+\delta\rho，\Phi=\Phi_0+\delta\Phi，只保留一阶小量：</p>
 <p>第一式对 t 求导，第二式对 x 求导，消去 v，再用第三式：</p>
 <p>三维的平面波扰动给出同样的结果。</p>
 <p>注意。 严格地说，无穷大的静止均匀介质并不是平衡态：泊松方程要求 \nabla^2\Phi_0=4\pi G\rho_0\neq0，引力场不可能处处为零。金斯直接忽略了 \Phi_0，这一做法被戏称为“金斯诈术”（Jeans swindle）。更仔细的处理（例如在膨胀宇宙或转动盘中）给出的判据与上面基本相同，所以结论是可靠的 [4]。</p>
-<h2 id="参考文献">参考文献</h2>
+<h2 id="参考文献与延伸阅读">参考文献与延伸阅读</h2>
 <p>1. A. P. French, Vibrations and Waves (W. W. Norton, 1971). 第 5 章（耦合振子与简正模）、第 6 章（连续体系的简正模与傅里叶分析）。 2. H. Goldstein, C. Poole, J. Safko, Classical Mechanics, 3rd ed. (Addison-Wesley, 2002). §13.1（从离散体系到连续体系的过渡）。 3. J. H. Jeans, “The Stability of a Spherical Nebula,” Phil. Trans. R. Soc. Lond. A 199, 1 (1902). 4. J. Binney, S. Tremaine, Galactic Dynamics, 2nd ed. (Princeton University Press, 2008). 关于金斯不稳定性与“金斯诈术”的章节。 5. D. R. Lorimer, M. Kramer, Handbook of Pulsar Astronomy (Cambridge University Press, 2005). 关于星际色散与色散量的章节。</p></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
       <nav id="pager" class="pager" aria-label="上一篇与下一篇" hidden></nav>
     </section>
