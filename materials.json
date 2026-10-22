@@ -16,12 +16,17 @@
           "title": "最小作用量原理",
           "file": "materials/Mechanics/最小作用量原理.md",
           "anchor": "最小作用量原理",
-          "updated": "2026-10-16",
+          "updated": "2026-10-22",
           "topics": [
             {
               "title": "力学相似性的更多应用",
               "file": "materials/Mechanics/力学相似性的更多应用.md",
               "updated": "2026-10-16"
+            },
+            {
+              "title": "费马原理与引力透镜",
+              "file": "materials/Mechanics/费马原理与引力透镜.md",
+              "updated": "2026-10-22"
             }
           ]
         },
