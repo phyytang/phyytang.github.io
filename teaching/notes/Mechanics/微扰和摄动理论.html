@@ -253,43 +253,6 @@
 <p>其中 R、a、n 分别为木卫一的半径、轨道半长轴和平运动，k_2 描述卫星受潮汐力作用时的形变程度。Q 正是本节定义的品质因数，用来描述木卫一内部对周期性潮汐形变的耗散：Q 越小，耗散越强。代入 M_{\rm J}=1.90\times10^{27} kg、R=1.82\times10^6 m、a=4.22\times10^8 m、n=4.11\times10^{-5}\ \text{s}^{-1}、e=0.0041，以及由轨道观测定出的 k_2/Q\approx0.015 [36]，得到</p>
 <p>平均到木卫一表面约为 2\ \text{W/m}^2，是地球平均地热流（约 0.09\ \text{W/m}^2）的二十多倍，与观测到的热流相符。注意 \dot E\propto e^2，而 e 由受迫振动维持：这正是“有阻尼的强迫振动”一节所说的稳态，外力的输入功率等于阻尼的耗散功率。这部分能量最终来自木星的自转，通过木星上的潮汐和轨道共振传递给木卫一。</p>
 <p>1979 年 3 月初，Peale、Cassen 和 Reynolds 发表论文，根据上述机制预言木卫一内部可能已经熔化、表面应当有火山活动 [35]；几天后，旅行者 1 号飞掠木卫一，拍到了正在喷发的火山羽流。</p>
-<h2 id="多自由度系统的简谐振动">多自由度系统的简谐振动</h2>
-<p>上面讨论的都是一个自由度。实际系统，如分子、晶格、耦合摆，往往有多个自由度，各自由度之间有耦合，运动方程是联立的。下面表明：在小振动近似下，总可以找到适当的坐标组合，使系统分解为若干彼此独立的谐振子。</p>
-<p>考虑一般的 s 自由度保守系统</p>
-<p>其中（重复指标表示求和）</p>
-<p>系统在平衡位置 q_{i0} 附近运动。令</p>
-<p>并在平衡点附近展开势能（平衡条件使一阶项消失，常数项 U(q_0) 可以略去）：</p>
-<p>动能已经是速度的二次型，\dot x 本身是小量，因此质量矩阵只需取平衡点处的值 m_{ij}=a_{ij}(q_0)。在线性近似下</p>
-<p>运动方程为</p>
-<p>或用矩阵表示为</p>
-<p>假设方程存在形如</p>
-<p>的解（所有自由度以同一频率振动，物理解取其实部），代入得到</p>
-<p>这是关于 A_j 的齐次线性方程组，非零解存在的条件是系数行列式为零：</p>
-<p>这是久期方程（secular equation）或特征方程，是关于 \omega^2 的 s 阶方程，具有 s 个正实根</p>
-<p>\omega_\alpha 称为系统的特征频率或本征频率。</p>
-<p>为什么根是实数且为正？m_{ij} 来自动能，是正定对称矩阵，k_{ij} 是实对称矩阵，所以这是一个广义的实对称本征值问题，\omega^2 必为实数。取实本征矢 A，用 A_i 缩并上面的方程得</p>
-<p>分母恒正，所以 \omega^2&gt;0 当且仅当 k_{ij} 正定，即平衡点是势能的极小值点。若某个 \omega_\alpha^2 为负，则相应解含指数增长或衰减因子，表明平衡点不稳定。若 \omega_\alpha=0，则对应沿该方向势能无变化，常见于系统存在连续对称性时（如分子的整体平动和转动）。</p>
-<p>每个 \omega_\alpha 都有相应的本征矢量 A^{(\alpha)}，系统可按本征频率作简谐振动。不同频率的本征矢量关于质量矩阵“正交”，m_{ij}A_i^{(\alpha)}A_j^{(\beta)}=0（\omega_\alpha\neq\omega_\beta）。以本征矢量为基底，可以找到正则坐标 \Theta_1,\ldots,\Theta_s，它们是 x_1,\ldots,x_s 的线性函数，使</p>
-<p>其中 m_\alpha 取决于本征矢量的归一化方式（取 m_{ij}A_i^{(\alpha)}A_j^{(\alpha)}=1 时 m_\alpha=1）。于是</p>
-<p>即通过同一线性变换，可以同时将 m_{ij} 与 k_{ij} 对角化，系统分解为彼此独立的振动模式，即简正振动（normal modes）。一般运动是这些简正模的线性叠加，而各模式的振幅和相位由初始条件决定。</p>
-<p>正交性。 设 \mathbf kA^{(\alpha)}=\omega_\alpha^2\mathbf mA^{(\alpha)}，\mathbf kA^{(\beta)}=\omega_\beta^2\mathbf mA^{(\beta)}。第一式左乘 A^{(\beta)\mathsf T}，第二式左乘 A^{(\alpha)\mathsf T}，再相减；由于 \mathbf k、\mathbf m 都是对称矩阵，两式左边相等，于是</p>
-<p>\omega_\alpha\neq\omega_\beta 时 A^{(\beta)\mathsf T}\mathbf mA^{(\alpha)}=0。若有简并的频率，可以在相应子空间中按“\mathbf m 内积”做施密特正交化。</p>
-<p>同时对角化。 \mathbf m 正定，所以存在正定对称的平方根 \mathbf m^{1/2}。令 \mathbf y=\mathbf m^{1/2}\mathbf x，则</p>
-<p>动能已经是单位矩阵。\mathbf K 是实对称矩阵，可以用一个正交矩阵 \mathbf O 对角化：\mathbf O^{\mathsf T}\mathbf K\mathbf O=\operatorname{diag}(\omega_1^2,\ldots,\omega_s^2)。再令 \boldsymbol\Theta=\mathbf O^{\mathsf T}\mathbf y；正交变换不改变 \dot{\mathbf y}^{\mathsf T}\dot{\mathbf y}，于是</p>
-<p>总的变换是 \mathbf x=\mathbf m^{-1/2}\mathbf O\,\boldsymbol\Theta，矩阵 \mathbf m^{-1/2}\mathbf O 的各列正是满足 A^{(\alpha)\mathsf T}\mathbf mA^{(\alpha)}=1 的本征矢。\det(\mathbf K-\omega^2)=\det(\mathbf m)^{-1}\det(\mathbf k-\omega^2\mathbf m)，所以 \omega_\alpha^2 正是久期方程的根。</p>
-<h3 id="例两个耦合振子">例：两个耦合振子</h3>
-<p>两个质量均为 m 的质点分别被劲度系数为 k 的弹簧拴在墙上，两质点之间又用劲度系数为 \kappa 的弹簧相连，则</p>
-<p>久期方程为</p>
-<p>解得</p>
-<p>物理上，\omega_1 是两个质点同相运动，中间的弹簧不发生形变，因此不受 \kappa 影响；\omega_2 是反相运动，中间的弹簧被拉伸得最多，频率最高。正则坐标为 \Theta_\pm=(x_1\pm x_2)/\sqrt2，在这组坐标下两个振子完全解耦：</p>
-<p>若在弱耦合 \kappa\ll k 时只拨动其中一个质点，则相当于同时激发了两个频率相近的简正模，其叠加产生拍，能量就在两个质点之间周期性地来回转移。</p>
-<p>取初始条件 x_1(0)=a，x_2(0)=0，初速度为零。则 \Theta_\pm(0)=a/\sqrt2，\dot\Theta_\pm(0)=0，两个简正模各自独立振动：</p>
-<p>变换回原坐标，记 \bar\omega=\tfrac12(\omega_1+\omega_2)，\Delta\omega=\omega_2-\omega_1：</p>
-<p>每个质点都以 \bar\omega 快速振动，振幅按 \Delta\omega/2 缓慢调制。弱耦合时每个质点的能量近似为</p>
-<p>t=\pi/\Delta\omega 时能量全部转移到质点 2，t=2\pi/\Delta\omega 时又全部回到质点 1。\kappa\ll k 时 \omega_2\approx\omega_1(1+\kappa/k)，\Delta\omega\approx\omega_1\kappa/k：耦合越弱，能量转移越慢，但最终仍会完全转移。</p>
-<p>下面的动画演示 \kappa=0.08\,k 的情形：只拨动左边的质点，能量逐渐全部转移到右边，再转移回来。</p>
-<p>简正模的概念贯穿物理学。把 s\to\infty，即得到晶格振动（声子）的经典图像；量子化后，每个简正模是一个独立的量子谐振子，E=\sum_\alpha(n_\alpha+\tfrac12)\hbar\omega_\alpha。小振动理论的更完整论述见 [1, §23–24]、[2, 第 6 章] 和 [3, §23]。</p>
-<p>两个简正模的运动见下面的动画。为了看清频率之比，这里取 \kappa=\tfrac58k，使 \omega_2=1.5\,\omega_1：同一段时间内模 1 振动 2 次，模 2 振动 3 次。</p>
 <h2 id="参数共振">参数共振</h2>
 <p>Parameter Resonance</p>
 <p>“强迫振动”中的外力是以非齐次项（源项）的形式进入方程的。还有一类更微妙的外界作用：它不是直接推动系统，而是周期性地调制系统本身的参数，例如周期性改变摆长或弹簧的劲度系数。小孩荡秋千时在每个周期内两次下蹲、两次站起（升降重心），就是在以约二倍于秋千固有频率的频率调制摆长，使摆幅越荡越大，这就是参数共振的典型例子。</p>
@@ -340,6 +303,44 @@
 <p>利用 \cos^2mt=\tfrac12(1+\cos2mt)，这正是调制频率 \gamma=2m 的 Mathieu 方程。落在不稳定区内的模式 \chi_k 指数增长，在量子场论中对应于粒子数的指数增长，也就是暴胀子的能量被急剧转化为 \chi 粒子，这一机制称为预加热（preheating）[8, 9]；教科书见 [10]。</p>
 <p>讲义给出的延伸阅读包括：</p>
 <p>Landau 与 Lifshitz 的力学教材 [1]； Mukhanov, Physical Foundations of Cosmology [10]； Kofman, Linde, Starobinsky, “Towards the Theory of Reheating after Inflation,” Physical Review D 56, 3258 [9]。</p>
+<h2 id="多自由度系统的简谐振动">多自由度系统的简谐振动</h2>
+<p>上面讨论的都是一个自由度。实际系统，如分子、晶格、耦合摆，往往有多个自由度，各自由度之间有耦合，运动方程是联立的。下面表明：在小振动近似下，总可以找到适当的坐标组合，使系统分解为若干彼此独立的谐振子。</p>
+<p>考虑一般的 s 自由度保守系统</p>
+<p>其中（重复指标表示求和）</p>
+<p>系统在平衡位置 q_{i0} 附近运动。令</p>
+<p>并在平衡点附近展开势能（平衡条件使一阶项消失，常数项 U(q_0) 可以略去）：</p>
+<p>动能已经是速度的二次型，\dot x 本身是小量，因此质量矩阵只需取平衡点处的值 m_{ij}=a_{ij}(q_0)。在线性近似下</p>
+<p>运动方程为</p>
+<p>或用矩阵表示为</p>
+<p>假设方程存在形如</p>
+<p>的解（所有自由度以同一频率振动，物理解取其实部），代入得到</p>
+<p>这是关于 A_j 的齐次线性方程组，非零解存在的条件是系数行列式为零：</p>
+<p>这是久期方程（secular equation）或特征方程，是关于 \omega^2 的 s 阶方程，具有 s 个正实根</p>
+<p>\omega_\alpha 称为系统的特征频率或本征频率。</p>
+<p>为什么根是实数且为正？m_{ij} 来自动能，是正定对称矩阵，k_{ij} 是实对称矩阵，所以这是一个广义的实对称本征值问题，\omega^2 必为实数。取实本征矢 A，用 A_i 缩并上面的方程得</p>
+<p>分母恒正，所以 \omega^2&gt;0 当且仅当 k_{ij} 正定，即平衡点是势能的极小值点。若某个 \omega_\alpha^2 为负，则相应解含指数增长或衰减因子，表明平衡点不稳定。若 \omega_\alpha=0，则对应沿该方向势能无变化，常见于系统存在连续对称性时（如分子的整体平动和转动）。</p>
+<p>每个 \omega_\alpha 都有相应的本征矢量 A^{(\alpha)}，系统可按本征频率作简谐振动。不同频率的本征矢量关于质量矩阵“正交”，m_{ij}A_i^{(\alpha)}A_j^{(\beta)}=0（\omega_\alpha\neq\omega_\beta）。以本征矢量为基底，可以找到正则坐标 \Theta_1,\ldots,\Theta_s，它们是 x_1,\ldots,x_s 的线性函数，使</p>
+<p>其中 m_\alpha 取决于本征矢量的归一化方式（取 m_{ij}A_i^{(\alpha)}A_j^{(\alpha)}=1 时 m_\alpha=1）。于是</p>
+<p>即通过同一线性变换，可以同时将 m_{ij} 与 k_{ij} 对角化，系统分解为彼此独立的振动模式，即简正振动（normal modes）。一般运动是这些简正模的线性叠加，而各模式的振幅和相位由初始条件决定。</p>
+<p>正交性。 设 \mathbf kA^{(\alpha)}=\omega_\alpha^2\mathbf mA^{(\alpha)}，\mathbf kA^{(\beta)}=\omega_\beta^2\mathbf mA^{(\beta)}。第一式左乘 A^{(\beta)\mathsf T}，第二式左乘 A^{(\alpha)\mathsf T}，再相减；由于 \mathbf k、\mathbf m 都是对称矩阵，两式左边相等，于是</p>
+<p>\omega_\alpha\neq\omega_\beta 时 A^{(\beta)\mathsf T}\mathbf mA^{(\alpha)}=0。若有简并的频率，可以在相应子空间中按“\mathbf m 内积”做施密特正交化。</p>
+<p>同时对角化。 \mathbf m 正定，所以存在正定对称的平方根 \mathbf m^{1/2}。令 \mathbf y=\mathbf m^{1/2}\mathbf x，则</p>
+<p>动能已经是单位矩阵。\mathbf K 是实对称矩阵，可以用一个正交矩阵 \mathbf O 对角化：\mathbf O^{\mathsf T}\mathbf K\mathbf O=\operatorname{diag}(\omega_1^2,\ldots,\omega_s^2)。再令 \boldsymbol\Theta=\mathbf O^{\mathsf T}\mathbf y；正交变换不改变 \dot{\mathbf y}^{\mathsf T}\dot{\mathbf y}，于是</p>
+<p>总的变换是 \mathbf x=\mathbf m^{-1/2}\mathbf O\,\boldsymbol\Theta，矩阵 \mathbf m^{-1/2}\mathbf O 的各列正是满足 A^{(\alpha)\mathsf T}\mathbf mA^{(\alpha)}=1 的本征矢。\det(\mathbf K-\omega^2)=\det(\mathbf m)^{-1}\det(\mathbf k-\omega^2\mathbf m)，所以 \omega_\alpha^2 正是久期方程的根。</p>
+<h3 id="例两个耦合振子">例：两个耦合振子</h3>
+<p>两个质量均为 m 的质点分别被劲度系数为 k 的弹簧拴在墙上，两质点之间又用劲度系数为 \kappa 的弹簧相连，则</p>
+<p>久期方程为</p>
+<p>解得</p>
+<p>物理上，\omega_1 是两个质点同相运动，中间的弹簧不发生形变，因此不受 \kappa 影响；\omega_2 是反相运动，中间的弹簧被拉伸得最多，频率最高。正则坐标为 \Theta_\pm=(x_1\pm x_2)/\sqrt2，在这组坐标下两个振子完全解耦：</p>
+<p>若在弱耦合 \kappa\ll k 时只拨动其中一个质点，则相当于同时激发了两个频率相近的简正模，其叠加产生拍，能量就在两个质点之间周期性地来回转移。</p>
+<p>取初始条件 x_1(0)=a，x_2(0)=0，初速度为零。则 \Theta_\pm(0)=a/\sqrt2，\dot\Theta_\pm(0)=0，两个简正模各自独立振动：</p>
+<p>变换回原坐标，记 \bar\omega=\tfrac12(\omega_1+\omega_2)，\Delta\omega=\omega_2-\omega_1：</p>
+<p>每个质点都以 \bar\omega 快速振动，振幅按 \Delta\omega/2 缓慢调制。弱耦合时每个质点的能量近似为</p>
+<p>t=\pi/\Delta\omega 时能量全部转移到质点 2，t=2\pi/\Delta\omega 时又全部回到质点 1。\kappa\ll k 时 \omega_2\approx\omega_1(1+\kappa/k)，\Delta\omega\approx\omega_1\kappa/k：耦合越弱，能量转移越慢，但最终仍会完全转移。</p>
+<p>下面的动画演示 \kappa=0.08\,k 的情形：只拨动左边的质点，能量逐渐全部转移到右边，再转移回来。</p>
+<p>简正模的概念贯穿物理学。把 s\to\infty，就从质点系过渡到连续介质和场（见本节末尾的拓展阅读）；量子化后，每个简正模是一个独立的量子谐振子，E=\sum_\alpha(n_\alpha+\tfrac12)\hbar\omega_\alpha。小振动理论的更完整论述见 [1, §23–24]、[2, 第 6 章] 和 [3, §23]。</p>
+<p>两个简正模的运动见下面的动画。为了看清频率之比，这里取 \kappa=\tfrac58k，使 \omega_2=1.5\,\omega_1：同一段时间内模 1 振动 2 次，模 2 振动 3 次。</p>
+<p>拓展阅读：从振子链到连续介质。 把两个耦合振子推广到 N 个并令 N\to\infty，就得到连续介质，这是物理学中“场”最简单的例子。场的运动仍然可以分解为彼此独立的简正模，只是模式有无穷多个；同样的数学还解释了电离层对低频射电波的屏蔽、脉冲星信号的色散，以及分子云的引力坍缩（金斯不稳定性）。详见拓展材料《从振子链到连续介质》。</p>
 <h2 id="天体摄动">天体摄动</h2>
 <p>前面的小振动是围绕一个平衡点的运动。天体力学中最重要的微扰问题是另一类：围绕一个可解的轨道（开普勒椭圆）的小偏离。本节先回顾两体问题，再说明如何处理第三个天体和其他修正。</p>
 <p>在两体问题中，有心力场拉格朗日量为</p>

@@ -26,6 +26,9 @@
     "figures/three/beats_to_resonance.gif": "c86b0dbbda90110513a04392cdb3ecd90c31d27ef5fa83df2744a42c299f91be",
     "figures/three/bh_ringdown.png": "9a09086e7f6ce63f8ea479289f9f51d2e61e4d92fa50a5c67e6ea35766f3be3d",
     "figures/three/celestial_perturbation.png": "0491b741362ea5eec2eae88d311add7fdde610a2335d5f4b1b5717ae2200bf82",
+    "figures/three/chain_dispersion.png": "373489da7473f049a97443c75562dae859d34a4a03f841c60bedb453be1b3a2d",
+    "figures/three/chain_modes.png": "e3cde6e5dfedf1a6846ae1bef5db23fe2a0f78e08ce4acb3123ff4f964cb7889",
+    "figures/three/chain_to_string.gif": "2ffd67d17966adb01b04dc529fd688640ac668a3978c8f81a9ed8aa1e3ad962d",
     "figures/three/coupled_beats.gif": "767ddb4b4916e21a2bca463ff2a0ba7eee91cb60f1c61d77bef819d0ae03aa83",
     "figures/three/damped_forced_response.png": "60b8237eaf9266ba03fe3e806b44739c5b050242366f058914971855bb72502e",
     "figures/three/damping_regimes.png": "133edc19a56f948eda9eb56d4e930fb84fa0098371cc9cd776fd68a0f286cc3a",
@@ -40,6 +43,7 @@
     "figures/three/ince_strutt.png": "824c7c8e64fe16700e0cd7598d2f220040960bf4356696d31f9926df8a02bb27",
     "figures/three/io_forced_ecc.png": "aac6984361fcb28e4952d8531802ac8b0e5fe37e58d56b54d315bc0c37e5a9a0",
     "figures/three/io_spiral.gif": "161a0561168516b7d5e380bdbf1b1b14e7eeb3897638429315449663b09d16cf",
+    "figures/three/jeans_dispersion.png": "0916f84ad170cb7ed0773b945d07e663d2711e0edd05602878eea0650279fe3b",
     "figures/three/kirkwood_gaps.png": "90131f30a22fac94b761ba7b27dc5b6330ac4bcece01d85858a516bd1dbd397c",
     "figures/three/mercury_rosette.gif": "a1a726fd3dd5446d9c4b1bc39f825db0a8bdd2c87abd4003771d62d42a540c78",
     "figures/three/mercury_u_phi.png": "f9f419a6dd7748fb8fe3600802b369a18310cb7c889761755b31752429176cba",
@@ -87,10 +91,11 @@
     "figures/two/zero_velocity_sweep.gif": "881fe723afcb848605e405e0f41925fe26330fbeb44323ba40c4f0c72de3beb5",
     "figures/two/六个轨道根数示意图.png": "0b8ea6aa5ec7eb9bc0f17be9cebec62819a8a007b24b10c46950b638b240e3f8",
     "中心力场.md": "81ee07554e37eda31396b81b5822d90ea2d44b38de24d81f26d1cbe699826fc7",
+    "从振子链到连续介质.md": "5d905017e8ed2c7346a6a02a7363c5dc5936c8ea3088300a362e2a5ae9d82e67",
     "力学相似性的更多应用.md": "7442e11a9d5e1c7925d4a2ed362439327f6d29642e39bfc614e7eb2110a5da7c",
     "卫星轨道与轨道确定.md": "95c6fec35d3b753109a7822c78771e98c95294f387c91ac1c0260b65dc5e4d56",
     "对称性自发破缺.md": "a3ee2e4df11941935e35c8a753dcfadcab5e21bb5f2ec26e871e34d8a19e1a35",
-    "微扰和摄动理论.md": "690ea7cdb2fd785685ec521033b4b3450870e1bb0099fdb811c4ecbb5fe2042d",
+    "微扰和摄动理论.md": "bce7833c2c334eafc061d7f1f3de73828d93d4f2ad4926af99bd5622803823ca",
     "最小作用量原理.md": "0fd3d38de0614f6b279ed71294901bc08ccc93c97697bf3506b2c458e65750e7",
     "球对称黑洞中的粒子运动.md": "a15c2aca64b5e253133e3aa20394fc0a2c2a8219b36d4fcbfc4e9f24cc891ad3",
     "绪论.md": "0a6d6759cd1918cdc2edb08d83bf4019ebab31e43c520e3e8c726b41439bce7f",
@@ -106,7 +111,7 @@
     "动力学系统与混沌.md": "eb8b1758a12900c528d317c18fcad7d5cf96aea27c78176fd87585007a533abf",
     "卫星轨道与轨道确定.md": "95c6fec35d3b753109a7822c78771e98c95294f387c91ac1c0260b65dc5e4d56",
     "哈密顿力学.md": "5f35e11b390ef13d5acef746e41db991a82a9ca130569a0fcbca07215d6ebf02",
-    "微扰和摄动理论.md": "690ea7cdb2fd785685ec521033b4b3450870e1bb0099fdb811c4ecbb5fe2042d",
+    "微扰和摄动理论.md": "bce7833c2c334eafc061d7f1f3de73828d93d4f2ad4926af99bd5622803823ca",
     "无碰撞粒子体系.md": "3e121b1b85491a2d1121d79de79df962421a84d88f688e4620ed7705dde3e371",
     "最小作用量原理.md": "0fd3d38de0614f6b279ed71294901bc08ccc93c97697bf3506b2c458e65750e7",
     "欧拉角与航天器姿态控制.md": "3927ad682ab82dc796f4bce7cf62384f43e5456a92876c5b006d7a3726e4b144",
@@ -114,6 +119,7 @@
     "绪论.md": "0a6d6759cd1918cdc2edb08d83bf4019ebab31e43c520e3e8c726b41439bce7f",
     "脉冲星三体系统与层级三体问题.md": "7eaa207a336e6afb1059c6a154bdd0b07b6b52db2ef811b30610ad8db0195be6",
     "量子谐振子与经典极限.md": "9e5907557a91e26bcd3712de25bd681f3223bfeb3369a593dc29842fde1a8fe4",
-    "对称性自发破缺.md": "a3ee2e4df11941935e35c8a753dcfadcab5e21bb5f2ec26e871e34d8a19e1a35"
+    "对称性自发破缺.md": "a3ee2e4df11941935e35c8a753dcfadcab5e21bb5f2ec26e871e34d8a19e1a35",
+    "从振子链到连续介质.md": "5d905017e8ed2c7346a6a02a7363c5dc5936c8ea3088300a362e2a5ae9d82e67"
   }
 }
