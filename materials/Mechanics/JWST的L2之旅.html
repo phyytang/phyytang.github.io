@@ -1,7 +1,12 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JWST 的 L2 之旅</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap">
 <style>
 /* Layout: a single lecture column (~44rem) with figures that widen to ~70rem; figures are "instrument panels" with a readout strip. */
 :root{
@@ -56,7 +61,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.2rem 1rem;padding:.7rem 1rem;border-top:1px solid var(--rule);font-family:var(--f-mono);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .readout span b{display:block;color:var(--ink);font-size:.98rem;font-weight:500}
 .phase{grid-column:1/-1;color:var(--gold);font-family:var(--f-body);font-size:.9rem}
-.eq{overflow-x:auto;overflow-y:hidden;margin:1rem 0;padding:.4rem 0}
+.eq{overflow-x:auto;overflow-y:hidden;max-width:100%;margin:1rem 0;padding:.4rem 0}
+.eq .katex-display{margin:.3rem 0}
+.eq .katex-display>.katex{width:max-content;min-width:100%}
 .callout{border-left:3px solid var(--gold);padding:.2rem 0 .2rem 1rem;margin:1.4rem 0;color:var(--ink)}
 .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.93em}
 table{border-collapse:collapse;width:100%;font-size:.9rem}
@@ -81,12 +88,62 @@ svg text{font-family:var(--f-body)}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
 </style>
 <script>
-window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},options:{enableMenu:false}};
+// Reuse the course site's pinned KaTeX resources instead of an external math CDN.
+(() => {
+  const siteRoot = location.protocol === 'file:' || !location.pathname.includes('/materials/Mechanics/')
+    ? new URL('https://phyytang.github.io/') : new URL('../../', location.href);
+  const ready = document.readyState === 'loading'
+    ? new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve, {once:true}))
+    : Promise.resolve();
+  const reportFailure = () => {
+    document.documentElement.dataset.mathStatus = 'error';
+    ready.then(() => {
+      const status = document.getElementById('math-status');
+      status.textContent = '公式排版暂不可用，请刷新页面重试。';
+      status.hidden = false;
+    });
+  };
+  const loadScript = path => new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = new URL(path, siteRoot).href;
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.append(script);
+  });
+  const loadStyle = new Promise((resolve, reject) => {
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = new URL('vendor/katex/dist/katex.min.css', siteRoot).href;
+    style.onload = resolve;
+    style.onerror = reject;
+    document.head.append(style);
+  });
+  document.documentElement.dataset.mathStatus = 'loading';
+  Promise.all([ready, loadStyle, loadScript('vendor/katex/dist/katex.min.js')
+    .then(() => loadScript('vendor/katex/dist/contrib/auto-render.min.js'))])
+    .then(() => {
+      let errors = 0;
+      renderMathInElement(document.querySelector('main'), {
+        delimiters: [
+          {left:'$$', right:'$$', display:true},
+          {left:'\\[', right:'\\]', display:true},
+          {left:'\\(', right:'\\)', display:false}
+        ],
+        throwOnError:true, trust:false, strict:'ignore',
+        errorCallback:() => { errors++; }
+      });
+      if (errors) reportFailure();
+      else document.documentElement.dataset.mathStatus = 'ready';
+    }).catch(reportFailure);
+})();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
 
+</head>
+<body>
 <main>
 <header class="col">
+  <p id="math-status" class="hint" role="status" hidden></p>
   <div class="eyebrow">理论力学 · 限制性三体问题的一次实战</div>
   <h1>JWST 的 L2 之旅</h1>
   <p class="lead">2021 年 12 月 25 日，阿丽亚娜 5 号把韦布空间望远镜送上一条几乎不用再加油的路：它在近地点获得刚好不够逃逸的速度，然后沿着日–地系统 L2 点附近 halo 轨道的<b>稳定流形</b>“滑”过去。整个旅程只用了 24.3 m/s 的修正量。下面用数值计算的轨道把这件事从头讲一遍。</p>
@@ -756,3 +813,5 @@ function polyline(ctx,P,tr,tmax,col,lw,dash){
 })();
 })();
 </script>
+</body>
+</html>
