@@ -26,7 +26,7 @@
             {
               "title": "费马原理与引力透镜",
               "file": "materials/Mechanics/费马原理与引力透镜.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             }
           ]
         },
@@ -67,12 +67,12 @@
             {
               "title": "脉冲星三体系统与层级三体问题",
               "file": "materials/Mechanics/脉冲星三体系统与层级三体问题.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             },
             {
               "title": "对称性自发破缺",
               "file": "materials/Mechanics/对称性自发破缺.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             },
             {
               "title": "从振子链到连续介质",
@@ -91,7 +91,7 @@
             {
               "title": "欧拉角与航天器姿态控制",
               "file": "materials/Mechanics/欧拉角与航天器姿态控制.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             }
           ]
         },
@@ -105,12 +105,12 @@
             {
               "title": "KAM 定理",
               "file": "materials/Mechanics/KAM定理.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             },
             {
               "title": "动力学系统与混沌",
               "file": "materials/Mechanics/动力学系统与混沌.md",
-              "updated": "2026-10-22"
+              "updated": "2026-10-23"
             }
           ]
         },
@@ -119,7 +119,7 @@
           "title": "无碰撞粒子体系",
           "file": "materials/Mechanics/无碰撞粒子体系.md",
           "available": false,
-          "updated": "2026-10-22"
+          "updated": "2026-10-23"
         }
       ]
     }
