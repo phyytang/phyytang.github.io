@@ -36,7 +36,7 @@
       <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="费马原理与引力透镜">费马原理与引力透镜</h1>
 <p>details.derivation { border-left: 3px solid #1f4e9c; background: #f6f8fb; padding: 0.35em 1em; margin: 1em 0; border-radius: 4px; } details.derivation &gt; summary { cursor: pointer; font-weight: 600; color: #1f4e9c; } details.derivation[open] &gt; summary { margin-bottom: 0.5em; } @media print { details.derivation::details-content { content-visibility: visible; display: block; } details.derivation &gt; summary { list-style: none; margin-bottom: 0.5em; } details.derivation &gt; summary::-webkit-details-marker { display: none; } }</p>
 <p>——从光的折射到弯曲的星光</p>
-<p>本文是“最小作用量原理”一章的拓展材料，建议在学完该章“变分法”一节（特别是最速下降曲线和 Beltrami 恒等式）之后阅读。“中心力场”一章的“光线的引力偏折”给出了牛顿理论的偏折角，并指出广义相对论的结果是它的两倍；本文用费马原理把这个“两倍”算出来。第 4、5 节不要求学过广义相对论。</p>
+<p>本文是“最小作用量原理”一章的拓展材料，建议在学完该章“变分法”一节（特别是最速降线和 Beltrami 恒等式）之后阅读。“中心力场”一章的“光线的引力偏折”给出了牛顿理论的偏折角，并指出广义相对论的结果是它的两倍；本文用费马原理把这个“两倍”算出来。第 4、5 节不要求学过广义相对论。</p>
 <p>阅读提示：文中蓝色边框的“推导”块默认折叠，点击标题展开；打印或导出 PDF 时会自动展开。</p>
 <p>最小作用量原理说：力学系统的真实运动使作用量取驻值。在它之前，光学中早已有一个形式相同的原理，即费马原理：光从一点传到另一点，走的是传播时间取驻值的路径。本文从费马原理出发，先看它如何解释地面上的折射和大气折射，再把引力场看成一种“介质”，得到星光的偏折、雷达回波的延迟和引力透镜。最后会看到，引力透镜所成的每一个像都对应“到达时间”的一个驻点：其中既有极小，也有鞍点，正好呼应正文中“作用量不一定取最小值”的讨论。</p>
 <h2 id="费马原理">费马原理</h2>
@@ -48,13 +48,13 @@
 <p>令 d\Lambda/dx=0：</p>
 <p>其中 \theta_1、\theta_2 是光线与界面法线的夹角。这就是斯涅尔折射定律。光在水中走得慢，所以宁可在空气中多走一段，在水中少走一段。</p>
 <p>折射率连续变化的介质。 若折射率只随高度 y 变化，n=n(y)，把光线写成 y(x)，光程是一个泛函：</p>
-<p>被积函数不显含 x，由正文最速下降曲线中用过的 Beltrami 恒等式（推导见下方），</p>
+<p>被积函数不显含 x，由正文求解最速降线时用过的 Beltrami 恒等式（推导见下方），</p>
 <p>\theta 是光线与竖直方向的夹角。把连续介质看成无数薄层，每两层之间都满足斯涅尔定律，结果正是这个式子。它说明光线总是向折射率大的一侧弯曲。夏天柏油路面附近的空气热、密度小、折射率小，远处天空的光向下传播时逐渐向上弯，进入眼睛，看起来像是从路面上发出的，像路面上有一摊水，这就是海市蜃楼（下蜃景）。</p>
 <p>记 F(y,y&#x27;)=n(y)\sqrt{1+y&#x27;^2}。F 不显含 x，Beltrami 恒等式给出 y&#x27;\,\partial F/\partial y&#x27;-F=\text{常数}：</p>
 <p>设光线与水平方向的夹角为 \alpha，则 \tan\alpha=y&#x27;，\cos\alpha=1/\sqrt{1+y&#x27;^2}。光线与竖直方向（各层的法线方向）的夹角为 \theta=\tfrac\pi2-\alpha，所以 \cos\alpha=\sin\theta，上式即 n\sin\theta=\text{常数}。</p>
 <p>这与力学中“拉格朗日量不显含时间，则能量守恒”是同一件事：这里 x 扮演时间的角色。</p>
 <h2 id="最速降线就是一条光线">最速降线就是一条光线</h2>
-<p>正文中最速下降曲线的下滑时间为 T=\int ds/v，其中 v=\sqrt{2gy}（y 轴向下）。与光的传播时间 T=\frac1c\int n\,ds 比较，最速降线问题就是：在折射率 n\propto1/v\propto1/\sqrt y 的分层介质中，光从 A 到 B 走哪条路？ 这正是约翰·伯努利在 1697 年给出的解法 [3]。由分层介质中的 n\sin\theta=\text{常数}，</p>
+<p>正文中最速降线的下滑时间为 T=\int ds/v，其中 v=\sqrt{2gy}（y 轴向下）。与光的传播时间 T=\frac1c\int n\,ds 比较，最速降线问题就是：在折射率 n\propto1/v\propto1/\sqrt y 的分层介质中，光从 A 到 B 走哪条路？ 这正是约翰·伯努利在 1697 年给出的解法 [3]。由分层介质中的 n\sin\theta=\text{常数}，</p>
 <p>\sin\theta=dx/ds=1/\sqrt{1+y&#x27;^2}，于是 y\left(1+y&#x27;^2\right)=\text{常数}，与正文用 Beltrami 恒等式得到的摆线方程相同。伯努利的解法不需要变分法的一般理论，只用到光学中已知的折射定律。</p>
 <p>质点也会“折射”。 反过来，力学中的运动也可以用光学的语言描述。设质点在只随高度变化的势场 U(y) 中运动。势能与 x 无关，所以动量的 x 分量守恒（正文“空间平移不变性与动量守恒”）；能量也守恒，速率 v=\sqrt{2(E-U)/m}。设轨道与竖直方向的夹角为 \theta，则 p_x=mv\sin\theta，于是</p>
 <p>与 n\sin\theta=\text{常数} 比较：质点的轨道就是折射率 n\propto v\propto\sqrt{E-U} 的介质中的光线。这个结论对一般的势能也成立：能量固定时，质点的真实轨道使 \int p\,ds=\int\sqrt{2m(E-U)}\,ds 取驻值，称为莫佩尔蒂原理，也就是正文提到的最小作用量思想的原始形式 [2, §44]。</p>
