@@ -121,3 +121,6 @@ html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0
 .course-back{display:inline-block;margin:30px 0 0;font-size:14px}.course-page .hero{padding-top:40px}.course-page .course-header{display:none}.course-empty{padding:42px 0}.course-empty h2{font-size:22px;font-weight:500;margin:0 0 12px}.course-empty p{color:var(--muted);margin:0}.teaching-overview{margin:-10px 0 24px;font-size:14px}
 @media(max-width:900px){.course-grid,.home-course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.course-grid,.home-course-grid{grid-template-columns:1fr}.course-card{padding:24px}.course-page .hero{padding-top:30px}}
+
+/* Visit counters: dimmed while showing the last known total during a service outage. */
+.visit-counter .visit-value{font-variant-numeric:tabular-nums}.visit-stale .visit-value{opacity:.6}

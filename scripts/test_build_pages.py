@@ -17,7 +17,7 @@ class CoursePagesTests(unittest.TestCase):
         (self.root / 'materials/Mechanics').mkdir(parents=True)
         (self.root / 'materials/Mechanics/open.md').write_text('# 开放章节\n\n正文包含测试内容。\n\n## 第一节\n')
         self.data = {'courses': [
-            {'id': 'mechanics', 'title': '理论力学', 'description': '课程介绍', 'visitCounter': True, 'materials': [
+            {'id': 'mechanics', 'title': '理论力学', 'description': '课程介绍', 'visitCounter': {'offset': 130}, 'materials': [
                 {'number': 0, 'title': '开放章节', 'file': 'materials/Mechanics/open.md'},
                 {'number': 1, 'title': '未开放', 'file': 'materials/Mechanics/closed.md', 'available': False}]},
             {'id': 'computation', 'title': '计算物理', 'description': '正在整理', 'materials': []}]}
@@ -34,6 +34,7 @@ class CoursePagesTests(unittest.TestCase):
         self.assertIn('<h1 id="library-title">理论力学</h1>', course)
         self.assertIn('teaching-visit-count', course)
         self.assertIn('理论力学页面访问次数', course)
+        self.assertIn('data-visit-offset="130" data-visit-floor="130"', course)
         note = (self.root / 'teaching/notes/Mechanics/open.html').read_text()
         self.assertIn('href="../../../teaching/courses/mechanics/"', note)
         self.assertIn('data-note="materials/Mechanics/open.md"', note)

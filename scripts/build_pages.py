@@ -236,10 +236,15 @@ def build_course_pages(root, template, data):
         page = course_path(course)
         prefix = relative_prefix(page)
         if course.get("visitCounter"):
-            counter = ('<span id="teaching-visit-count" title="本课程目录页面的累计浏览次数，重复访问也会计数">'
+            # visitCounter: true, or {"offset": N, "floor": N} to carry over views recorded
+            # before the course page moved to its current URL.
+            setting = course["visitCounter"] if isinstance(course["visitCounter"], dict) else {}
+            offset, floor = int(setting.get("offset", 0)), int(setting.get("floor", setting.get("offset", 0)))
+            counter = (f'<span id="teaching-visit-count" class="visit-counter" data-visit-counter="page" '
+                       f'data-visit-offset="{offset}" data-visit-floor="{floor}" '
+                       'title="本课程目录页面的累计浏览次数，重复访问也会计数">'
                        f'{html.escape(course["title"])}页面访问次数：'
-                       '<span id="busuanzi_value_page_pv" aria-live="polite">稍后更新…</span>'
-                       '<span id="visit-count-unit" hidden> 次</span></span>')
+                       f'<span class="visit-value" aria-live="polite">{floor or "—"}</span> 次</span>')
         else:
             counter = ""
         out = re.sub(r"<!-- catalog-counter:start -->[\s\S]*?<!-- catalog-counter:end -->", lambda _: counter, template)

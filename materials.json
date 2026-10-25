@@ -16,7 +16,7 @@
           "title": "最小作用量原理",
           "file": "materials/Mechanics/最小作用量原理.md",
           "anchor": "最小作用量原理",
-          "updated": "2026-10-24",
+          "updated": "2026-10-25",
           "topics": [
             {
               "title": "力学相似性的更多应用",
@@ -122,7 +122,10 @@
           "updated": "2026-10-23"
         }
       ],
-      "visitCounter": true
+      "visitCounter": {
+        "offset": 130,
+        "floor": 130
+      }
     },
     {
       "id": "computational-physics",
