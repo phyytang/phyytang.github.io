@@ -113,3 +113,11 @@ html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0
 .markdown-body .lecture-figure{text-align:center}
 .markdown-body .lecture-figure > a:only-child{display:block}
 .markdown-body .lecture-figure > img,.markdown-body .lecture-figure > a:only-child > img{display:block;margin-inline:auto}
+
+/* Course directory and separate course pages. */
+.course-grid,.home-course-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border:0}
+.course-card{display:flex;flex-direction:column;gap:14px;border:1px solid var(--line);border-radius:6px;padding:28px;color:var(--ink);text-decoration:none;transition:background .15s}
+.course-card:hover{background:var(--wash)}.course-card .eyebrow{margin:0}.course-card h2{font-family:Georgia,"Noto Serif SC","Songti SC",serif;font-weight:500;font-size:28px;margin:0;line-height:1.4}.course-card p{font-size:15px;color:var(--muted);margin:0}.course-card-action{font-size:14px;color:var(--accent);margin-top:auto;padding-top:12px}
+.course-back{display:inline-block;margin:30px 0 0;font-size:14px}.course-page .hero{padding-top:40px}.course-page .course-header{display:none}.course-empty{padding:42px 0}.course-empty h2{font-size:22px;font-weight:500;margin:0 0 12px}.course-empty p{color:var(--muted);margin:0}.teaching-overview{margin:-10px 0 24px;font-size:14px}
+@media(max-width:900px){.course-grid,.home-course-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.course-grid,.home-course-grid{grid-template-columns:1fr}.course-card{padding:24px}.course-page .hero{padding-top:30px}}

@@ -122,6 +122,22 @@
           "updated": "2026-10-23"
         }
       ]
+    },
+    {
+      "id": "computational-physics",
+      "title": "计算物理",
+      "description": "课程讲义与学习材料，正在整理中。",
+      "status": "内容筹备中",
+      "emptyMessage": "计算物理的章节与讲义将在整理完成后陆续发布。",
+      "materials": []
+    },
+    {
+      "id": "new-course",
+      "title": "新课程",
+      "description": "为后续课程预留的位置。",
+      "status": "敬请期待",
+      "emptyMessage": "课程确定后，这里将展示课程介绍、章节与学习材料。",
+      "materials": []
     }
   ]
 }

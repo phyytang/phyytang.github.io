@@ -15,7 +15,7 @@
     // Links shared before the course site moved to /teaching/ (…/?note=…) keep working.
     if (/[?&]note=/.test(location.search)) location.replace("teaching/" + location.search + location.hash);
   </script>
-  <link rel="stylesheet" href="assets/site.css?v=78315dc74b7f">
+  <link rel="stylesheet" href="assets/site.css?v=1aa631ac4d75">
   <script defer src="assets/visits.js?v=f53a69e9d103"></script>
 </head>
 <body class="home">
@@ -55,12 +55,12 @@
 
     <section id="teaching" class="home-section" aria-labelledby="teaching-title">
       <h2 id="teaching-title">教学</h2>
-      <a class="home-course" href="teaching/">
-        <span class="eyebrow">课程讲义</span>
-        <span class="home-course-title">理论力学</span>
-        <span class="home-course-text">从最小作用量原理、中心力场、微扰理论到哈密顿力学，按章节在线阅读，附拓展专题与交互演示。</span>
-        <span class="home-course-action">进入课程目录 →</span>
-      </a>
+      <p class="teaching-overview"><a href="teaching/">浏览全部课程 →</a></p>
+      <!-- home-courses:start -->
+      <div class="home-course-grid"><a class="course-card" href="teaching/courses/theoretical-mechanics/"><span class="eyebrow">课程讲义</span><h2>理论力学</h2><p>从作用量原理到哈密顿力学，按章节展开学习。</p><span class="course-card-action">进入课程 →</span></a>
+<a class="course-card" href="teaching/courses/computational-physics/"><span class="eyebrow">内容筹备中</span><h2>计算物理</h2><p>课程讲义与学习材料，正在整理中。</p><span class="course-card-action">进入课程 →</span></a>
+<a class="course-card" href="teaching/courses/new-course/"><span class="eyebrow">敬请期待</span><h2>新课程</h2><p>为后续课程预留的位置。</p><span class="course-card-action">进入课程 →</span></a></div>
+      <!-- home-courses:end -->
     </section>
 
     <section id="publications" class="home-section" aria-labelledby="publications-title">

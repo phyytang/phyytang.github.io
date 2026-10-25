@@ -5,19 +5,23 @@
 静态 GitHub Pages 网站，由两部分组成：
 
 - **个人学术主页**（根目录 `index.html`）：研究方向、教学、论文与联系方式。黄色虚线框标出的【…】是待填写的占位内容，发布前请补全或删除。
-- **课程与讲义**（`teaching/`）：按课程列出章节和拓展讲义，每篇讲义有独立的阅读页面。目前收录“理论力学”七章及其拓展专题。
+- **课程与讲义**（`teaching/`）：展示课程总目录，每门课程有独立页面，再列出章节和拓展讲义。目前理论力学已有讲义，计算物理和新课程预留了独立页面。
 
 ## 更新讲义
 
 在本地原始 `Mechanics` 文件夹中编辑资料，再双击 **同步讲义.command** 或运行 `python3 scripts/sync_mechanics.py --publish`。首次运行需指定源文件夹，完整步骤见[同步说明](同步说明.md)。
 
-同步只发布开放章节及其拓展讲义，以及这些讲义实际引用的图片和动画；PDF、作图源文件（`.py`、`.tex`、`.rda`）、未被引用的图片与手绘草图、尚未讲授的章节都留在本地。同步结束后会自动生成静态阅读页、搜索索引和 sitemap。源文件夹不会被改动。
+同步只发布开放章节及其拓展讲义，以及这些讲义实际引用的图片和动画；PDF、作图源文件（`.py`、`.tex`、`.rda`）、未被引用的图片与手绘草图、尚未讲授的章节都留在本地。同步结束后会自动生成各课程目录、主页课程卡片、静态阅读页、搜索索引和 sitemap。源文件夹不会被改动。
 
 支持中文、图片、表格、代码块和数学公式。行内公式使用 `$ ... $`，独立公式使用 `$$ ... $$`。讲义之间用相对链接互相引用，例如 `[“中心力场”](中心力场.md)`、`[“散射问题”](#散射问题)`；链接到尚未开放的讲义时，网页只显示文字、不显示链接。
 
 ## 课程目录配置
 
-`materials.json` 中，每章包含 `number`、`title`、`file`，以及可选字段：
+`materials.json` 的 `courses` 数组定义课程。每门课程包含唯一的 `id`（小写字母、数字和连字符）、`title`、`description` 与 `materials` 章节数组。空的章节数组表示课程筹备中，可设置 `status` 与 `emptyMessage` 说明进度。
+
+教学总目录为 `/teaching/`，各课程目录为 `/teaching/courses/<id>/`，例如 [理论力学](https://phyytang.github.io/teaching/courses/theoretical-mechanics/) 和 [计算物理](https://phyytang.github.io/teaching/courses/computational-physics/)。添加课程配置后，运行 `python3 scripts/build_pages.py` 即可更新独立课程页、教学总目录和主页课程卡片。现有讲义地址保持不变，讲义的返回链接指向所属课程。
+
+每章包含 `number`、`title`、`file`，以及可选字段：
 
 - `available: false`：章节显示为“尚未讲授”，同步时不发布其正文与拓展讲义；
 - `topics`：拓展讲义列表（`title`、`file`，可选 `available`）。拓展讲义默认跟随所属章节是否开放；
@@ -29,7 +33,8 @@
 ## 网站文件
 
 - `index.html`：个人学术主页；旧的 `/?note=…` 分享链接会自动转到课程站。
-- `teaching/index.html`：课程目录与阅读页面，也是静态讲义页的模板。
+- `teaching/index.html`：课程总目录与阅读模板；课程卡片由构建工具更新。
+- `teaching/courses/<id>/index.html`：自动生成的独立课程目录，请勿手工修改。
 - `teaching/notes/`、`teaching/search-index.json`、`sitemap.xml`：由 `scripts/build_pages.py` 生成，请勿手工修改。
 - `materials.json`：课程、章节与拓展讲义配置。
 - `materials/`：公开的 Markdown 讲义及附件；`materials/copyright.md` 是版权与使用说明（CC BY-NC-SA 4.0）。

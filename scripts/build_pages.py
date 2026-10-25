@@ -24,7 +24,8 @@ TEMPLATE = Path("teaching") / "index.html"
 NOTES_DIR = Path("teaching") / "notes"
 INDEX = Path("teaching") / "search-index.json"
 SITEMAP = Path("sitemap.xml")
-GENERATED = [str(NOTES_DIR), str(INDEX), str(SITEMAP)]
+COURSES_DIR = Path("teaching") / "courses"
+GENERATED = [str(TEMPLATE), "index.html", str(NOTES_DIR), str(COURSES_DIR), str(INDEX), str(SITEMAP)]
 
 HTML_BLOCK = re.compile(r"^ {0,3}</?(?:details|summary|div|table|thead|tbody|tr|td|th|p|figure|figcaption|section|aside|blockquote|ul|ol|li|center|dl|dt|dd|nav|hr|h[1-6])(?:\s|/?>|$)", re.I)
 HEADING = re.compile(r"^ {0,3}(#{1,6})(?=\s|$)(.*)$")
@@ -152,7 +153,7 @@ def relative_prefix(path):
     return "../" * (len(path.parts) - 1)
 
 
-def render_page(template, *, page, file, title, description, markdown, stem):
+def render_page(template, *, page, file, title, description, markdown, stem, course=None):
     root = relative_prefix(page)
     teaching = root + "teaching/"
     out = re.sub(r"<!-- library:start -->[\s\S]*?<!-- library:end -->", "", template)
@@ -171,6 +172,10 @@ def render_page(template, *, page, file, title, description, markdown, stem):
               f'  <meta property="og:url" content="{canonical}">\n'
               f'  <meta property="og:site_name" content="phyytang · 课程与讲义">\n  ')
     out = out.replace("<title>", social + "<title>", 1)
+    if course:
+        back = root + course_path(course).parent.as_posix() + "/"
+        out = re.sub(r'<a id="reader-back"[^>]*>[^<]*</a>',
+                     lambda _: f'<a id="reader-back" href="{back}">← {html.escape(course["title"])}目录</a>', out)
     out = out.replace('<section id="reader" hidden', '<section id="reader"', 1)
     body = []
     heading_iter = iter(headings_with_slugs(markdown, stem))
@@ -204,6 +209,71 @@ def describe(markdown):
     return ""
 
 
+def course_path(course):
+    identifier = course["id"]
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", identifier):
+        raise ValueError(f"课程 id 需使用小写字母、数字和连字符：{identifier}")
+    return COURSES_DIR / identifier / "index.html"
+
+
+def course_cards(courses, prefix):
+    cards = []
+    for course in courses:
+        status = "课程讲义" if course.get("materials") else course.get("status", "内容筹备中")
+        url = prefix + course_path(course).parent.as_posix() + "/"
+        cards.append(f'<a class="course-card" href="{html.escape(url)}">'
+                     f'<span class="eyebrow">{html.escape(status)}</span>'
+                     f'<h2>{html.escape(course["title"])}</h2>'
+                     f'<p>{html.escape(course.get("description", ""))}</p>'
+                     '<span class="course-card-action">进入课程 →</span></a>')
+    return "\n".join(cards)
+
+
+def build_course_pages(root, template, data):
+    courses = data.get("courses", [])
+    written = set()
+    for course in courses:
+        page = course_path(course)
+        prefix = relative_prefix(page)
+        out = re.sub(r"<!-- catalog-counter:start -->[\s\S]*?<!-- catalog-counter:end -->", "", template)
+        out = re.sub(r'(\s(?:href|src)=")\.\./', lambda m: m.group(1) + prefix, out)
+        out = re.sub(r'(\s(?:href|src)=")\./', lambda m: m.group(1) + prefix + "teaching/", out)
+        out = out.replace('data-root="../"', f'class="course-page" data-root="{prefix}" data-course="{course["id"]}"')
+        out = re.sub(r"<title>[^<]*</title>", lambda _: f'<title>{html.escape(course["title"])} · 课程与讲义 · phyytang</title>', out)
+        description = html.escape(course.get("description", ""))
+        out = re.sub(r'<meta name="description" content="[^"]*">', lambda _: f'<meta name="description" content="{description}">', out)
+        canonical = SITE_URL + course_path(course).parent.as_posix() + "/"
+        out = out.replace("<title>", f'<link rel="canonical" href="{canonical}">\n  <title>', 1)
+        out = out.replace('<div class="hero">', f'<a class="course-back" href="{prefix}teaching/">← 全部课程</a>\n      <div class="hero">', 1)
+        out = out.replace('<h1 id="library-title">课程与讲义</h1>', f'<h1 id="library-title">{html.escape(course["title"])}</h1>')
+        out = re.sub(r'<p class="intro">[\s\S]*?</p>', lambda _: f'<p class="intro">{description}</p>', out, count=1)
+        out = out.replace('课程目录 <span id="count"', '章节与讲义 <span id="count"')
+        out = out.replace('搜索课程…', '搜索章节或小节标题…').replace('搜索课程</span>', '搜索章节或小节</span>')
+        out = re.sub(r'<div id="materials-list"[^>]*>[\s\S]*?</div>', '<div id="materials-list" class="materials-list"></div>', out, count=1)
+        target = root / page
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists() or target.read_text(encoding="utf-8") != out:
+            target.write_text(out, encoding="utf-8")
+        written.add(target.resolve())
+    if (root / COURSES_DIR).exists():
+        for stale in (root / COURSES_DIR).glob("*/index.html"):
+            if stale.resolve() not in written:
+                stale.unlink()
+    # Keep both entry pages in sync with the same course catalog.
+    cards = course_cards(courses, "../")
+    hub = re.sub(r'<div id="materials-list"[^>]*>[\s\S]*?</div>',
+                 lambda _: f'<div id="materials-list" class="materials-list course-grid">{cards}</div>', template, count=1)
+    if (root / TEMPLATE).read_text(encoding="utf-8") != hub:
+        (root / TEMPLATE).write_text(hub, encoding="utf-8")
+    homepage = root / "index.html"
+    if homepage.is_file():
+        source = homepage.read_text(encoding="utf-8")
+        home = re.sub(r'<!-- home-courses:start -->[\s\S]*?<!-- home-courses:end -->',
+                      lambda _: '<!-- home-courses:start -->\n      <div class="home-course-grid">' + course_cards(courses, "") + '</div>\n      <!-- home-courses:end -->', source)
+        if home != source:
+            homepage.write_text(home, encoding="utf-8")
+
+
 def build(root=ROOT):
     root = Path(root)
     data = json.loads((root / "materials.json").read_text(encoding="utf-8"))
@@ -211,7 +281,9 @@ def build(root=ROOT):
         print(f"提示：缺少 {TEMPLATE}，未生成静态讲义页。")
         return 0
     template = (root / TEMPLATE).read_text(encoding="utf-8")
+    build_course_pages(root, template, data)
     written, index, sitemap = set(), [], [(SITE_URL, None), (SITE_URL + "teaching/", None)]
+    sitemap.extend((SITE_URL + course_path(course).parent.as_posix() + "/", None) for course in data.get("courses", []))
     for course, entry, number, parent in note_pages(data):
         source = root / entry["file"]
         if not source.is_file():
@@ -226,7 +298,7 @@ def build(root=ROOT):
         target = root / page
         target.parent.mkdir(parents=True, exist_ok=True)
         content = render_page(template, page=page, file=entry["file"], title=f"{h1} · {course.get('title', '')}",
-                              description=description, markdown=markdown, stem=stem)
+                              description=description, markdown=markdown, stem=stem, course=course)
         if not target.exists() or target.read_text(encoding="utf-8") != content:
             target.write_text(content, encoding="utf-8")
         written.add(target.resolve())

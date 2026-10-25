@@ -98,13 +98,57 @@ function formatDate(value) {
   return value ? `更新于 ${value}` : "";
 }
 
+function courseURL(course) {
+  return new URL(`courses/${encodeURIComponent(course.id)}/`, teachingRoot).href;
+}
+
+function showCourseDirectory(data) {
+  const list = $("materials-list");
+  list.classList.add("course-grid");
+  const cards = data.courses.map((course) => {
+    const card = element("a", "course-card");
+    card.href = courseURL(course);
+    card.append(element("span", "eyebrow", course.materials.length ? "课程讲义" : (course.status || "内容筹备中")),
+      element("h2", "", course.title), element("p", "", course.description || ""),
+      element("span", "course-card-action", "进入课程 →"));
+    return {card, search: `${course.title} ${course.description || ""}`.toLocaleLowerCase()};
+  });
+  list.replaceChildren(...cards.map(({card}) => card));
+  const filter = () => {
+    const query = $("search").value.trim().toLocaleLowerCase();
+    for (const item of cards) item.card.hidden = !item.search.includes(query);
+    const count = cards.filter(({card}) => !card.hidden).length;
+    $("count").textContent = `${count} 门`;
+    $("library-status").textContent = "没有找到匹配的课程。";
+    $("library-status").hidden = count > 0;
+  };
+  $("search").addEventListener("input", filter);
+  filter();
+}
+
 async function showLibrary() {
   const status = $("library-status");
   try {
     const {data, notes} = await loadCatalog();
+    const courseID = document.body.dataset.course;
+    if (!courseID) return showCourseDirectory(data);
+    const selected = data.courses.find((course) => course.id === courseID);
+    if (!selected) throw new Error("该课程不存在，请返回全部课程目录。");
     const list = $("materials-list");
+    list.replaceChildren();
+    if (!selected.chapters.length) {
+      $("count").textContent = "0 章";
+      $("search").closest("label").hidden = true;
+      const empty = element("div", "course-empty");
+      empty.append(element("h2", "", selected.status || "内容筹备中"),
+        element("p", "", selected.emptyMessage || "章节与讲义将在整理完成后陆续发布。"));
+      list.append(empty);
+      status.hidden = true;
+      return;
+    }
+    const courseFiles = new Set([ ...selected.chapters.flatMap((chapter) => [chapter.path, ...chapter.topics.map((topic) => topic.path)]) ]);
     const groups = [];
-    for (const course of data.courses) {
+    for (const course of [selected]) {
       const group = element("section", "course");
       group.id = course.id;
       const header = element("div", "course-header");
@@ -173,6 +217,7 @@ async function showLibrary() {
       if ($("search").value.trim().toLocaleLowerCase() !== query) return 0;
       const matches = [];
       for (const note of index.notes) {
+        if (!courseFiles.has(note.file)) continue;
         for (const [level, text, slug] of note.headings) {
           if (text.toLocaleLowerCase().includes(query)) matches.push({note, text, slug, level});
         }
@@ -196,6 +241,7 @@ async function showLibrary() {
     const filter = async () => {
       const query = $("search").value.trim().toLocaleLowerCase();
       let visibleCourses = 0;
+      let visibleChapters = 0;
       for (const group of groups) {
         let visibleRows = 0;
         for (const row of group.rows) {
@@ -211,8 +257,9 @@ async function showLibrary() {
         }
         group.element.hidden = query ? visibleRows === 0 : false;
         if (!group.element.hidden) visibleCourses++;
+        visibleChapters += visibleRows;
       }
-      $("count").textContent = `${visibleCourses} 门`;
+      $("count").textContent = `${visibleChapters} 章`;
       const headingHits = await showHeadingMatches(query);
       if ($("search").value.trim().toLocaleLowerCase() !== query) return;
       status.textContent = visibleCourses || headingHits ? "" : (groups.length ? "没有找到匹配的课程、章节或小节。" : "课程即将上线，敬请期待。");
@@ -501,6 +548,10 @@ async function showNote(requested, isStaticPage) {
     try {
       ({notes} = await loadCatalog());
       info = notes.get(path);
+      if (info) {
+        $("reader-back").href = courseURL(info.course);
+        $("reader-back").textContent = `← ${info.course.title}目录`;
+      }
     } catch {
       // The note can still be read without the catalog; only navigation is lost.
     }
