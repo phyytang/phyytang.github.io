@@ -11,29 +11,35 @@
     if (unit) unit.hidden = true;
     return;
   }
-  let timer;
-  let observer;
-  const unavailable = () => {
-    if (value && !/^[\d,]+$/.test(value.textContent.trim())) {
-      value.textContent = "暂不可用";
-      if (unit) unit.hidden = true;
+  if (value) value.textContent = "稍后更新…";
+  if (unit) unit.hidden = true;
+  const loadCounter = () => {
+    let timer;
+    let observer;
+    const unavailable = () => {
+      if (value && !/^[\d,]+$/.test(value.textContent.trim())) {
+        value.textContent = "暂不可用";
+        if (unit) unit.hidden = true;
+      }
+    };
+    if (value) {
+      observer = new MutationObserver(() => {
+        const text = value.textContent.trim();
+        if (!/^[\d,]+$/.test(text)) return;
+        observer.disconnect();
+        clearTimeout(timer);
+        value.textContent = Number(text.replaceAll(",", "")).toLocaleString("zh-CN");
+        if (unit) unit.hidden = false;
+      });
+      observer.observe(value, {childList: true, characterData: true, subtree: true});
+      timer = setTimeout(unavailable, 10000);
     }
+    const script = document.createElement("script");
+    script.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+    script.async = true;
+    script.onerror = unavailable;
+    document.head.append(script);
   };
-  if (value) {
-    observer = new MutationObserver(() => {
-      const text = value.textContent.trim();
-      if (!/^[\d,]+$/.test(text)) return;
-      observer.disconnect();
-      clearTimeout(timer);
-      value.textContent = Number(text.replaceAll(",", "")).toLocaleString("zh-CN");
-      if (unit) unit.hidden = false;
-    });
-    observer.observe(value, {childList: true, characterData: true, subtree: true});
-    timer = setTimeout(unavailable, 10000);
-  }
-  const script = document.createElement("script");
-  script.src = "https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
-  script.async = true;
-  script.onerror = unavailable;
-  document.head.append(script);
+  // Let readers load the page before contacting the external statistics service.
+  setTimeout(loadCounter, 20000);
 })();

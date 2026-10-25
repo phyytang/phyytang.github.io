@@ -121,7 +121,8 @@
           "available": false,
           "updated": "2026-10-23"
         }
-      ]
+      ],
+      "visitCounter": true
     },
     {
       "id": "computational-physics",

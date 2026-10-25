@@ -235,7 +235,14 @@ def build_course_pages(root, template, data):
     for course in courses:
         page = course_path(course)
         prefix = relative_prefix(page)
-        out = re.sub(r"<!-- catalog-counter:start -->[\s\S]*?<!-- catalog-counter:end -->", "", template)
+        if course.get("visitCounter"):
+            counter = ('<span id="teaching-visit-count" title="本课程目录页面的累计浏览次数，重复访问也会计数">'
+                       f'{html.escape(course["title"])}页面访问次数：'
+                       '<span id="busuanzi_value_page_pv" aria-live="polite">稍后更新…</span>'
+                       '<span id="visit-count-unit" hidden> 次</span></span>')
+        else:
+            counter = ""
+        out = re.sub(r"<!-- catalog-counter:start -->[\s\S]*?<!-- catalog-counter:end -->", lambda _: counter, template)
         out = re.sub(r'(\s(?:href|src)=")\.\./', lambda m: m.group(1) + prefix, out)
         out = re.sub(r'(\s(?:href|src)=")\./', lambda m: m.group(1) + prefix + "teaching/", out)
         out = out.replace('data-root="../"', f'class="course-page" data-root="{prefix}" data-course="{course["id"]}"')

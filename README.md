@@ -17,7 +17,7 @@
 
 ## 课程目录配置
 
-`materials.json` 的 `courses` 数组定义课程。每门课程包含唯一的 `id`（小写字母、数字和连字符）、`title`、`description` 与 `materials` 章节数组。空的章节数组表示课程筹备中，可设置 `status` 与 `emptyMessage` 说明进度。
+`materials.json` 的 `courses` 数组定义课程。每门课程包含唯一的 `id`（小写字母、数字和连字符）、`title`、`description` 与 `materials` 章节数组。空的章节数组表示课程筹备中，可设置 `status` 与 `emptyMessage` 说明进度。设置 `visitCounter: true` 可在该课程目录底部显示独立的页面访问次数。
 
 教学总目录为 `/teaching/`，各课程目录为 `/teaching/courses/<id>/`，例如 [理论力学](https://phyytang.github.io/teaching/courses/theoretical-mechanics/) 和 [计算物理](https://phyytang.github.io/teaching/courses/computational-physics/)。添加课程配置后，运行 `python3 scripts/build_pages.py` 即可更新独立课程页、教学总目录和主页课程卡片。现有讲义地址保持不变，讲义的返回链接指向所属课程。
 
@@ -57,7 +57,9 @@ GitHub Pages 发布位置应为 **main / (root)**。只需要 Python 3.9 或更�
 
 教学目录 `/teaching/` 的页脚另外显示“教学页面访问次数”，使用单页面浏览次数（page PV），不合并主页或各篇讲义的访问量；重复打开、刷新也会累计。该计数不显示在静态讲义页或旧版 `?note=` 阅读器中。统计使用服务已记录的数据，不能补算未记录的历史访问。
 
-统计由 `assets/visits.js` 加载官方脚本，仅在 `phyytang.github.io` 域名下启用，本地预览不计数。显示的统计请求失败或等待超过 10 秒会显示“暂不可用”，不会显示虚构数字；统计不可用不影响页面阅读。新增阅读页应沿用 `teaching/index.html` 模板，以保留计数接入。
+理论力学课程目录也显示独立的页面访问次数，只统计该课程主页，不合并各篇讲义或教学总目录。
+
+统计在页面打开 20 秒后，由 `assets/visits.js` 异步加载官方脚本，仅在 `phyytang.github.io` 域名下启用，本地预览不计数。发起统计请求后，若请求失败或等待超过 10 秒会显示“暂不可用”，不会显示虚构数字；统计不可用不影响页面阅读。新增阅读页应沿用 `teaching/index.html` 模板，以保留计数接入。
 
 ## 图片排版
 
