@@ -34,9 +34,12 @@
 /* Static pages carry a plain-text copy for search engines; it shows only if typesetting fails. */
 html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0s 5s forwards}@keyframes reveal-prerendered{to{visibility:visible}}
 @media(max-width:760px){
-  .reader-toolbar{position:sticky;top:0;z-index:12;background:var(--paper);margin:0 -23px 26px;padding:12px 23px;border-bottom:1px solid var(--line)}.toc-toggle{display:inline-flex}.note-meta{margin:0 0 22px;font-size:12px}
-  .markdown-body h1,.markdown-body h2,.markdown-body h3{scroll-margin-top:66px}
-  .outline.open{display:block;position:fixed;top:62px;left:14px;right:14px;max-height:calc(100vh - 80px);z-index:20;padding:18px 20px 18px 30px;background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.18)}.outline.open nav{gap:11px}.outline.open a{font-size:14px}.outline.open a.toc-h3{font-size:13px}
+  /* Keep the sticky bar near two-fifths of its previous 56px height. */
+  .reader-toolbar{position:sticky;top:0;z-index:12;background:var(--paper);min-height:24px;line-height:18px;margin:0 -23px 26px;padding:1px 23px;border-bottom:1px solid var(--line)}
+  .reader-toolbar a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .toc-toggle{display:inline-flex;flex:none;font-size:12px;line-height:18px;padding:0 10px;white-space:nowrap}.note-meta{margin:0 0 22px;font-size:12px}
+  .markdown-body h1,.markdown-body h2,.markdown-body h3{scroll-margin-top:36px}
+  .outline.open{display:block;position:fixed;top:32px;left:14px;right:14px;max-height:calc(100vh - 46px);max-height:calc(100dvh - 46px);z-index:20;padding:18px 20px 18px 30px;background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.18)}.outline.open nav{gap:11px}.outline.open a{font-size:14px}.outline.open a.toc-h3{font-size:13px}
   .pager{grid-template-columns:1fr;padding-bottom:60px}.pager-next{grid-column:1}.to-top{right:16px;bottom:16px}
   .topics{font-size:13px}
 }
