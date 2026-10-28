@@ -85,7 +85,7 @@
           "number": 4,
           "title": "刚体运动",
           "file": "materials/Mechanics/刚体运动.md",
-          "available": false,
+          "available": true,
           "updated": "2026-10-22",
           "topics": [
             {

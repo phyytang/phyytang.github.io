@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="刚体有六个自由度：质心位置的三个，加上取向的三个。在航空航天中，后者称为姿态（attitude）。几乎每一个航天器都必须知道并控制自己的姿态：望远镜要对准目标，天线要对准地球，太阳能板要对准太阳，推力器要沿正确的方向点火。这一任务由姿态…">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://phyytang.github.io/teaching/notes/Mechanics/%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E8%88%AA%E5%A4%A9%E5%99%A8%E5%A7%BF%E6%80%81%E6%8E%A7%E5%88%B6.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="欧拉角与航天器姿态控制 · 理论力学">
+  <meta property="og:description" content="刚体有六个自由度：质心位置的三个，加上取向的三个。在航空航天中，后者称为姿态（attitude）。几乎每一个航天器都必须知道并控制自己的姿态：望远镜要对准目标，天线要对准地球，太阳能板要对准太阳，推力器要沿正确的方向点火。这一任务由姿态…">
+  <meta property="og:url" content="https://phyytang.github.io/teaching/notes/Mechanics/%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E8%88%AA%E5%A4%A9%E5%99%A8%E5%A7%BF%E6%80%81%E6%8E%A7%E5%88%B6.html">
+  <meta property="og:site_name" content="phyytang · 课程与讲义">
+  <title>欧拉角与航天器姿态控制 · 理论力学 · phyytang</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="../../../vendor/katex/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../assets/site.css?v=6fa8cbca2357">
+  <script defer src="../../../vendor/marked/lib/marked.umd.js"></script>
+  <script defer src="../../../vendor/dompurify/dist/purify.min.js"></script>
+  <script defer src="../../../vendor/katex/dist/katex.min.js"></script>
+  <script defer src="../../../assets/site.js?v=0fe0f9889e86"></script>
+  <script defer src="../../../assets/visits.js?v=6af4b73efaf5"></script>
+</head>
+<body data-root="../../../" data-note="materials/Mechanics/欧拉角与航天器姿态控制.md">
+  <a class="skip-link" href="#main">跳转到正文</a>
+  <header class="site-header wrap">
+    <a class="brand" href="../../../teaching/"><span class="brand-mark" aria-hidden="true">p.</span> phyytang <span class="brand-divider">/</span> 教学</a>
+    <nav aria-label="主导航"><a href="../../../">个人主页</a><a href="../../../teaching/">课程目录</a></nav>
+  </header>
+  <main id="main" class="wrap">
+    
+    <section id="reader" aria-label="讲义阅读">
+      <div class="reader-toolbar"><a id="reader-back" href="../../../teaching/courses/theoretical-mechanics/">← 理论力学目录</a><button id="toc-toggle" class="toc-toggle" type="button" hidden aria-expanded="false" aria-controls="outline">本页目录</button></div>
+      <p id="note-meta" class="note-meta" hidden></p>
+      <p id="reader-status" role="status" hidden></p>
+      <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="欧拉角与航天器姿态控制">欧拉角与航天器姿态控制</h1>
+<p>——“刚体运动”的延伸阅读</p>
+<p>本文是“刚体运动”一章的补充材料，暂不并入正文。符号沿用该章的约定： 惯性系坐标轴为 X,Y,Z，随体（刚体）坐标轴为主轴 x_1,x_2,x_3，主转动惯量为 I_1,I_2,I_3； \boldsymbol\Omega 为角速度，\Omega_i 是它在随体主轴上的分量；\boldsymbol M 为角动量，\boldsymbol K 为外力矩，\mu 为总质量；d&#x27;/dt 表示对随体分量求导； 旋转矩阵采用被动约定：R 把矢量的惯性系分量变换为随体系分量，R_x,R_y,R_z 的形式与正文“坐标旋转矩阵”一节相同； 欧拉角取 Z—节线—x_3 约定：R=R_z(\psi)R_x(\theta)R_z(\varphi)，\varphi 为进动角，\theta 为章动角，\psi 为自转角。 需要用到正文的欧拉角、角速度的欧拉角表示、欧拉方程、对称陀螺的慢进动和“最大轴规则”，以及“微扰和摄动理论”中的阻尼振动。</p>
+<h2 id="什么是姿态控制">什么是姿态控制</h2>
+<p>刚体有六个自由度：质心位置的三个，加上取向的三个。在航空航天中，后者称为姿态（attitude）。几乎每一个航天器都必须知道并控制自己的姿态：望远镜要对准目标，天线要对准地球，太阳能板要对准太阳，推力器要沿正确的方向点火。这一任务由姿态确定与控制系统完成，它包含两部分：</p>
+<p>姿态确定：用星敏感器、太阳敏感器、陀螺、磁强计等测量，算出当前的姿态和角速度； 姿态控制：用推力器、反作用轮等执行机构施加力矩，把姿态驱动到需要的状态并保持住。</p>
+<p>天文观测对姿态控制的要求往往是最苛刻的。例如，哈勃空间望远镜在精导星传感器锁定导星后，可以把指向稳定在目标中心约 20 毫角秒以内 [1]，相当于从约 200 千米外把激光束保持在一枚硬币上。</p>
+<p>从力学上看，姿态控制恰好由“刚体运动”一章的两部分组成：</p>
+<p>1. 运动学：如何描述刚体的取向，取向参数的变化率与角速度 \boldsymbol\Omega 有什么关系（欧拉角、旋转矩阵、四元数）； 2. 动力学：力矩如何改变角速度（欧拉方程）。</p>
+<p>下面依次讨论。</p>
+<h2 id="姿态的描述">姿态的描述</h2>
+<h3 id="方向余弦矩阵">方向余弦矩阵</h3>
+<p>正文中的旋转矩阵 R 是描述姿态最直接的方式。它的三行恰好是三条随体轴 x_1,x_2,x_3 在惯性系中的单位矢量，所以它的九个元素是随体轴与惯性轴之间夹角的余弦，在工程上称为方向余弦矩阵。九个元素之间有六个正交归一条件，只剩三个独立参数，正好对应三个转动自由度。</p>
+<p>设 \boldsymbol a 是一个固定在惯性系中的矢量，它在随体系中的分量为 \boldsymbol a&#x27;=R\boldsymbol a。站在随刚体转动的观察者看来，这个矢量以 -\boldsymbol\Omega 转动（正文的输运定理中令 d\boldsymbol a/dt=0），即 d&#x27;\boldsymbol a&#x27;/dt=-\boldsymbol\Omega\times\boldsymbol a&#x27;。由于 \boldsymbol a 任意，得到方向余弦矩阵的运动学方程</p>
+<p>给定陀螺测得的 \Omega_i(t)，积分这个方程就能推算姿态。这正是现代捷联惯导（陀螺固定在航天器上，不用万向架）的工作原理。它没有奇点，代价是要积分九个量，并不断修正数值误差造成的正交性破坏。</p>
+<h3 id="两类欧拉角">两类欧拉角</h3>
+<p>用三个角度描述姿态更直观，也更节省。三个角度对应依次绕三个坐标轴的转动，转动顺序的不同选择形成了两大类欧拉角。</p>
+<p>（1）正文的 z-x-z 欧拉角（第一、三次转动绕同一根轴，工程上称为“3-1-3”）：</p>
+<p>它最适合描述自旋的物体：\psi 是绕自身对称轴的自转，\theta 是自转轴偏离 Z 轴的角度，\varphi 是自转轴绕 Z 轴的进动。陀螺、自旋卫星、扫描式天文卫星都用这套角度（见“自旋稳定”一节中的 Gaia）。</p>
+<p>（2）航空航天常用的“偏航–俯仰–滚转”角（三次转动绕三根不同的轴，称为泰特–布赖恩角，工程上记为“3-2-1”）。为了与正文的 \varphi,\theta,\psi 区分，这里用大写字母：偏航角 \Psi、俯仰角 \Theta、滚转角 \Phi。依次绕 Z 轴转 \Psi、绕新的 y 轴转 \Theta、绕最终的 x_1 轴转 \Phi：</p>
+<p>由矩阵元可以反解出三个角：\Theta=-\arcsin R_{13}，\Phi=\operatorname{atan2}(R_{23},R_{33})，\Psi=\operatorname{atan2}(R_{12},R_{11})。</p>
+<p>对飞机，通常取 x_1 指向机头、x_2 指向右翼、x_3 指向机腹；参考系取当地的“北–东–地”坐标。这时 \Psi 就是航向，\Theta 是机头抬起的角度，\Phi 是机翼的倾斜。对绕地球运行的航天器，参考系通常取轨道坐标系：一根轴沿飞行方向，一根沿轨道面法线，一根指向地心。偏航–俯仰–滚转角的好处是：在航天器基本对准参考姿态时，三个角都是小量，并且分别对应绕三根主轴的小转动，物理意义清楚。</p>
+<p>| | z-x-z（正文） | 3-2-1（偏航–俯仰–滚转） | | --- | --- | --- | | 矩阵 | R_z(\psi)R_x(\theta)R_z(\varphi) | R_x(\Phi)R_y(\Theta)R_z(\Psi) | | 典型用途 | 陀螺、自旋卫星、扫描卫星 | 飞机、三轴稳定航天器 | | 奇点 | \theta=0,\pi（x_3 与 Z 共线） | \Theta=\pm90^\circ（x_1 与 Z 共线） | | 奇点处的含义 | 进动与自转无法区分 | 偏航与滚转无法区分 |</p>
+<h3 id="角速度与欧拉角的变化率">角速度与欧拉角的变化率</h3>
+<p>正文已经给出 z-x-z 欧拉角下的角速度：</p>
+<p>姿态控制中更常用的是它的逆：陀螺测出 \Omega_i，要求出欧拉角怎样变化。由前两式消去 \dot\theta 或 \dot\varphi，得到</p>
+<p>同样的方法（把三个转动角速度分别投影到随体轴上再相加）给出 3-2-1 角的结果：</p>
+<p>两组逆关系中都出现了分母：z-x-z 角在 \sin\theta=0 处发散，3-2-1 角在 \cos\Theta=0 处发散。在这些姿态附近，即使刚体以很小的角速度平稳转动，欧拉角的变化率也会变得任意大。</p>
+<p>这不是哪一种角度选得不好。斯蒂尔普纳格尔（J. Stuelpnagel）在 1964 年证明：任何用三个参数整体描述三维转动的方式都必定存在奇点 [2]。三维转动群在拓扑上与地球表面的经纬度类似：经纬度在两极失效（经度无定义），却不是地球本身在两极有什么特别之处。正文所说“这是欧拉角坐标的奇点，并不是刚体的物理运动发生奇异”，说的正是这件事。</p>
+<h2 id="万向节锁">万向节锁</h2>
+<p>在捷联系统出现以前，航天器用三轴万向架平台来测量姿态：陀螺稳定的平台通过三层嵌套的万向架与航天器相连，三个万向架转角恰好就是一组欧拉角。这时，坐标的奇点就变成了真实的机械问题：当中间一层万向架转到某个角度时，内外两层的转轴共线，平台失去一个转动自由度，无法再跟随航天器的某个方向的转动，这称为万向节锁（gimbal lock）。</p>
+<p>阿波罗飞船的惯性测量单元就是三轴万向架结构。设计者权衡了重量、体积和可靠性，没有加第四个万向架 [3]。作为代价，计算机在中间万向架转角超过 70^\circ 时发出“万向节锁”警告，超过 85^\circ 时冻结平台，航天员必须把飞船转离这一姿态，再用恒星重新校准平台。阿波罗 11 号登月舱着陆后，留在指令舱中的柯林斯（M. Collins）就此开玩笑说：“送我第四个万向架当圣诞礼物怎么样？”</p>
+<p>即使没有任何机械万向架，只要在计算中使用欧拉角，“数学上的万向节锁”依然存在。下图让一个刚体以恒定的 |\boldsymbol\Omega|=1 rad/s 绕固定轴转动，其 x_3 轴从 Z 轴旁约 2^\circ 处掠过。物理运动完全平稳，但在 \theta 最小处，\dot\varphi 和 \dot\psi 突然增大到 |\boldsymbol\Omega| 的 20 多倍，方向相反、几乎相互抵消（\dot\varphi 与 \dot\psi 只有其和 \dot\varphi\cos\theta+\dot\psi\approx\Omega_3 有意义）。如果轨道恰好经过 Z 轴，它们就会真正发散。下面一栏是同一运动的四元数分量，平滑且有界。</p>
+<h2 id="四元数没有奇点的姿态参数">四元数：没有奇点的姿态参数</h2>
+<h3 id="从欧拉转动定理到四元数">从欧拉转动定理到四元数</h3>
+<p>正文提到的欧拉转动定理 [4] 指出：任意一个取向都可以由参考取向绕某一根轴 \boldsymbol n 转过一个角度 \chi 得到。在本章的被动约定下，相应的旋转矩阵为</p>
+<p>取 \boldsymbol n=\hat{\boldsymbol z}，就回到正文的 R_z(\chi)。\boldsymbol n 和 \chi 称为欧拉轴和欧拉转角。</p>
+<p>把它们组合成四个数</p>
+<p>就得到单位四元数（哈密顿在 1843 年引入）。利用半角公式，旋转矩阵可以写成四元数的二次式：</p>
+<p>四个参数加一个约束，剩下三个自由度。(q_0,\boldsymbol q) 和 (-q_0,-\boldsymbol q) 给出同一个 R（绕 \boldsymbol n 转 \chi 与转 \chi-2\pi 是同一个取向），即四元数双重覆盖转动群。正是多出的这一个参数，绕开了斯蒂尔普纳格尔定理的限制。</p>
+<h3 id="四元数的运动学方程">四元数的运动学方程</h3>
+<p>由 dR/dt=-[\boldsymbol\Omega\times]R 可以推出</p>
+<p>与欧拉角的方程相比，它有三个突出的优点：对 q 是线性的；不含三角函数，计算量小；处处没有奇点。因此，现代航天器的星载计算机几乎都用四元数表示和推算姿态，星敏感器直接输出四元数；欧拉角则主要用于地面显示和人的直观理解。</p>
+<p>由多个矢量观测（例如星敏感器看到的若干颗恒星方向）求最佳姿态的问题，称为瓦赫巴问题（Wahba&#x27;s problem）[5]：求旋转矩阵 R，使 \sum_k w_k|\boldsymbol b_k-R\boldsymbol r_k|^2 最小，其中 \boldsymbol r_k 是恒星在星表（惯性系）中的方向，\boldsymbol b_k 是在随体系中测得的方向。它的标准解法也是用四元数写出的。</p>
+<h2 id="姿态动力学欧拉方程加控制力矩">姿态动力学：欧拉方程加控制力矩</h2>
+<p>姿态的动力学就是正文的欧拉方程，只是力矩中多了一项人为施加的控制力矩 \boldsymbol K_{\rm c}：</p>
+<p>这里 \boldsymbol K 是环境力矩，包括重力梯度、太阳光压、大气阻力和地磁场作用。常用的执行机构有：</p>
+<p>| 执行机构 | 原理 | 特点 | | --- | --- | --- | | 推力器 | 偏离质心的推力产生力矩 | 力矩大；消耗推进剂；改变总角动量 | | 反作用轮、动量轮 | 电机加速或减速飞轮，与星体交换角动量 | 控制精细；不改变总角动量；会饱和 | | 控制力矩陀螺 | 转动高速飞轮的转轴方向 | 力矩大，用于空间站等大型航天器 | | 磁力矩器 | 线圈磁矩 \boldsymbol m 受地磁场作用，\boldsymbol K=\boldsymbol m\times\boldsymbol B | 不耗推进剂；只能在近地轨道使用；力矩不能沿 \boldsymbol B 方向 | | 环境力矩 | 重力梯度、太阳光压 | 可用于被动稳定，也是主要的干扰源 |</p>
+<h3 id="动量交换反作用轮">动量交换：反作用轮</h3>
+<p>反作用轮是航天器上最常用的精密执行机构。设星体（不含轮子的转动部分）的转动惯量为 I，轮子相对星体的角动量为 \boldsymbol h（随体分量），则整个航天器的角动量为</p>
+<p>电机在轮子和星体之间施加的是内力矩：它让轮子加速，就让星体获得等大反向的力矩 \boldsymbol K_{\rm c}=-d&#x27;\boldsymbol h/dt。由正文的 d&#x27;\boldsymbol M/dt+\boldsymbol\Omega\times\boldsymbol M=\boldsymbol K，得到带轮子的欧拉方程</p>
+<p>反作用轮只能在星体和轮子之间重新分配角动量，不能改变总角动量。航天器转向时，轮子先加速再减速，转动结束后角动量又回到轮子中（见“三轴主动稳定与反馈控制”一节的图）。但环境力矩（尤其是太阳光压）会让总角动量一点点积累，轮子转速越来越高，最终达到上限（“饱和”）。这时必须用推力器或磁力矩器施加外力矩，把多余的角动量“卸载”掉。例如，詹姆斯·韦布空间望远镜巨大的遮阳罩受太阳光压产生力矩，需要定期用推力器卸载反作用轮的角动量，这与轨道维持一起消耗推进剂。</p>
+<p>反作用轮的故障曾经几乎终结一个天文任务。开普勒空间望远镜有四个反作用轮，至少需要三个才能稳定指向。第二个轮子在 2013 年 5 月失效后，工程师想出了一个办法：让望远镜指向黄道面内、大致沿其公转方向，使太阳光压对称地作用在星体上，相当于把太阳当作“第三个轮子”。望远镜由此转入 K2 任务，又工作了四年多 [6]。</p>
+<h3 id="哈勃的陀螺">哈勃的陀螺</h3>
+<p>姿态确定同样关键。哈勃望远镜用陀螺测量角速度，原有六个陀螺，正常时同时使用三个。由于陀螺不断老化失效，哈勃从 2024 年起改为单陀螺模式：先用磁强计、太阳敏感器和一个陀螺把指向控制在约 10^\circ 以内，再由星敏感器缩小到几十角秒，最后由精导星传感器锁定导星，达到约 20 毫角秒的精度 [1]。代价是观测效率下降，也无法再跟踪比火星近的移动目标。</p>
+<h2 id="三种稳定方式与刚体运动中的物理">三种稳定方式与“刚体运动”中的物理</h2>
+<h3 id="自旋稳定">自旋稳定</h3>
+<p>最简单的稳定方法是让航天器绕某根主轴快速自旋。正文“快速陀螺的慢进动”一节说明：角动量很大时，外力矩只能使 \boldsymbol M 以 \Omega_{\rm p}\simeq K/M 缓慢进动，转得越快，越“不怕”干扰。这就是陀螺的定轴性。</p>
+<p>但自旋轴必须选对。按照正文的“最大轴规则”，有内部能量耗散的物体只有绕最大主转动惯量轴的转动才是稳定的。“探险者 1 号”绕最小轴自旋而失稳，正是这条规则的第一次深刻教训。此后的自旋卫星要么做成扁的、绕最大轴自旋，要么采用双自旋结构：一部分快速旋转提供定轴性，另一部分（如消旋的天线平台）保持对地指向。</p>
+<p>例：Gaia 的扫描定律。 欧洲空间局的 Gaia 天体测量卫星用正文的 z-x-z 欧拉角描述再合适不过 [7]。取 Z 轴指向太阳，那么：</p>
+<p>\psi：卫星绕自转轴以 60&#x27;&#x27;/\mathrm{s} 的速率自转，每 6 小时一圈，两台望远镜的视场沿天球上的大圆扫过； \theta=45^\circ：自转轴与太阳方向保持固定的 45^\circ 夹角（太阳方位角），使热环境稳定； \varphi：自转轴绕太阳方向进动，周期约 63 天。</p>
+<p>自转、进动，再加上地球绕太阳的公转，使 Gaia 在五年任务中把全天每一个区域扫描约 70 次，测出了十几亿颗恒星的位置、视差和自行。这里的“进动”是由微推进系统主动维持的，不是自由进动，但描述它的语言与正文的对称陀螺完全一样。</p>
+<h3 id="重力梯度稳定">重力梯度稳定</h3>
+<p>在不均匀的引力场中，刚体各部分受到的引力不同，产生一个力矩。这与正文“地球的岁差”一节中太阳和月球对地球赤道隆起的力矩是同一个物理，都来自引力势的四极项（麦卡拉格公式）。对绕地球运动的航天器，设 \hat{\boldsymbol r} 是从地心指向航天器的单位矢量（随体分量），轨道角速度为 n，则重力梯度力矩为</p>
+<p>取 x_1 沿飞行方向，x_2 沿轨道面法线，x_3 沿当地垂线。若星体绕 x_2 轴偏离参考姿态一个小的俯仰角 \vartheta，由上式得 I_2\ddot\vartheta=-3n^2(I_1-I_3)\vartheta。所以，当 I_1&gt;I_3 时俯仰运动是稳定的小幅振荡，频率为</p>
+<p>I_3 最小意味着航天器的长轴指向地心。综合考虑滚转和偏航，完整的稳定条件是 I_2&gt;I_1&gt;I_3。许多早期卫星伸出一根长杆、末端挂一个重物，就是为了让长轴稳稳地指向地球，不需要任何能源。</p>
+<p>月球就是一个天然的重力梯度稳定体：它的长轴指向地球，最大主轴垂直于轨道面，所以总以同一面朝向我们。把上面的公式用于月球，取 (I_1-I_3)/I_2\approx2.28\times10^{-4}，n=2\pi/27.3 天，得到自由天平动的周期约为 27.3\ \text{天}/\sqrt{3\times2.28\times10^{-4}}\approx2.9 年，与月球激光测距测得的经度自由天平动周期相符。</p>
+<h3 id="三轴主动稳定与反馈控制">三轴主动稳定与反馈控制</h3>
+<p>现代天文卫星大多采用三轴稳定：用敏感器测出姿态误差，用反作用轮施加力矩把误差纠正回来。</p>
+<p>小角度：阻尼振子。 若航天器已经接近目标姿态，三个 3-2-1 角都是小量，并且分别对应绕三根主轴的转动。忽略欧拉方程中的二次项，每个轴都满足 I_i\ddot\alpha_i=K_{{\rm c},i}（\alpha_i 为相应的小角度）。最简单的控制律是比例–微分（PD）控制：</p>
+<p>这正是“微扰和摄动理论”中的阻尼振动方程：比例项相当于弹簧，微分项相当于阻尼，固有频率为 \omega_n=\sqrt{k_p/I_i}，阻尼比为 \zeta=k_d/(2\sqrt{k_pI_i})。工程上常取 \zeta\approx0.7–1，即接近临界阻尼，使误差既快又不振荡地衰减。控制器的设计，在这里就化成了选择一个阻尼振子的参数。</p>
+<p>大角度：四元数反馈。 当航天器需要大角度转向时，小角度近似失效，欧拉角还可能经过奇点。这时可以把比例项换成误差四元数的矢量部分 [8]：</p>
+<p>其中 (q_{{\rm e}0},\boldsymbol q_{\rm e}) 是描述当前姿态相对目标姿态的四元数（取 q_{{\rm e}0}\ge0，保证沿较短的路径转回去）。小角度时 \boldsymbol q_{\rm e}\approx\tfrac12\chi\boldsymbol n，回到 PD 控制。可以构造李雅普诺夫函数 V=\tfrac12\boldsymbol\Omega\cdot I\boldsymbol\Omega+2k_p(1-q_{{\rm e}0})，证明 \dot V=-k_d\Omega^2\le0，因此对任意大的初始误差，这个控制律都能把航天器稳定到目标姿态。</p>
+<p>下图是一个转动惯量为 (1800,2300,2700)\ \mathrm{kg\,m^2} 的小型空间望远镜用四元数反馈完成约 118^\circ 转向的数值模拟，反作用轮力矩被限制在 0.8 N·m 以内。</p>
+<p>图 (a)：三个 3-2-1 角和欧拉转角 \chi 平滑地衰减到零。转向沿着欧拉轴进行，而不是三个角各自独立地转。 图 (c)：开始时误差大，力矩达到饱和，这一段相当于以最大角加速度转向。 图 (d)：转向过程中角动量先从星体转移到反作用轮，结束时又回到零，而总角动量 |I\boldsymbol\Omega+\boldsymbol h| 始终保持为零，这就是正文“无外力矩时角动量守恒”的直接体现。</p>
+<h2 id="前沿空间引力波探测中的姿态与无拖曳控制">前沿：空间引力波探测中的姿态与无拖曳控制</h2>
+<p>对姿态和轨道控制要求最极端的，是空间引力波探测器。欧洲空间局于 2024 年正式批准的激光干涉空间天线（LISA）计划在 2035 年前后发射 [9]。它由三个航天器组成边长约 250 万千米的三角形，测量引力波引起的臂长变化，精度达到皮米量级。</p>
+<p>每个航天器内有两个自由悬浮的检验质量，它们必须只受引力作用，几乎完全不受太阳光压等非引力扰动。办法是无拖曳控制：航天器把检验质量“包”在里面，用电容传感器测量检验质量相对星体的位置，再用推力只有微牛量级的推力器调整星体，让星体跟着检验质量走，而不是让检验质量跟着星体走。同时，姿态控制要使每个航天器上的两台望远镜始终对准另外两个航天器。整个三角形每年绕太阳公转一圈，同时在自身平面内翻转一圈，所以每个航天器的姿态在不断变化；三角形的内角也会在 60^\circ 附近缓慢变化约 \pm1^\circ，需要通过转动光学组件来补偿。无拖曳与姿态控制由同一个系统统一完成，所需的就是本文从姿态描述到稳定控制的全部工具。</p>
+<p>2015 年发射的 LISA 探路者卫星验证了这一技术：两个检验质量之间的残余加速度噪声只有每平方根赫兹几个飞米每二次方秒（10^{-15}\,\mathrm{m\,s^{-2}/\sqrt{\mathrm{Hz}}} 量级），即所谓的“亚飞 g”自由落体，优于 LISA 的要求 [10]。中国的“太极一号”和“天琴一号”试验卫星也在 2019 年开展了无拖曳控制等关键技术的在轨验证。</p>
+<h2 id="小结">小结</h2>
+<p>1. 姿态就是刚体的取向，可以用方向余弦矩阵 R、欧拉角或四元数描述；它们通过 dR/dt=-[\boldsymbol\Omega\times]R 与角速度相联系。 2. 欧拉角直观，但任何三参数描述都必有奇点：z-x-z 角在 \sin\theta=0、3-2-1 角在 \cos\Theta=0 处，角度变化率发散，这就是万向节锁。阿波罗飞船的惯导平台曾受此困扰。 3. 四元数用四个参数和一个约束描述转动，运动学方程线性、无奇点，是现代航天器的标准姿态参数。 4. 姿态动力学就是加上控制力矩的欧拉方程。反作用轮通过角动量交换控制姿态，不改变总角动量，所以需要定期卸载。 5. 三种稳定方式分别对应正文的三部分物理：自旋稳定对应快速陀螺的定轴性与最大轴规则，重力梯度稳定对应引力四极力矩（与地球岁差同源），三轴主动稳定在小角度下就是一个阻尼振子。 6. 空间引力波探测把姿态控制推向了极限：航天器要跟随自由落体的检验质量，同时保持望远镜在百万千米外对准。</p>
+<h3 id="与刚体运动一章的对应">与“刚体运动”一章的对应</h3>
+<p>| 本文内容 | “刚体运动”中的对应部分 | | --- | --- | | 方向余弦矩阵、z-x-z 欧拉角 | 欧拉角、坐标旋转矩阵 | | 欧拉角变化率与 \boldsymbol\Omega、万向节锁 | 角速度的欧拉角表示；欧拉角坐标的奇点 | | 欧拉转动定理、四元数 | 参考文献中欧拉的有限转动定理 | | 带控制力矩的欧拉方程、反作用轮 | 欧拉方程；角动量守恒 | | 自旋稳定、双自旋卫星 | 快速陀螺的慢进动；最大轴规则；探险者 1 号 | | 重力梯度稳定、月球天平动 | 地球的岁差（同一个四极力矩） | | 三轴 PD 控制 | 微扰和摄动理论：阻尼振动 |</p>
+<h2 id="思考题">思考题</h2>
+<p>1. 欧拉角的逆运动学。 从正文给出的 \Omega_i 与 (\dot\varphi,\dot\theta,\dot\psi) 的关系出发，推导“角速度与欧拉角的变化率”一节中的逆关系。说明在 \theta\to0 时，为什么只有 \dot\varphi+\dot\psi 有确定的物理意义。 2. 3-2-1 角。 (a) 验证本文给出的 R_x(\Phi)R_y(\Theta)R_z(\Psi) 矩阵。(b) 把三个转动角速度分别投影到随体轴上，推导 \Omega_i 与 (\dot\Phi,\dot\Theta,\dot\Psi) 的关系。(c) 设飞机机头竖直向上（\Theta=90^\circ），说明此时偏航与滚转为什么无法区分。 3. 四元数。 (a) 写出正文 R_z(\alpha) 对应的四元数，并验证 R(q) 的表达式。(b) 由 dR/dt=-[\boldsymbol\Omega\times]R 推导四元数的运动学方程（提示：先对绕固定轴的转动验证，再利用线性）。(c) 绕某轴转 360^\circ 后，四元数变成了什么？ 4. 月球的自由天平动。 利用月球的 (B-A)/C\approx2.28\times10^{-4}（A&lt;B&lt;C 为月球主转动惯量，A 对应指向地球的轴），由重力梯度公式求月球经度方向自由天平动的周期。 5. PD 控制器设计。 一颗卫星绕某主轴的转动惯量为 2000\ \mathrm{kg\,m^2}，要求小角度误差在约 1 分钟内衰减且不过冲。选择 \omega_n 和 \zeta，求 k_p、k_d，并估算 5^\circ 的初始误差需要多大的峰值力矩。 6. 反作用轮卸载。 一个太阳光压不平衡力矩约为 10^{-5} N·m 的航天器，所带反作用轮的角动量容量为 50 N·m·s。如果不卸载，多久会饱和？</p>
+<h2 id="参考文献与延伸阅读">参考文献与延伸阅读</h2>
+<p>本文引用</p>
+<p>1. NASA, “Hubble One-Gyro Mode,” 。哈勃单陀螺模式的工作方式与指向精度。 2. J. Stuelpnagel, “On the Parametrization of the Three-Dimensional Rotation Group,” SIAM Review 6, 422–430 (1964)。证明三参数描述必有奇点。 3. D. Hoag, “Apollo Guidance and Navigation: Considerations of Apollo IMU Gimbal Lock,” MIT Instrumentation Laboratory, E-1344 (1963)，Apollo Lunar Surface Journal。阿波罗惯导平台为何不用第四个万向架。 4. L. Euler, “Formulae generales pro translatione quacunque corporum rigidorum” (1776)。即“刚体运动”一章参考文献 [5]。 5. G. Wahba, “A Least Squares Estimate of Satellite Attitude,” SIAM Review 7, 409 (1965)。 6. S. B. Howell et al., “The K2 Mission: Characterization and Early Results,” Publications of the Astronomical Society of the Pacific 126, 398–408 (2014)。 7. Gaia Collaboration, T. Prusti et al., “The Gaia Mission,” Astronomy &amp; Astrophysics 595, A1 (2016)，arXiv:1609.04153；ESA, “Gaia Scanning Law,” 。 8. B. Wie and P. M. Barba, “Quaternion Feedback for Spacecraft Large Angle Maneuvers,” Journal of Guidance, Control, and Dynamics 8, 360–365 (1985)。 9. P. Amaro-Seoane et al., “Laser Interferometer Space Antenna,” arXiv:1702.00786 (2017)。 10. M. Armano et al., “Sub-Femto-g Free Fall for Space-Based Gravitational Wave Observatories: LISA Pathfinder Results,” Physical Review Letters 116, 231101 (2016)；M. Armano et al., “Beyond the Required LISA Free-Fall Performance,” Physical Review Letters 120, 061101 (2018)。</p>
+<p>教材</p>
+<p>11. F. L. Markley and J. L. Crassidis, Fundamentals of Spacecraft Attitude Determination and Control, Springer, 2014。姿态描述、确定与控制的现代标准教材。 12. B. Wie, Space Vehicle Dynamics and Control, 2nd ed., AIAA, 2008。 13. P. C. Hughes, Spacecraft Attitude Dynamics, Wiley, 1986；Dover 重印本, 2004。对自旋稳定、双自旋卫星、能量耗散与重力梯度稳定有经典而深入的讨论。 14. M. D. Shuster, “A Survey of Attitude Representations,” The Journal of the Astronautical Sciences 41, 439–517 (1993)。各种姿态参数之间关系的权威综述，本文四元数的被动约定与之一致。</p>
+<p>本文的数值图由 Python 脚本生成，脚本中的自检部分验证了本文的旋转矩阵、欧拉角提取公式、角速度公式和四元数运动学方程彼此一致。</p></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
+      <nav id="pager" class="pager" aria-label="上一篇与下一篇" hidden></nav>
+    </section>
+    <noscript><p>在线阅读需要启用 JavaScript。你也可以<a href="https://github.com/phyytang/phyytang.github.io/tree/main/materials">在 GitHub 上查看讲义</a>。</p></noscript>
+  </main>
+  <button id="to-top" class="to-top" type="button" hidden aria-label="回到顶部">↑</button>
+  <footer class="site-footer wrap">
+    <div class="footer-meta"><span>© Yong Tang · 讲义采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">CC BY-NC-SA 4.0</a> 许可（第三方素材除外）</span><a href="../../../teaching/?note=materials/copyright.md">版权与使用说明</a></div>
+  </footer>
+</body>
+</html>
