@@ -124,3 +124,5 @@ html.js #note[data-prerendered]{visibility:hidden;animation:reveal-prerendered 0
 
 /* Visit counters: dimmed while showing the last known total during a service outage. */
 .visit-counter .visit-value{font-variant-numeric:tabular-nums}.visit-stale .visit-value{opacity:.6}
+
+.visit-status{font-size:.85em;margin-inline-start:.4em;color:var(--muted)}

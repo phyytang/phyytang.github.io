@@ -1,0 +1,16 @@
+{
+  "site": {
+    "workspace": "yong-tangs-team-6063",
+    "name": "total-counter"
+  },
+  "pages": {
+    "/teaching/": {
+      "workspace": "teach-counter",
+      "name": "teach-counter"
+    },
+    "/teaching/courses/theoretical-mechanics/": {
+      "workspace": "mech-counter",
+      "name": "mech-counter"
+    }
+  }
+}

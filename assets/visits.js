@@ -1,82 +1,113 @@
-// Page-view counters, backed by 不蒜子 (busuanzi.ibruce.info).
-//
-// Markup: <span data-visit-counter="site|page" data-visit-offset="0" data-visit-floor="0">
-//           …<span class="visit-value">…</span>…</span>
-//   site   — page views of the whole site (all pages that load this script)
-//   page   — page views of this URL only
-//   offset — added to the live number (views recorded before a page moved to this URL)
-//   floor  — the number is never shown below this (last known total before an outage)
-//
-// The view is recorded 1 second after the page opens; the request is asynchronous and
-// never blocks reading. If the service is slow or down, the counter keeps showing the
-// last known total instead of an error, and updates whenever an answer arrives.
+// Public CounterAPI V2 counters. Never put an API token in this public website.
 (() => {
+  if (window.siteVisitsStarted) return;
+  window.siteVisitsStarted = true;
   const counters = [...document.querySelectorAll("[data-visit-counter]")];
   const legacyReader = new URLSearchParams(location.search).has("note");
-  const published = location.hostname === "phyytang.github.io";
-  const DELAY = 1000;     // count a view after the page has been open for 1 s
-  const TIMEOUT = 15000;  // then wait this long for an answer before dimming the number
+  const pathname = location.pathname.replace(/\/index\.html$/, "/");
+  const DELAY = 1000;
+  const TIMEOUT = 10000;
+  const configURL = new URL("counterapi.json", document.currentScript.src);
+  const identities = new Map();
 
-  const storageKey = (counter) => `visits:${counter.dataset.visitCounter}:${counter.dataset.visitCounter === "site" ? "" : location.pathname}`;
+  const storedKey = (counter) => `visits:counterapi:${identities.get(counter)}:${counter.dataset.visitCounter}:${counter.dataset.visitCounter === "site" ? "" : pathname}`;
   const remembered = (counter) => {
-    try { return Number(localStorage.getItem(storageKey(counter))) || 0; } catch { return 0; }
+    try { return Number(localStorage.getItem(storedKey(counter))) || 0; } catch { return 0; }
   };
-  const remember = (counter, total) => {
-    try { localStorage.setItem(storageKey(counter), String(total)); } catch { /* private mode */ }
+  const status = (counter, state) => {
+    counter.dataset.visitState = state;
+    counter.classList[state === "ready" ? "remove" : "add"]("visit-stale");
+    let label = counter.querySelector(".visit-status");
+    if (!label) {
+      label = document.createElement("small");
+      label.className = "visit-status";
+      counter.append(label);
+    }
+    label.textContent = state === "ready" ? "" : "（历史记录）";
+    counter.title = state === "ready" ? counter.dataset.visitTitle : "尚未取得新统计，显示的是保留的历史记录";
   };
-
   const show = (counter, total) => {
     const value = counter.querySelector(".visit-value");
     if (value) value.textContent = total > 0 ? total.toLocaleString("zh-CN") : "—";
   };
-  const markStale = (counter) => {
-    counter.classList.add("visit-stale");
-    counter.title = "统计服务暂时没有响应，显示的是最近一次记录的数字";
-  };
-
   for (const counter of counters) {
-    // Page counters belong to their own page, not to the legacy ?note= reader.
     if (legacyReader && counter.dataset.visitCounter === "page") { counter.hidden = true; continue; }
     counter.dataset.visitTitle = counter.title;
-    const floor = Number(counter.dataset.visitFloor) || 0;
-    const known = Math.max(floor, remembered(counter));
-    show(counter, known);
+    show(counter, Number(counter.dataset.visitFloor) || 0);
+    status(counter, "pending");
   }
-  // Local previews never count. Every published page counts toward the site total,
-  // including pages that show no counter themselves.
-  if (!published) return;
+  // Preview pages never send visits. Redirecting old home links must not count twice.
+  if (location.hostname !== "phyytang.github.io" || (legacyReader && document.body.classList.contains("home"))) return;
 
-  const callback = `visitsCallback_${Math.floor(Math.random() * 1e12)}`;
-  const script = document.createElement("script");
-  let answered = false;
-  const giveUp = () => {
-    if (answered) return;
-    for (const counter of counters) if (!counter.hidden) markStale(counter);
+  const fetchJSON = async (url) => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT);
+    try {
+      const response = await fetch(url, {cache: "no-store", credentials: "omit", signal: controller.signal});
+      if (!response.ok) throw new Error(`CounterAPI HTTP ${response.status}`);
+      return await response.json();
+    } finally { clearTimeout(timer); }
   };
-  window[callback] = (data) => {
-    answered = true;
-    for (const counter of counters) {
-      if (counter.hidden) continue;
-      const raw = Number(data?.[`${counter.dataset.visitCounter}_pv`]);
-      if (!Number.isFinite(raw) || raw <= 0) continue;
-      const offset = Number(counter.dataset.visitOffset) || 0;
-      const floor = Number(counter.dataset.visitFloor) || 0;
-      const total = Math.max(raw + offset, floor, remembered(counter));
-      remember(counter, total);
-      show(counter, total);
-      counter.classList.remove("visit-stale");
-      counter.title = counter.dataset.visitTitle;
+  const number = (value) => {
+    if (typeof value !== "number" && !(typeof value === "string" && /^\d+$/.test(value))) return NaN;
+    const result = Number(value);
+    return Number.isSafeInteger(result) && result >= 0 ? result : NaN;
+  };
+  const countValue = (payload) => {
+    if (payload?.code !== undefined && String(payload.code) !== "200") throw new Error("CounterAPI rejected request");
+    const data = payload?.data ?? payload;
+    let result;
+    if (data && Object.hasOwn(data, "up_count")) {
+      const up = number(data.up_count), down = number(data.down_count ?? 0);
+      result = up - down;
+    } else { result = number(data?.count ?? data?.value); }
+    if (!Number.isSafeInteger(result) || result < 0) throw new Error("CounterAPI returned no valid count");
+    return result;
+  };
+  const identity = (definition) => {
+    const {workspace, name} = definition ?? {};
+    if (typeof workspace !== "string" || !workspace.trim() || typeof name !== "string" || !name.trim()) {
+      throw new Error("CounterAPI workspace or counter name is missing");
     }
-    script.remove();
-    delete window[callback];
+    return `${encodeURIComponent(workspace.trim())}/${encodeURIComponent(name.trim())}`;
   };
-  script.src = `https://busuanzi.ibruce.info/busuanzi?jsonpCallback=${callback}`;
-  // 不蒜子 identifies the page from the Referer header, so send the full URL.
-  script.referrerPolicy = "no-referrer-when-downgrade";
-  script.async = true;
-  script.onerror = giveUp;
-  setTimeout(() => {
-    document.head.append(script);
-    setTimeout(giveUp, TIMEOUT);
-  }, DELAY);
+  const increment = async (id) => {
+    const url = new URL(`https://api.counterapi.dev/v2/${id}/up`);
+    // GET /up changes state: bypass shared caches and never automatically retry it.
+    url.searchParams.set("_", window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`);
+    return countValue(await fetchJSON(url));
+  };
+  const update = (counter, raw) => {
+    const total = Math.max(raw + (Number(counter.dataset.visitOffset) || 0), Number(counter.dataset.visitFloor) || 0, remembered(counter));
+    show(counter, total);
+    try { localStorage.setItem(storedKey(counter), String(total)); } catch { /* Storage is optional. */ }
+    status(counter, "ready");
+  };
+  const run = async () => {
+    const visible = counters.filter((counter) => !counter.hidden);
+    try {
+      const config = await fetchJSON(configURL);
+      const jobs = new Map();
+      const add = (definition, targets) => {
+        try {
+          const id = identity(definition);
+          for (const counter of targets) {
+            identities.set(counter, id);
+            show(counter, Math.max(Number(counter.dataset.visitFloor) || 0, remembered(counter)));
+          }
+          if (!jobs.has(id)) jobs.set(id, {id, targets: []});
+          jobs.get(id).targets.push(...targets);
+        } catch { for (const counter of targets) status(counter, "stale"); }
+      };
+      add(config.site, visible.filter((counter) => counter.dataset.visitCounter === "site"));
+      const pages = visible.filter((counter) => counter.dataset.visitCounter === "page");
+      if (!legacyReader && config.pages?.[pathname]) add(config.pages[pathname], pages);
+      else for (const counter of pages) status(counter, "stale");
+      await Promise.allSettled([...jobs.values()].map(async ({id, targets}) => {
+        try { const raw = await increment(id); for (const counter of targets) update(counter, raw); }
+        catch { for (const counter of targets) status(counter, "stale"); }
+      }));
+    } catch { for (const counter of visible) status(counter, "stale"); }
+  };
+  setTimeout(run, DELAY);
 })();

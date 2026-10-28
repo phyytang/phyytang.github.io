@@ -53,22 +53,20 @@ GitHub Pages 发布位置应为 **main / (root)**。只需要 Python 3.9 或更�
 
 ## 访问统计
 
-计数由 `assets/visits.js` 完成，数据来自“不蒜子”，统计的是页面浏览次数（PV），重复打开或刷新也会累计。
+网站通过 CounterAPI V2 的公开计数器记录页面浏览次数（PV），不在网页或仓库中保存 API 密钥。配置在 `assets/counterapi.json` 中：`site` 为全站计数器，`pages` 将课程目录路径映射到各自的计数器；每个计数器分别填写 `workspace`（工作区 slug）和 `name`（计数器 slug），支持使用不同的工作区。计数器必须先在 CounterAPI 后台创建并设为公开。
 
-- 主页页脚：全站累计浏览次数（主页、课程目录和所有讲义页都会计入）。
-- 教学目录 `/teaching/` 页脚：该页面自身的浏览次数。
-- 设置了 `visitCounter` 的课程目录页脚：该课程主页自身的浏览次数。
+- 所有正式网站页面都递增 `yong-tangs-team-6063/total-counter`；主页页脚显示其累计值。
+- `/teaching/` 额外递增 `teach-counter/teach-counter`，只统计教学总目录。
+- `/teaching/courses/theoretical-mechanics/` 额外递增 `mech-counter/mech-counter`，只统计理论力学课程主页。
+- 讲义页只递增全站计数器，不占用新的单页计数器；本地预览不发送统计请求。
 
-页面打开 1 秒后异步发出计数请求，不会影响阅读；只在 `phyytang.github.io` 域名下计数，本地预览不计数。计数器标记写法：
+页面打开 1 秒后异步请求。每个需要的计数器只发一次递增请求，不自动重试，避免网络超时后重复计数。请求使用唯一查询参数和禁用缓存，防止缓存层直接复用 GET /up 的旧响应。CounterAPI 自身有写入缓冲，返回值仍可能短暂落后；网页只显示服务实际返回的数字，不自行假定加一。
 
-```html
-<span class="visit-counter" data-visit-counter="site|page" data-visit-offset="0" data-visit-floor="0">…<span class="visit-value">…</span>…</span>
-```
+当前主页的历史基数为 230，理论力学主页为 130，通过 `data-visit-offset` 加到新服务记录的数字上；`data-visit-floor` 为无新数据时保留的历史下限。故障期间未记录的访问不能补算。浏览器缓存按 CounterAPI 工作区和计数器分别保存；未取得新数据时明确标注“历史记录”。
 
-- `data-visit-offset`：加到实时数字上的历史访问量。页面换了网址后，不蒜子会按新网址从 0 重新计数，用它接上旧网址的访问量。理论力学课程主页在 `materials.json` 中设置 `"visitCounter": {"offset": 130, "floor": 130}`。
-- `data-visit-floor`：显示的下限，即服务中断前最后看到的总数。主页设为 230。
+CounterAPI 免费套餐当前包含每天 1,000 次计数和 5 个公开计数器。一次课程主页访问会递增全站、该页两个计数器，按两次计数估算额度。上线前应确认工作区及三个计数器均存在、公开请求成功，再完成部署。不要使用已停用的 V1 接口。
 
-不蒜子没有响应时，计数器继续显示最近一次的数字（变淡并提示“显示的是最近一次记录”），不会出现“暂不可用”；服务恢复后自动更新。同一浏览器还会记住看到过的最大值，避免数字倒退。服务中断期间的访问无法补记。
+检查：`node --test scripts/test_visits.cjs`；重新生成：`python3 scripts/build_pages.py`。
 
 ## 图片排版
 
