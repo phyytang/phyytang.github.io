@@ -117,7 +117,8 @@
 <p>其中</p>
 <p>为了导出角动量方程，可以选取一个惯性系，使质心在所考虑的瞬间静止（每一时刻都可以这样选取一个惯性系）。下面会看到，即使质心有加速度，所得的方程对质心仍然成立。</p>
 <p>相对质心的角动量满足</p>
-<p>即</p>
+<p>上面我们利用在此参考系中 \boldsymbol V=0, \boldsymbol v_i = \dot {\boldsymbol \tau}_i = \dot {\boldsymbol r}_i 和 \dot {\boldsymbol r}_i \times {\boldsymbol p}_i = 0 .</p>
+<p>所以我们得到</p>
 <p>其中 \boldsymbol K 是相对质心的外力矩。对于满足强形式牛顿第三定律的中心内力，内力矩也成对抵消；在连续介质表述中，相应条件体现为应力张量的对称性。相对质心定义的内禀角动量在伽利略变换下不变。</p>
 <p>在惯性系中写 \boldsymbol\tau_i=\boldsymbol R+\boldsymbol r_i，\boldsymbol R 为质心位置，质心条件为 \sum_im_i\boldsymbol r_i=0。定义相对质心的角动量 \boldsymbol M=\sum_im_i\boldsymbol r_i\times\dot{\boldsymbol r}_i（用 \dot{\boldsymbol\tau}_i 代替 \dot{\boldsymbol r}_i 结果相同，因为多出的项正比于 \sum_im_i\boldsymbol r_i=0）。求导，并用 m_i\ddot{\boldsymbol r}_i=m_i\ddot{\boldsymbol\tau}_i-m_i\ddot{\boldsymbol R}=\boldsymbol f_i-m_i\ddot{\boldsymbol R}：</p>
 <p>在随质心平动的（非惯性）参照系中看，-m_i\ddot{\boldsymbol R} 是一个与质量成正比的惯性力，就像一个均匀的“重力场”，它对质心的力矩为零。若改取一个有加速度 \ddot{\boldsymbol A} 的一般参考点 A，同样的计算给出</p>
@@ -126,7 +127,7 @@
 <p>因此当 \boldsymbol F=0 时，力矩与参考原点的选择无关。若参考点取质心，即使合外力不为零，关于质心的转动方程仍可与质心平动方程分别处理。</p>
 <p>在无穷小转动 \delta\boldsymbol\varphi 下，</p>
 <p>故势能对无穷小取向变化的响应定义了广义力矩：</p>
-<p>这里需要一个重要的技术提醒：三个 \Omega_i 是角速度分量，却一般不是三个彼此独立的广义坐标对时间的导数，因为有限转动不交换。因此不能把 \Omega_i 直接当作普通的 \dot q_i 写入三条朴素的欧拉–拉格朗日方程。可以改用下一节的三个欧拉角作为广义坐标；也可以使用刚体系中的约化形式</p>
+<p>这里需要提醒下：三个 \Omega_i 是角速度分量，却一般不是三个彼此独立的广义坐标对时间的导数，因为有限转动不交换。因此不能把 \Omega_i 直接当作普通的 \dot q_i 写入三条朴素的欧拉–拉格朗日方程。可以改用下一节的三个欧拉角作为广义坐标；也可以使用刚体系中的约化形式</p>
 <p>其中 d&#x27;/dt 表示在随体坐标系中对分量求导。因为 \partial L/\partial\boldsymbol\Omega=\boldsymbol M，这正是后文欧拉方程的紧凑形式。</p>
 <h2 id="欧拉角">欧拉角</h2>
 <p>Eulerian Angles</p>
@@ -160,7 +161,7 @@
 <p>对一般随时间变化的矢量，惯性系导数与刚体系导数之间满足输运定理</p>
 <p>等式左边表示惯性观察者看到的变化率，第一项表示随刚体一起转动的观察者看到的分量变化率，第二项则来自基矢本身的转动。即使 \boldsymbol A 在随体系中的分量不变，惯性观察者仍会看到它以 \boldsymbol\Omega\times\boldsymbol A 的速率改变方向。</p>
 <p>于是</p>
-<p>由于 \boldsymbol P=\mu\boldsymbol V，平动方程的分量形式为</p>
+<p>由于 \boldsymbol P=\mu\boldsymbol V，平动方程的分量形式（主轴坐标系下）为</p>
 <p>在主轴坐标系中 M_i=I_i\Omega_i，角动量方程给出欧拉方程。</p>
 <p>因为随体主轴上的 I_i 是常数，随体系观察到的角动量变化率为</p>
 <p>输运项为</p>
