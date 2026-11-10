@@ -99,18 +99,23 @@
           "number": 5,
           "title": "哈密顿力学",
           "file": "materials/Mechanics/哈密顿力学.md",
-          "available": false,
-          "updated": "2026-10-22",
+          "available": true,
+          "updated": "2026-11-10",
           "topics": [
-            {
-              "title": "KAM 定理",
-              "file": "materials/Mechanics/KAM定理.md",
-              "updated": "2026-10-23"
-            },
             {
               "title": "动力学系统与混沌",
               "file": "materials/Mechanics/动力学系统与混沌.md",
-              "updated": "2026-10-23"
+              "updated": "2026-11-10"
+            },
+            {
+              "title": "辛几何与哈密顿力学",
+              "file": "materials/Mechanics/辛几何与哈密顿力学.md",
+              "updated": "2026-11-10"
+            },
+            {
+              "title": "KAM 定理",
+              "file": "materials/Mechanics/KAM定理.md",
+              "updated": "2026-11-10"
             }
           ]
         },
