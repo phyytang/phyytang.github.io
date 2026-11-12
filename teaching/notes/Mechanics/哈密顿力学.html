@@ -305,6 +305,15 @@
 <p>这就是刘维尔定理。</p>
 <p>也可以把它理解为哈密顿流在相空间中不可压缩。若用相空间速度场</p>
 <p>则哈密顿方程给出</p>
+<p>散度为零与相体积守恒之间的联系，可以用一个对任意一阶方程组都成立的公式定量地写出。考虑</p>
+<p>哈密顿方程是 f=J\,\nabla_zH 的特例。记从初始点 z(0) 到 z(t) 的演化映射的雅可比矩阵为</p>
+<p>初始时相邻两点的间隔 \delta z(0) 演化为 \delta z(t)=M(t)\,\delta z(0)，所以一小块相体积在时刻 t 被放大为原来的 \det M(t) 倍。把 \dot z=f 对初始条件求导，得到 M 满足的线性方程</p>
+<p>在 dt 时间内，M(t+dt)=(\mathbb 1+A\,dt)\,M(t)，而 \det(\mathbb 1+A\,dt)=1+\operatorname{tr}A\,dt+O(dt^2)，所以</p>
+<p>这就是刘维尔公式（也称雅可比公式）。其中 \operatorname{tr}A=\sum_a\partial f_a/\partial z_a 正是相空间速度场的散度 \nabla_\Gamma\cdot\boldsymbol v_\Gamma：散度就是相体积的相对变化率。</p>
+<p>对哈密顿系统，A=JS，其中 S_{ab}=\partial^2H/\partial z_a\partial z_b 是 H 的海森矩阵，它是对称矩阵。利用 J^{\mathsf T}=-J、S^{\mathsf T}=S 以及迹在转置和轮换下不变，</p>
+<p>所以 \operatorname{tr}(JS)=0，\det M(t)=1。这与上面“相空间速度场散度为零”的计算是同一件事，只是用矩阵语言重写了一遍。</p>
+<p>作为对比，阻尼单摆 \dot q=p，\dot p=-\sin q-\gamma p 不是哈密顿系统，其</p>
+<p>相面积按指数收缩，所有相点最终落向平衡点。这一对比的图示见“辛几何与哈密顿力学”一章；保守系统与耗散系统的这一区别，是“动力学系统与混沌”一章的出发点。</p>
 <p>因此一团初始条件可以被拉伸、剪切和折叠，却不能在哈密顿演化下整体收缩成更小的相体积。这个结论是经典统计力学中相空间概率密度演化的基础。</p>
 <p>设想大量相同的系统（系综）各自从不同初始条件出发，它们在相空间中的密度为 \rho(q,p,t)。相点既不产生也不消失，而且流动不可压缩，所以沿每条相轨道 \rho 保持不变：</p>
 <p>这就是刘维尔方程。若 \rho 只依赖于守恒量（例如 \rho=\rho(H)），则 [\rho,H]=0，分布不随时间变化，统计力学中的微正则系综和正则系综都是这样的定态。下一章的无碰撞玻尔兹曼方程，就是把这个方程用于单颗恒星的六维相空间，取 H=\frac12v^2+\Phi。</p>
@@ -315,7 +324,7 @@
 <p>以及</p>
 <p>将第二式代入第一式，得到</p>
 <p>这就是作用量 S(q_i,t) 所满足的哈密顿–雅可比方程。</p>
-<p>哈密顿–雅可比方程把力学问题改写为一个一阶偏微分方程。若能求得包含足够多积分常数的完全积分 S，就可以通过求偏导把运动方程化为代数关系，并恢复全部轨迹。几何上，S=\text{常数} 给出配置空间中的等作用量面，而 \boldsymbol p=\nabla S 表明动量垂直于这些面；这与几何光学中程函的等相位面和波矢之间的关系完全平行，也是哈密顿力学与波动理论、量子力学发生联系的重要入口。</p>
+<p>哈密顿–雅可比方程把力学问题改写为一个一阶偏微分方程。若能求得包含足够多积分常数的完全积分 S，就可以通过求偏导把运动方程化为代数关系，并恢复全部轨迹。几何上，S=\text{常数} 给出位形空间中的等作用量面，而 \boldsymbol p=\nabla S 表明动量垂直于这些面；这与几何光学中程函的等相位面和波矢之间的关系完全平行，也是哈密顿力学与波动理论、量子力学发生联系的重要入口。</p>
 <h3 id="分离变量与完全积分">分离变量与完全积分</h3>
 <p>对不显含时间的保守系统，可令</p>
 <p>代入哈密顿–雅可比方程，得到不含时间的形式</p>
@@ -330,6 +339,22 @@
 <p>J 就是总角动量的大小。取轨道平面为 \theta=\pi/2（p_\varphi=J，W_\theta 为常数），</p>
 <p>由雅可比定理，对两个积分常数求偏导都得到常数：</p>
 <p>第一式正是“中心力场”一章的轨道方程（那里质量记为 \mu），第二式给出 r(t)。我们一次也没有写出运动方程。</p>
+<p>中心力场的例子说明，分离变量时出现的分离常数就是守恒量。这一思想在天体物理中最著名的应用，是旋转黑洞（克尔黑洞）周围的粒子运动。本块沿用“球对称黑洞中的粒子运动”一章的记号：几何单位制 G=c=1，M 为黑洞质量，粒子的各个量都按单位质量计。</p>
+<p>哈密顿量。 自由下落粒子的哈密顿量是 H=\frac12g^{\mu\nu}p_\mu p_\nu，以固有时 \tau 为时间变量，对有质量粒子它恒等于 -\frac12。对克尔黑洞，在 Boyer–Lindquist 坐标 (t,r,\theta,\varphi) 中（这里直接引用结果）</p>
+<p>其中 a 是黑洞单位质量的自转角动量（0\le a\le M）。a=0 时它退回史瓦西黑洞的哈密顿量。</p>
+<p>分离变量。 H 不显含 \tau、t 和 \varphi，所以与中心力场完全一样，令</p>
+<p>即 p_t=-E（能量守恒），p_\varphi=L_z（绕自转轴的角动量守恒）。代入 H=-\frac12 并乘以 \Sigma，得到</p>
+<p>黑洞的自转破坏了球对称，按理说 r 和 \theta 应当纠缠在一起；但乘上 \Sigma 之后，方程恰好拆成两部分，两部分各自必须是常数。按惯例把这个常数写成 Q+(L_z-aE)^2，就得到</p>
+<p>分离常数 Q 称为卡特常数，卡特（B. Carter）在 1968 年正是用这种方法发现了它 [12]。（Q 是文献中的标准记号，与本章正则变换中的新坐标 Q 无关。）</p>
+<p>Q 是什么。 令 a\to0，角向方程变为 p_\theta^2+L_z^2/\sin^2\theta=Q+L_z^2。与上一个折叠块中的 J^2 对照，可见</p>
+<p>即 Q 是“总角动量平方减去 L_z^2”在旋转黑洞中的推广。Q=0 的轨道始终留在赤道面内；Q 越大，轨道偏离赤道面越远。</p>
+<p>值得注意的是，E 和 L_z 来自时空的对称性（不显含 t 和 \varphi），而 Q 不对应任何时空对称性：克尔时空只有这两个连续对称性。Q 对动量是二次的，来自一种“隐藏的对称性”（数学上称为 Killing 张量）。它不能由诺特定理从坐标的循环性读出，却能被哈密顿–雅可比方程的分离变量找出来。</p>
+<p>轨道方程。 由雅可比定理，\partial S/\partial Q= 常数给出</p>
+<p>这就是轨道的形状。再由 dr/d\tau=\partial H/\partial p_r、d\theta/d\tau=\partial H/\partial p_\theta，并引入新的时间变量 d\lambda=d\tau/\Sigma（称为 Mino 时间），得到</p>
+<p>径向运动和极向运动完全解耦，各自是一个一维问题，可以像“中心力场”一章那样用转折点（R=0、\Theta=0）分析。我们同样没有写出二阶的测地线方程。</p>
+<p>为什么重要。 加上 H 本身，克尔黑洞周围的轨道有四个两两对合的运动积分，因而是可积的。束缚轨道的作用量变量为</p>
+<p>对应三个基本频率 \Omega_r,\Omega_\theta,\Omega_\varphi [13]。与开普勒问题中频率全部相等不同，这里三者一般互不相等：轨道既有近星点进动，轨道面也在进动。一颗致密天体旋入超大质量黑洞时发出的引力波，记录的正是这三个频率的缓慢演化；它们之间的共振，以及中心天体偏离克尔黑洞时可积性的破坏，见“KAM 定理”一章“黑洞周围的轨道与引力波”一节。</p>
+<p>对光子（H=0），同样的分离变量成立，只需去掉 R 中方括号里的 r^2，并把 \Theta 中的 a^2(1-E^2) 换成 -a^2E^2。此时哈密顿–雅可比方程就是光的程函方程，满足 R=0 且 dR/dr=0 的不稳定光子轨道决定了黑洞阴影的边界。</p>
 <p>再看一个能直接画出波前的例子。在均匀重力场中，从同一点以相同速率抛出的粒子具有相同的能量 E，不含时间的哈密顿–雅可比方程为 \frac12|\nabla W|^2+y=E（取 m=g=1）。下面的动画画出这族抛物线轨道（红）与等作用量面 W= 常数（蓝）：波前一层层向外推进，轨道处处与之垂直。所有轨道的包络（虚线）是焦散线，波前在那里折叠，单值的 W 不再存在。</p>
 <h3 id="与量子力学的联系">与量子力学的联系</h3>
 <p>哈密顿最初提出这套理论，正是受到几何光学中“光线垂直于波前”这一对应关系的启发 [6]。薛定谔在 1926 年反过来利用这一类比建立了波动力学 [11]。把</p>
@@ -380,7 +405,7 @@
 <p>1. 令 S=-Et+\alpha x+W_y(y)，求出 W_y(y)。 2. 利用雅可比定理 \partial S/\partial E=\beta_1、\partial S/\partial\alpha=\beta_2，求出轨道 x(t)、y(t)，并验证它是抛物线。</p>
 <p>W_y=\int\sqrt{2m(E-mgy)-\alpha^2}\,dy，积分结果是 (\ldots)^{3/2} 的形式。\partial S/\partial E 给出 y(t)，\partial S/\partial\alpha 给出 x 与 y 的关系；\alpha=p_x 是守恒的水平动量。</p>
 <h2 id="参考文献与延伸阅读">参考文献与延伸阅读</h2>
-<p>1. H. Goldstein, C. Poole, and J. Safko, Classical Mechanics, 3rd ed., Addison-Wesley, 2002。第 8–10 章系统讨论哈密顿方程、正则变换与哈密顿–雅可比理论，适合作为本章的主要教材来源。 2. L. D. Landau and E. M. Lifshitz, Mechanics, 3rd ed., Butterworth-Heinemann, 1976，出版社页面。第 7 章以非常凝练的方式讨论正则方程、泊松括号、作用量变量和绝热不变量。 3. V. I. Arnol&#x27;d, Mathematical Methods of Classical Mechanics, 2nd ed., Springer, 1989，DOI: 10.1007/978-1-4757-2063-1。适合进一步理解相空间、辛结构、哈密顿流和刘维尔定理的几何意义。 4. C. Lanczos, The Variational Principles of Mechanics, 4th ed., Dover, 1986。适合从变分原理和作用量的角度理解拉格朗日与哈密顿形式之间的联系。 5. I. W. Stewart, “Canonical Transformations, Hamilton-Jacobi Equations, and Action-Angle Variables,” MIT OpenCourseWare 8.09, Fall 2014，课程讲义。可作为正则变换、泊松括号和作用量–角变量的开放课程补充材料。 6. W. R. Hamilton, “On a General Method in Dynamics,” Philosophical Transactions of the Royal Society of London 124, 247–308 (1834)；“Second Essay on a General Method in Dynamics,” ibid. 125, 95–144 (1835)。哈密顿正则方程和特征函数（作用量）方法的原始文献。 7. C. G. J. Jacobi, Vorlesungen über Dynamik, ed. A. Clebsch, Reimer, Berlin, 1866。哈密顿–雅可比理论、完全积分与雅可比定理的经典来源。 8. J. Liouville, “Note sur la théorie de la variation des constantes arbitraires,” Journal de Mathématiques Pures et Appliquées 3, 342–349 (1838)。刘维尔定理的原始文献。 9. P. A. M. Dirac, “The Fundamental Equations of Quantum Mechanics,” Proceedings of the Royal Society A 109, 642–653 (1925)，DOI: 10.1098/rspa.1925.0150。提出泊松括号与量子对易子之间的对应。 10. P. Ehrenfest, “Adiabatic Invariants and the Theory of Quanta,” Philosophical Magazine 33, 500–513 (1917)。系统阐述绝热不变量在早期量子论中的作用。 11. E. Schrödinger, “Quantisierung als Eigenwertproblem (Zweite Mitteilung),” Annalen der Physik 384, 489–527 (1926)。利用力学与光学的类比，从哈密顿–雅可比方程出发建立波动力学。</p>
+<p>1. H. Goldstein, C. Poole, and J. Safko, Classical Mechanics, 3rd ed., Addison-Wesley, 2002。第 8–10 章系统讨论哈密顿方程、正则变换与哈密顿–雅可比理论，适合作为本章的主要教材来源。 2. L. D. Landau and E. M. Lifshitz, Mechanics, 3rd ed., Butterworth-Heinemann, 1976，出版社页面。第 7 章以非常凝练的方式讨论正则方程、泊松括号、作用量变量和绝热不变量。 3. V. I. Arnol&#x27;d, Mathematical Methods of Classical Mechanics, 2nd ed., Springer, 1989，DOI: 10.1007/978-1-4757-2063-1。适合进一步理解相空间、辛结构、哈密顿流和刘维尔定理的几何意义。 4. C. Lanczos, The Variational Principles of Mechanics, 4th ed., Dover, 1986。适合从变分原理和作用量的角度理解拉格朗日与哈密顿形式之间的联系。 5. I. W. Stewart, “Canonical Transformations, Hamilton-Jacobi Equations, and Action-Angle Variables,” MIT OpenCourseWare 8.09, Fall 2014，课程讲义。可作为正则变换、泊松括号和作用量–角变量的开放课程补充材料。 6. W. R. Hamilton, “On a General Method in Dynamics,” Philosophical Transactions of the Royal Society of London 124, 247–308 (1834)；“Second Essay on a General Method in Dynamics,” ibid. 125, 95–144 (1835)。哈密顿正则方程和特征函数（作用量）方法的原始文献。 7. C. G. J. Jacobi, Vorlesungen über Dynamik, ed. A. Clebsch, Reimer, Berlin, 1866。哈密顿–雅可比理论、完全积分与雅可比定理的经典来源。 8. J. Liouville, “Note sur la théorie de la variation des constantes arbitraires,” Journal de Mathématiques Pures et Appliquées 3, 342–349 (1838)。刘维尔定理的原始文献。 9. P. A. M. Dirac, “The Fundamental Equations of Quantum Mechanics,” Proceedings of the Royal Society A 109, 642–653 (1925)，DOI: 10.1098/rspa.1925.0150。提出泊松括号与量子对易子之间的对应。 10. P. Ehrenfest, “Adiabatic Invariants and the Theory of Quanta,” Philosophical Magazine 33, 500–513 (1917)。系统阐述绝热不变量在早期量子论中的作用。 11. E. Schrödinger, “Quantisierung als Eigenwertproblem (Zweite Mitteilung),” Annalen der Physik 384, 489–527 (1926)。利用力学与光学的类比，从哈密顿–雅可比方程出发建立波动力学。 12. B. Carter, “Global structure of the Kerr family of gravitational fields,” Physical Review 174, 1559–1571 (1968)。通过分离克尔时空中的哈密顿–雅可比方程发现卡特常数。 13. W. Schmidt, “Celestial mechanics in Kerr spacetime,” Classical and Quantum Gravity 19, 2743 (2002)，arXiv:gr-qc/0202090。克尔测地线的作用量–角变量与三个基本频率。</p>
 <p>关于泊松括号的约定：Goldstein 等教材记为 \{f,g\}，定义与本章相同。朗道《力学》也用方括号，但定义为 [f,g]=\dfrac{\partial f}{\partial p_i}\dfrac{\partial g}{\partial q_i}-\dfrac{\partial f}{\partial q_i}\dfrac{\partial g}{\partial p_i}，与本章相差一个负号，相应地写作 df/dt=\partial f/\partial t+[H,f]。对照阅读时请注意。</p></article><aside id="outline" class="outline" aria-label="本页目录" hidden><p class="eyebrow">本页目录</p><nav id="toc" aria-label="章节导航"></nav></aside></div>
       <nav id="pager" class="pager" aria-label="上一篇与下一篇" hidden></nav>
     </section>
