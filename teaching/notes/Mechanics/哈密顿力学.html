@@ -35,7 +35,6 @@
       <p id="reader-status" role="status" hidden></p>
       <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="哈密顿力学">哈密顿力学</h1>
 <p>details.derivation { border-left: 3px solid #1f4e9c; background: #f6f8fb; padding: 0.35em 1em; margin: 1em 0; border-radius: 4px; } details.derivation &gt; summary { cursor: pointer; font-weight: 600; color: #1f4e9c; } details.derivation[open] &gt; summary { margin-bottom: 0.5em; } @media print { details.derivation::details-content { content-visibility: visible; display: block; } details.derivation &gt; summary { list-style: none; margin-bottom: 0.5em; } details.derivation &gt; summary::-webkit-details-marker { display: none; } }</p>
-<p>阅读提示：文中蓝色边框的“推导”“例”“提示”等块默认折叠，点击标题展开；打印或导出 PDF 时会自动展开。</p>
 <p>牛顿力学和拉格朗日力学已经能够给出任何力学系统的运动方程，为什么还需要第三种表述？先说明一点：哈密顿力学与前两者在经典力学范围内完全等价，它不包含新的物理定律；就求解一道具体的习题而言，哈密顿方程通常也不比拉格朗日方程更省事。它的价值在别处。</p>
 <p>哈密顿力学的关键变化是改变描述系统状态的方式：拉格朗日力学用广义坐标和广义速度 (q_i,\dot q_i) 描述状态（位形空间中的一点及其速度），哈密顿力学则使用相空间中的 (q_i,p_i)。对具有 s 个自由度的系统，相空间有 2s 维；给定某一时刻的 (q_i,p_i)，就给出了一个完整的力学状态。此后，哈密顿方程把该状态沿相空间中的一条轨道向前推进。</p>
 <p>这一改变带来四个好处，本章各节就是围绕它们展开的：</p>
@@ -64,7 +63,7 @@
 <p>哈密顿量为</p>
 <p>将 p_i 与 \dot q _j 的关系式代入，即可得到</p>
 <p>所以可以看到，对于一般二次型动能的拉格朗日量 T-V ，其哈密顿量为 T+V。</p>
-<p>练习：写出质点在三维柱坐标 (\rho,\varphi,z) 下的哈密顿量，并验证它等于 T+V。</p>
+<p>练习：写出质点在三维柱坐标 (\rho,\varphi,z) 下的哈密顿量，并验证它是否等于 T+V。</p>
 <h2 id="勒让德变换">勒让德变换</h2>
 <p>Legendre Transformation</p>
 <p>上一节由 L 构造 H 时已经用了勒让德变换。这一节回头看这一步本身，回答三个问题：为什么要用 p_i\dot q_i-L 这样的组合，这一步什么时候做得到，它在几何上是什么意思。</p>
@@ -138,8 +137,7 @@
 <p>广义动量为</p>
 <p>因此</p>
 <p>由于 \varphi 是循环坐标，</p>
-<p>故 p_\varphi 守恒。</p>
-<p>与拉格朗日力学相比，这里还多一层方便。p_\varphi 守恒之后，它在 H 中只是一个常数参数，\varphi 和 p_\varphi 从其余方程中完全消失，问题直接少了一个自由度。在拉格朗日量中 \dot\varphi 仍然出现，不能简单地把它当作常数代回去。</p>
+<p>故 p_\varphi 守恒。p_\varphi 守恒之后，它在 H 中只是一个常数参数，\varphi 和 p_\varphi 从其余方程中完全消失，问题直接少了一个自由度。</p>
 <h3 id="时间反演对称性">时间反演对称性</h3>
 <p>哈密顿方程还有一个从方程形式上就能读出的性质。设 H 不显含时间，并且是动量的偶函数：</p>
 <p>那么，若 \bigl(q_i(t),p_i(t)\bigr) 是正则方程的一个解，则</p>
