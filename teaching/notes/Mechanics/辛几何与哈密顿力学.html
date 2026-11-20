@@ -36,7 +36,7 @@
       <div class="reading-layout"><article id="note" class="markdown-body" aria-label="讲义正文" data-prerendered><h1 id="辛几何与哈密顿力学">辛几何与哈密顿力学</h1>
 <p>details.derivation { border-left: 3px solid #1f4e9c; background: #f6f8fb; padding: 0.35em 1em; margin: 1em 0; border-radius: 4px; } details.derivation &gt; summary { cursor: pointer; font-weight: 600; color: #1f4e9c; } details.derivation[open] &gt; summary { margin-bottom: 0.5em; } @media print { details.derivation::details-content { content-visibility: visible; display: block; } details.derivation &gt; summary { list-style: none; margin-bottom: 0.5em; } details.derivation &gt; summary::-webkit-details-marker { display: none; } }</p>
 <p>——相空间中的面积几何</p>
-<p>本章建立在“哈密顿力学”一章的基础上，用到其中正则方程的矩阵形式 \dot z=J\nabla_zH、泊松括号、正则变换的判据 MJM^{\mathsf T}=J、刘维尔定理、作用量变量与绝热不变量。本章只需要微积分（包括平面上的格林公式）和线性代数（矩阵、行列式、本征值），不需要微分几何。它可以看作“哈密顿力学”与“KAM 定理”、“动力学系统与混沌”两章之间的桥梁：后两章中反复出现的“保面积映射”“辛矩阵”“本征值成对出现”“迹判据”等结论，都将在这里得到统一的几何解释。 阅读提示：文中蓝色边框的“推导”“例”等块默认折叠，点击标题展开；打印或导出 PDF 时会自动展开。</p>
+<p>本章建立在“哈密顿力学”一章的基础上，用到其中正则方程的矩阵形式 \dot z=J\nabla_zH、泊松括号、正则变换的判据 MJM^{\mathsf T}=J、刘维尔定理、作用量变量与绝热不变量。本章只需要微积分（包括平面上的格林公式）和线性代数（矩阵、行列式、本征值），不需要微分几何。它可以看作“哈密顿力学”与“KAM 定理”、“动力学系统与混沌”两章之间的桥梁：后两章中反复出现的“保面积映射”“辛矩阵”“本征值成对出现”“迹判据”等结论，都将在这里得到统一的几何解释。</p>
 <p>在“哈密顿力学”一章里，一个反对称矩阵</p>
 <p>出现了好几次：正则方程可以写成 \dot z=J\nabla_zH，泊松括号可以用它写出，正则变换的判据是 MJM^{\mathsf T}=J，刘维尔定理说哈密顿流不可压缩。这不是巧合。这些结论背后有一个共同的几何结构，研究这种结构的数学分支叫做辛几何（symplectic geometry）。</p>
 <p>先问一个朴素的问题：相空间里有没有“距离”？在位形空间中，两点之间的距离 \sqrt{\delta x^2+\delta y^2} 是再自然不过的概念，保持距离的变换（转动）是刚体运动的基础。但在相空间中，\sqrt{\delta q^2+\delta p^2} 没有意义——q 以米为单位，p 以 \mathrm{kg\cdot m/s} 为单位，两者根本不能相加。另一方面，乘积 \delta q\,\delta p 却有确定的量纲：\mathrm{J\cdot s}，即作用量的量纲。所以相空间天然能够度量的不是长度，而是 (q,p) 平面上的面积。</p>

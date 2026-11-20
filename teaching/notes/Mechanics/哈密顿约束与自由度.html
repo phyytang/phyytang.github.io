@@ -37,7 +37,7 @@
 <h1 id="哈密顿约束与自由度">哈密顿约束与自由度</h1>
 <p>details.derivation { border-left: 3px solid #1f4e9c; background: #f6f8fb; padding: 0.35em 1em; margin: 1em 0; border-radius: 4px; } details.derivation &gt; summary { cursor: pointer; font-weight: 600; color: #1f4e9c; } details.derivation[open] &gt; summary { margin-bottom: 0.5em; } @media print { details.derivation::details-content { content-visibility: visible; display: block; } details.derivation &gt; summary { list-style: none; margin-bottom: 0.5em; } details.derivation &gt; summary::-webkit-details-marker { display: none; } }</p>
 <p>——当勒让德变换失效时</p>
-<p>本章是选读专题，建立在“哈密顿力学”一章的基础上，用到其中的勒让德变换与海森矩阵、正则方程、泊松括号及其性质、“函数 G 通过 \delta f=\varepsilon[f,G] 生成相空间变换”的观点。最后两节用到“球对称黑洞中的粒子运动”一章的度规、固有时和几何单位制，以及“哈密顿力学”中关于克尔黑洞的选读折叠块。除最后一节外，本章只讨论有限自由度的力学系统。 阅读提示：文中蓝色边框的“推导”“例”等块默认折叠，点击标题展开；打印或导出 PDF 时会自动展开。</p>
+<p>本章是选读专题，建立在“哈密顿力学”一章的基础上，用到其中的勒让德变换与海森矩阵、正则方程、泊松括号及其性质、“函数 G 通过 \delta f=\varepsilon[f,G] 生成相空间变换”的观点。最后两节用到“球对称黑洞中的粒子运动”一章的度规、固有时和几何单位制，以及“哈密顿力学”中关于克尔黑洞的选读折叠块。除最后一节外，本章只讨论有限自由度的力学系统。</p>
 <p>“哈密顿力学”一章构造哈密顿量时有一个前提：能够从 p_i=\partial L/\partial\dot q_i 反解出全部广义速度，即海森矩阵 W_{ij}=\partial^2L/\partial\dot q_i\partial\dot q_j 非奇异。那里说，海森矩阵奇异“通常不是计算上的偶然，而是在提示拉格朗日量含有约束或规范冗余”，然后就把这种情形放在一边了。本章回来处理它。</p>
 <p>这不是一个冷僻的技术问题。下面四个问题看起来互不相干，答案却是同一套理论：</p>
 <p>1. “哈密顿力学”一章的奇异例子 L=\frac12m(\dot x_1-\dot x_2)^2 给出 p_1+p_2=0，“不能分别确定 \dot x_1 与 \dot x_2”。那么这个系统到底有几个自由度？ 2. 用直角坐标 (x,y) 描述平面摆，有两个坐标、两个动量，但摆只有一个自由度。哈密顿力学怎样“知道”这一点？ 3. 相对论粒子若用四个时空坐标 x^\mu 描述，会发现哈密顿量恒等于零。运动是从哪里来的？克尔黑洞周围的轨道有四个运动积分，为什么只有三个基本频率？ 4. 电磁势 A_\mu 有 4 个分量，光却只有 2 个偏振；时空度规 g_{\mu\nu} 有 10 个分量，引力波也只有 2 个偏振。多出来的分量去哪了？</p>
