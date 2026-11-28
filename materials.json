@@ -9,7 +9,14 @@
           "number": 0,
           "title": "绪论",
           "file": "materials/Mechanics/绪论.md",
-          "updated": "2026-11-28"
+          "updated": "2026-11-28",
+          "topics": [
+            {
+              "title": "数学准备",
+              "file": "materials/Mechanics/数学准备.md",
+              "updated": "2026-11-28"
+            }
+          ]
         },
         {
           "number": 1,

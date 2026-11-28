@@ -38,6 +38,7 @@ CHAPTERS = [
 # Supplementary notes shown under a chapter as “拓展阅读”: chapter number -> (title, file).
 # A topic follows its chapter's availability unless materials.json sets "available" on it.
 TOPICS = {
+    0: [("数学准备", "数学准备.md")],
     1: [("力学相似性的更多应用", "力学相似性的更多应用.md"),
         ("费马原理与引力透镜", "费马原理与引力透镜.md")],
     2: [("卫星轨道与轨道确定", "卫星轨道与轨道确定.md"),
